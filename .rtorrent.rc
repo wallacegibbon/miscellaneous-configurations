@@ -1,0 +1,32 @@
+# vim:ft=conf
+
+# the download directory
+directory=/home/wx/tmp/btdownloads/
+
+# info, history, cache, etc.
+session=/home/wx/tmp/.btsession/
+
+# monitor .torrent file, download automatically
+schedule=watch_directory,5,5,load_start=/home/wx/tmp/torrents/*.torrent
+
+# stop download if the torrent file is removed
+schedule=untied_directory,5,5,stop_untied=
+
+# stop download when disk space is less than 100M
+schedule=low_diskspace,5,60,close_low_diskspace=100M
+
+# speed control, 0 means no limit
+download_rate=0
+upload_rate=0
+
+port_range=9400-9500
+port_random=yes
+
+use_udp_trackers=yes
+dht=on
+dht_port=9501
+
+peer_exchange=yes
+
+# change the encoding
+encoding_list=UTF-8

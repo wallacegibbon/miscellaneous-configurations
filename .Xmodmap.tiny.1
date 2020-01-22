@@ -1,0 +1,20 @@
+!! for tiny keybords whose "left win" is on the left of "left alt",
+!! and "right ctrl" is on the right of "right alt".
+
+remove Control = Control_L
+remove Control = Control_R
+remove mod1 = Alt_L
+remove mod1 = Alt_R
+remove mod4 = Super_L
+
+keysym Alt_L = Control_L
+keysym Alt_R = Control_R
+keysym Control_L = Super_L
+keysym Super_L = Alt_L
+keysym Control_R = Alt_R
+
+add Control = Control_L
+add Control = Control_R
+add mod1 = Alt_L
+add mod1 = Alt_R
+add mod4 = Super_L

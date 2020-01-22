@@ -1,0 +1,8 @@
+! This is just a temporary solution. Because other program will mess up your
+! xmodmap setting. The real solution can be found in macubuntu.txt
+
+keycode 134 = Alt_L
+keycode 108 = Super_L
+keycode 133 = Alt_R
+keycode 64 = Super_R
+keycode 94 = grave asciitilde

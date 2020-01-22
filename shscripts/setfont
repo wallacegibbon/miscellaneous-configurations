@@ -1,0 +1,27 @@
+#! /bin/sh
+
+# file in /etc/vconsole.conf should contains:
+#   FONT=sun12x22
+#   FONT_MAP=8859-2
+
+[ -f /etc/vconsole.conf ] || exit 0;
+
+FONTNAME=`cat /etc/vconsole.conf | sed -n 's/^FONT=\(.*\)/\1/p'`
+FONTMAP=`cat /etc/vconsole.conf | sed -n 's/^FONT_MAP=\(.*\)/\1/p'`
+
+case $1 in
+start)
+  for C in 1 2 3 4 5 6
+  do
+    setfont $FONTNAME -m $FONTMAP -C /dev/tty$C
+  done
+  ;;
+*)
+  echo "Usage $0 {start}"
+  exit 1
+  ;;
+esac
+
+exit 0
+
+

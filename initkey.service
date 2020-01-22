@@ -1,0 +1,8 @@
+[Unit]
+Description = change keyboard map for emacs
+
+[Service]
+ExecStart = /usr/bin/loadkeys /etc/console-setup/emacs.kmap.gz
+
+[Install]
+WantedBy = multi-user.target

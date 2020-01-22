@@ -1,0 +1,9 @@
+deb http://security.debian.org/ wheezy/updates main
+deb-src http://security.debian.org/ wheezy/updates main
+
+deb http://ftp.cn.debian.org/debian/ wheezy main contrib non-free
+deb-src http://ftp.cn.debian.org/debian/ wheezy main
+
+deb http://mirrors.163.com/debian/ wheezy main contrib non-free
+deb-src http://mirrors.163.com/debian/ wheezy main
+

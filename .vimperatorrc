@@ -1,0 +1,6 @@
+" vim:ft=vim
+
+set hintchars=asdfghjkl
+"set gui=nonavigation,nomenu,nobookmarks
+set gui=navigation,nomenu,nobookmarks
+set tabnumbers=true

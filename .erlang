@@ -1,0 +1,10 @@
+% vim:ft=erlang
+
+MyErlDir = "/home/wx/erlangfiles/".
+
+code:add_pathz(MyErlDir).
+
+io:format("this message is from ${HOME}/.erlang:~n").
+
+io:format("~p is added to erlang lib path~n", [MyErlDir]).
+
