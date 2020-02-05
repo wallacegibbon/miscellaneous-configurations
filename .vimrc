@@ -18,7 +18,7 @@ set modelines=5
 
 filetype plugin indent on
 syntax on
-set ts=8 sw=8 noet
+set ts=2 sw=2 sts=2 et
 set smartindent
 set title
 set ruler
