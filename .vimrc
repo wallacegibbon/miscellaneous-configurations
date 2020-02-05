@@ -6,7 +6,7 @@ set nocompatible
 inoremap \<Tab> <Tab>
 inoremap <Tab> <C-N>
 "inoremap <S-Tab> <C-X><C-O>
-imap lk <Esc>
+"imap lj <Esc>
 nmap <Space> <C-f>
 nmap <BS> <C-b>
 nmap gh <C-t>
