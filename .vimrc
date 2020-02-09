@@ -7,6 +7,7 @@ inoremap \<Tab> <Tab>
 inoremap <Tab> <C-N>
 "inoremap <S-Tab> <C-X><C-O>
 imap jf <Esc>
+nmap : q:i
 nmap <Space> <C-f>
 nmap <BS> <C-b>
 nmap gh <C-t>
