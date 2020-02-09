@@ -6,7 +6,7 @@ set nocompatible
 inoremap \<Tab> <Tab>
 inoremap <Tab> <C-N>
 "inoremap <S-Tab> <C-X><C-O>
-"imap lj <Esc>
+imap jf <Esc>
 nmap <Space> <C-f>
 nmap <BS> <C-b>
 nmap gh <C-t>
@@ -18,7 +18,7 @@ set modelines=5
 
 filetype plugin indent on
 syntax on
-set ts=2 sw=2 sts=2 et
+set ts=8 sw=8 noet
 set smartindent
 set title
 set ruler
