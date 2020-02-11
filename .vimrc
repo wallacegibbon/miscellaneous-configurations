@@ -4,10 +4,9 @@ set nocompatible
 "au BufRead,BufNewFile *.lisp setlocal lisp ai
 
 inoremap \<Tab> <Tab>
-inoremap <Tab> <C-N>
-"inoremap <S-Tab> <C-X><C-O>
+inoremap <Tab> <C-n>
 imap jf <Esc>
-nmap : Hq:i
+cmap jf <C-f>
 nmap <Space> <C-f>
 nmap <BS> <C-b>
 nmap gh <C-t>
