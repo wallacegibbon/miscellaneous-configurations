@@ -1,5 +1,5 @@
 set nocompatible
-"au FileType python setlocal backspace=indent,start ts=4 sw=4 sts=4 et
+au FileType erlang,python setlocal backspace=indent,start ts=4 sw=4 sts=4 et
 "au BufRead,BufNewFile *.md setlocal filetype=markdown
 "au BufRead,BufNewFile *.lisp setlocal lisp ai
 
@@ -18,13 +18,10 @@ set modelines=5
 
 filetype plugin indent on
 syntax on
-set ts=8 sw=8 noet
 set smartindent
 set title
 set ruler
 set incsearch
 set ic
 hi Error NONE
-
-"execute pathogen#infect()
 
