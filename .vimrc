@@ -6,6 +6,7 @@ au BufRead,BufNewFile *.app.src,rebar.* setlocal filetype=erlang
 inoremap \<Tab> <Tab>
 inoremap <Tab> <C-n>
 imap jf <Esc>
+vmap jf <Esc>
 cmap jf <C-f>
 nmap <Space> <C-f>
 nmap <BS> <C-b>
