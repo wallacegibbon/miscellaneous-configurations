@@ -1,7 +1,9 @@
 set nocompatible
-au FileType erlang,python setlocal backspace=indent,start ts=4 sw=4 sts=4 et
+"au FileType erlang,python setlocal backspace=indent,start ts=4 sw=4 sts=4 et
 au BufRead,BufNewFile *.app.src,rebar.* setlocal filetype=erlang
 "au BufRead,BufNewFile *.lisp setlocal lisp ai
+
+set backspace=indent,start ts=4 sw=4 sts=4 et
 
 inoremap \<Tab> <Tab>
 inoremap <Tab> <C-n>
