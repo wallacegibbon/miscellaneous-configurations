@@ -1,5 +1,5 @@
 set nocompatible
-"au FileType python setlocal backspace=indent,start ts=4 sw=4 sts=4 et
+au FileType python setlocal backspace=indent,start sw=4 et
 au FileType erlang,c setlocal sw=4
 au BufRead,BufNewFile *.app.src,rebar.* setlocal filetype=erlang
 "au BufRead,BufNewFile *.lisp setlocal lisp ai
