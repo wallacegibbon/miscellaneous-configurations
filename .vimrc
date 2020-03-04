@@ -1,6 +1,8 @@
 set nocompatible
-au FileType python setlocal backspace=indent,start sw=4 et
+
+"au FileType python setlocal backspace=indent,start sw=4 et
 au FileType erlang,c setlocal sw=4
+
 au BufRead,BufNewFile *.app.src,rebar.* setlocal filetype=erlang
 "au BufRead,BufNewFile *.lisp setlocal lisp ai
 
@@ -20,10 +22,12 @@ set modelines=5
 
 filetype plugin indent on
 syntax on
+
 set smartindent
 set title
 set ruler
 set incsearch
 set ic
+
 hi Error NONE
 
