@@ -7,7 +7,7 @@ au BufRead,BufNewFile *.app.src,rebar.* setlocal filetype=erlang
 "au BufRead,BufNewFile *.lisp setlocal lisp ai
 
 inoremap \<Tab> <Tab>
-inoremap <Tab> <C-n>
+inoremap <Tab> <C-p>
 imap jf <Esc>
 vmap jf <Esc>
 cmap jf <C-f>
