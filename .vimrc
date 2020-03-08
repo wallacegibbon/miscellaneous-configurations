@@ -1,10 +1,20 @@
 set nocompatible
-
-"au FileType python setlocal backspace=indent,start sw=4 et
-au FileType erlang,c setlocal sw=4
+filetype plugin indent on
+syntax on
 
 au BufRead,BufNewFile *.app.src,rebar.* setlocal filetype=erlang
-"au BufRead,BufNewFile *.lisp setlocal lisp ai
+"au FileType python setlocal backspace=indent,start sw=4 et
+set sw=4
+
+"On MacOS, the default modelines=0
+set modeline
+set modelines=5
+
+set smartindent
+set title
+set ruler
+set incsearch
+set ic
 
 inoremap \<Tab> <Tab>
 inoremap <Tab> <C-p>
@@ -16,18 +26,7 @@ nmap <BS> <C-b>
 nmap gh <C-t>
 nmap gl <C-]>
 
-"On MacOS, the default modelines=0
-set modeline
-set modelines=5
-
-filetype plugin indent on
-syntax on
-
-set smartindent
-set title
-set ruler
-set incsearch
-set ic
-
 hi Error NONE
+
+colorscheme delek
 
