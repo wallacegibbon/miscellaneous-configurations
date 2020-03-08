@@ -7,8 +7,8 @@ au BufRead,BufNewFile *.yrl,*.app.src,rebar.* setlocal filetype=erlang
 set sw=4
 
 "On MacOS, the default modelines=0
-set modeline
 set modelines=5
+set modeline
 
 set smartindent
 set title
@@ -16,15 +16,15 @@ set ruler
 set incsearch
 set ic
 
-inoremap \<Tab> <Tab>
-inoremap <Tab> <C-p>
-imap jf <Esc>
-vmap jf <Esc>
-cmap jf <C-f>
-nmap <Space> <C-f>
-nmap <BS> <C-b>
-nmap gh <C-t>
-nmap gl <C-]>
+inoremap \<tab> <tab>
+inoremap <tab> <c-p>
+imap jf <esc>
+vmap jf <esc>
+cmap jf <c-f>
+nmap <space> <c-f>
+nmap <bs> <c-b>
+nmap gh <c-t>
+nmap gl <c-]>
 
 hi Error NONE
 
