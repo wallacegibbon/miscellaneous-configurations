@@ -2,7 +2,7 @@ set nocompatible
 filetype plugin indent on
 syntax on
 
-au BufRead,BufNewFile *.app.src,rebar.* setlocal filetype=erlang
+au BufRead,BufNewFile *.yrl,*.app.src,rebar.* setlocal filetype=erlang
 "au FileType python setlocal backspace=indent,start sw=4 et
 set sw=4
 
