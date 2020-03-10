@@ -22,7 +22,6 @@ imap jf <esc>
 vmap jf <esc>
 cmap jf <c-f>
 nmap <space> <c-f>
-nmap <bs> <c-b>
 nmap gh <c-t>
 nmap gl <c-]>
 
