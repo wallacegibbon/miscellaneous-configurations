@@ -5,8 +5,8 @@ syntax on
 au BufRead,BufNewFile *.yrl,*.app.src,rebar.* setlocal filetype=erlang
 "au FileType python setlocal backspace=indent,start et
 
-noremap! \<tab> <tab>
-noremap! <tab> <c-p>
+inoremap \<tab> <tab>
+inoremap <tab> <c-p>
 imap jf <esc>
 vmap jf <esc>
 cmap jf <c-f>
