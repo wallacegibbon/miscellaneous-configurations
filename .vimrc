@@ -3,7 +3,7 @@ filetype plugin indent on
 syntax on
 
 au BufRead,BufNewFile *.yrl,*.app.src,rebar.* setlocal filetype=erlang
-"au FileType python setlocal backspace=indent,start et
+au FileType elm setlocal sw=2
 
 inoremap \<tab> <tab>
 inoremap <tab> <c-p>
