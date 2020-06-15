@@ -2,7 +2,7 @@ set nocompatible
 filetype plugin indent on
 syntax on
 
-au BufRead,BufNewFile *.yrl,*.rel,*.app,*.app.src,rebar.* setlocal filetype=erlang
+au BufRead,BufNewFile *.yrl,rebar.* setlocal filetype=erlang
 "au FileType elm setlocal et sw=2
 
 inoremap \<tab> <tab>
@@ -19,12 +19,10 @@ hi Error NONE
 set modelines=5
 set modeline
 
-set sw=4
+set ts=4 sts=4 sw=4
 set smartindent
 set title
 set ruler
 set incsearch
 set ic
-
-colorscheme delek
 
