@@ -1,0 +1,9 @@
+{
+  "server": "104.168.158.51",
+  "server_port": 6666,
+  "local_address": "0.0.0.0",
+  "local_port": 12345,
+  "password": "qwerty123456",
+  "timeout": 600,
+  "method": "aes-256-gcm"
+}
