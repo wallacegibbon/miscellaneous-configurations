@@ -2,18 +2,10 @@
 Description=Shadowsocks client service
 After=network.target
 
+[Service]
+ExecStart=/usr/bin/ss-local -c /etc/ss.client.json
+Restart=on-failure
+
 [Install]
 WantedBy=multi-user.target
-
-[Service]
-Type=forking
-User=wallace
-Group=wallace
-PermissionsStartOnly=true
-ExecStart=/usr/bin/ss-local -c /home/wallace/work/unixfiles/ss.client.json
-TimeoutSec=600
-Restart=on-failure
-RuntimeDirectory=ssclient
-RuntimeDirectoryMode=755
-LimitNOFILE=10000
 
