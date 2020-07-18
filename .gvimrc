@@ -3,6 +3,6 @@ set co=80
 set go-=m
 set go-=T
 set go-=r
-"winpos 100 50
-set guifont=Consolas:h11:i
+winpos 400 0
+set guifont=Consolas:h12:i
 colorscheme evening
