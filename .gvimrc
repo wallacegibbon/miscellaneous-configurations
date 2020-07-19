@@ -4,5 +4,5 @@ set go-=m
 set go-=T
 set go-=r
 winpos 400 0
-set guifont=Consolas:h12:i
+set guifont=Source_Code_Pro:h11:i
 colorscheme evening
