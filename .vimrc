@@ -17,6 +17,7 @@ nmap gl <c-]>
 hi Error NONE
 
 "set ts=2 sw=2 sts=2 et
+set sw=4
 set modelines=5
 set modeline
 
