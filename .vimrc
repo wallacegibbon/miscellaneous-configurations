@@ -2,7 +2,7 @@ set nocompatible
 filetype plugin indent on
 syntax on
 
-"au BufRead,BufNewFile *.yrl,rebar.* setlocal filetype=erlang
+au BufRead,BufNewFile *.yrl,rebar.* setlocal filetype=erlang
 "au FileType elm setlocal et sw=2
 
 inoremap \<tab> <tab>
@@ -28,4 +28,4 @@ set incsearch
 set ic
 
 set enc=utf-8
-
+colorscheme delek
