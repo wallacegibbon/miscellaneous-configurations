@@ -20,6 +20,7 @@ hi Error NONE
 set cino=(0,u0,U0,:0,l1,g0,t0
 
 "set ts=2 sw=2 sts=2 et
+set sw=4
 set modelines=5
 set modeline
 
