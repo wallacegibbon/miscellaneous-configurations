@@ -3,7 +3,7 @@ filetype plugin indent on
 syntax on
 
 au BufRead,BufNewFile *.yrl,rebar.* setlocal filetype=erlang
-"au FileType c setlocal sw=8
+au FileType c,make setlocal sw=8
 
 set cino=(0,u0,U0,:0,l1,g0,t0 "see :help cinoptions-values
 
