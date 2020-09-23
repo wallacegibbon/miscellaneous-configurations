@@ -28,4 +28,4 @@ set incsearch
 set ic
 
 hi Error NONE
-colorscheme delek
+colorscheme pablo
