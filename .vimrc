@@ -4,7 +4,6 @@ syntax on
 
 au BufRead,BufNewFile *.yrl,rebar.* setlocal filetype=erlang
 "au FileType elm setlocal ts=2 sw=2 sts=2 et
-set sw=4
 
 set cino=(0,u0,U0,:0,l1,g0,t0 "see :help cinoptions-values
 
