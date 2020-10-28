@@ -7,3 +7,12 @@ deb-src http://ftp.cn.debian.org/debian/ wheezy main
 deb http://mirrors.163.com/debian/ wheezy main contrib non-free
 deb-src http://mirrors.163.com/debian/ wheezy main
 
+
+
+## for raspberry pi
+## in sources.list
+deb http://mirrors.ustc.edu.cn/raspbian/raspbian/ buster main contrib non-free rpi
+
+## in sources.list.d
+deb http://mirrors.ustc.edu.cn/archive.raspberrypi.org/debian/ buster main
+
