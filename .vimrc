@@ -1,6 +1,8 @@
 au BufRead,BufNewFile *.xrl,*.yrl,rebar.* setlocal filetype=erlang
-au FileType erlang setlocal sw=4 ts=8 noet
-au FileType make,asm setlocal sw=8 ts=8 noet
+"au FileType elm setlocal sw=2 ts=2 sts=2 et noet
+
+"" in the world of erlang, sw=4, ts=8
+set sw=4
 
 filetype plugin indent on
 syntax on
