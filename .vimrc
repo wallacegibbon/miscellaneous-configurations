@@ -1,7 +1,8 @@
-au BufRead,BufNewFile *.xrl,*.yrl,rebar.* setlocal filetype=erlang
-"au FileType elm setlocal sw=2 ts=2 sts=2 et noet
+au BufRead,BufNewFile *.xrl,*.yrl,*.app,*.app.src setlocal filetype=erlang
+au BufRead,BufNewFile rebar.* setlocal filetype=erlang
+"au FileType elm setlocal sw=2 ts=2 sts=2 et
 
-"" in the world of erlang, sw=4, ts=8
+"" in the world of erlang, sw=4 and ts=8
 set sw=4
 
 filetype plugin indent on
