@@ -10,19 +10,20 @@ iface lo inet loopback
 allow-hotplug eth0
 iface eth0 inet dhcp
 # iface eth0 inet static
-#   address 192.168.2.222
-#   gateway 192.168.2.1
-#   netmask 255.255.255.0
+# address 192.168.2.222
+# gateway 192.168.2.1
+# netmask 255.255.255.0
 
 
-# auto wlan0
+# WiFi
 allow-hotplug wlan0
 iface wlan0 inet static
-  wpa-ssid rxl
-  wpa-psk wangxing,wangxing
-  address 192.168.2.222
-  netmask 255.255.255.0
-  gateway 192.168.2.1
-#  nameserver 8.8.8.8
+wpa-ssid mywifiname
+wpa-psk mywifipassword
+address 192.168.2.222
+netmask 255.255.255.0
+gateway 192.168.2.1
+
+# nameserver 8.8.8.8
 # you should specify namesever in /etc/resolv.conf
 
