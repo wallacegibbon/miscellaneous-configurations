@@ -1,6 +1,9 @@
 au BufRead,BufNewFile *.xrl,*.yrl,*.app,*.app.src setlocal filetype=erlang
 au BufRead,BufNewFile rebar.* setlocal filetype=erlang
+au BufRead,BufNewFile *.svelte setlocal filetype=html
 "au FileType elm setlocal sw=2 ts=2 sts=2 et
+
+au FileType c,cpp setlocal cino=(0,u0,U0,:0,l1,g0,t0 "cinoptions-values
 
 "" in the world of erlang, sw=4 and ts=8
 set sw=4
@@ -9,8 +12,6 @@ filetype plugin indent on
 syntax on
 
 set nocompatible
-set cino=(0,u0,U0,:0,l1,g0,t0 "cinoptions-values
-
 set enc=utf-8
 set modelines=5
 set modeline
