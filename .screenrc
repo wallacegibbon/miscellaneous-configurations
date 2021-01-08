@@ -3,4 +3,4 @@ startup_message off
 altscreen on
 term screen-256color
 attrcolor b ".I"
-
+zmodem catch
