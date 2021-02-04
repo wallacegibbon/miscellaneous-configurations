@@ -1,7 +1,6 @@
 au BufRead,BufNewFile *.xrl,*.yrl,*.app,*.app.src setlocal filetype=erlang
 au BufRead,BufNewFile rebar.* setlocal filetype=erlang
-au BufRead,BufNewFile *.svelte setlocal filetype=html
-"au FileType elm setlocal sw=2 ts=2 sts=2 et
+au FileType elm setlocal sw=4 ts=4 sts=4 et
 
 au FileType c,cpp setlocal cino=(0,u0,U0,:0,l1,g0,t0 "cinoptions-values
 
