@@ -40,7 +40,7 @@ when it is added, and nil when it's already in PATH"
   (config-non-console-height)
   (set-frame-width nil 80)
   (set-frame-position nil 585 0)
-  (load-theme 'afternoon t))
+  (load-theme 'misterioso t))
 
 
 ;;; the elpa
