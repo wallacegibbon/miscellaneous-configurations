@@ -16,13 +16,13 @@ when it is added, and nil when it's already in PATH"
 
 (defun appropriate-font (font-name)
   "Make valid font string that can be the argument of `set-frame-font'."
-  (let ((font-size (if (surfacepro-p) 14 12)))
+  (let ((font-size (if (surfacepro-p) 14 11)))
     (and font-name
 	 (format "%s-%d" font-name font-size))))
 
 
 (defun config-non-console-height ()
-  (let ((height (if (surfacepro-p) 48 61)))
+  (let ((height (if (surfacepro-p) 48 56)))
     (message "Setting height to %d" height)
     (set-frame-height nil height)))
 
@@ -39,7 +39,7 @@ when it is added, and nil when it's already in PATH"
   (config-non-console-font)
   (config-non-console-height)
   (set-frame-width nil 80)
-  (set-frame-position nil 200 0)
+  (set-frame-position nil 585 0)
   (load-theme 'afternoon t))
 
 
