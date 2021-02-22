@@ -123,6 +123,12 @@ when it is added, and nil when it's already in PATH"
 	    (setq css-indent-offset 2)))
 
 
+;; the clojure mode will use space rather than tab, fix it
+(add-hook 'clojure-mode-hook
+	  (lambda ()
+	    (setq indent-tabs-mode t)))
+
+
 ;;; miscellaneous functions
 (let ((misc-script "~/.emacs.d/misc.el"))
   (if (file-exists-p misc-script)
