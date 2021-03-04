@@ -1,11 +1,8 @@
 au BufRead,BufNewFile *.xrl,*.yrl,*.app,*.app.src setlocal filetype=erlang
 au BufRead,BufNewFile rebar.* setlocal filetype=erlang
-au FileType elm setlocal sw=4 ts=4 sts=4 et
-
 au FileType c,cpp setlocal cino=(0,u0,U0,:0,l1,g0,t0 "cinoptions-values
 
-"" in the world of erlang, sw=4 and ts=8
-set sw=4
+set sw=4 sts=4 et
 
 filetype plugin indent on
 syntax on
@@ -31,6 +28,4 @@ cmap jf <c-f>
 nmap <space> <c-f>
 nmap gh <c-t>
 nmap gl <c-]>
-
-colorscheme pablo
 
