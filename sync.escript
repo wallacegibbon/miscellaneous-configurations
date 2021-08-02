@@ -4,7 +4,7 @@
 
 main([]) ->
     PublicDirectoriesToSync =   ["ecompiler", "erlplayground", "notes", "unixfiles"],
-    PrivateDirectoriesToSync =  ["isocube", "isocube-client"],
+    PrivateDirectoriesToSync =  ["isocube", "isocube-client", "isocube-client-elm"],
     lists:foreach( fun (Directory) -> gitPull(Directory, "origin") end,  PrivateDirectoriesToSync ),
     lists:foreach( fun (Directory) -> gitPull(Directory, "origin") end,  PublicDirectoriesToSync ),
     lists:foreach( fun (Directory) -> gitPull(Directory, "github") end,  PublicDirectoriesToSync ),
