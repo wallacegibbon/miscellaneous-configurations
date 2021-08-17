@@ -3,8 +3,8 @@
 -mode(compile).
 
 main([]) ->
-    PublicDirectoriesToSync =   ["ecompiler", "erlplayground", "notes", "unixfiles"],
-    PrivateDirectoriesToSync =  ["isocube", "isocube-client", "isocube-client-elm", "arduinoprjs"],
+    PublicDirectoriesToSync =   ["erlplayground", "ecompiler", "notes", "unixfiles"],
+    PrivateDirectoriesToSync =  ["isocube", "isocube-client", "arduinoprjs"],
     lists:foreach( fun (Directory) -> gitPull(Directory, "origin") end,  PrivateDirectoriesToSync ),
     lists:foreach( fun (Directory) -> gitPull(Directory, "origin") end,  PublicDirectoriesToSync ),
     lists:foreach( fun (Directory) -> gitPull(Directory, "github") end,  PublicDirectoriesToSync ),
