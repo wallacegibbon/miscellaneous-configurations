@@ -8,6 +8,7 @@ set nocompatible
 set enc=utf-8
 set modelines=5
 set modeline
+set ff=unix
 "set sw=4 sts=4 et
 
 "set smartindent
