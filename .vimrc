@@ -10,7 +10,6 @@ set modelines=5
 set modeline
 set ffs=unix
 set ff=unix
-set sw=2 sts=2 et
 
 "set smartindent
 set title
