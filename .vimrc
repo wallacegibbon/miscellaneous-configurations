@@ -8,8 +8,9 @@ set nocompatible
 set enc=utf-8
 set modelines=5
 set modeline
+set ffs=unix
 set ff=unix
-"set sw=4 sts=4 et
+set sw=2 sts=2 et
 
 "set smartindent
 set title
@@ -27,4 +28,6 @@ cnoremap jf <c-f>
 nnoremap <space> <c-f>
 nnoremap gh <c-t>
 nnoremap gl <c-]>
+
+let maplocalleader = "\\"
 
