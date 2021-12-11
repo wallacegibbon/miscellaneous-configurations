@@ -29,6 +29,7 @@ nnoremap gh <c-t>
 nnoremap gl <c-]>
 
 set lispwords-=if
+set lispwords+=match
 
 let maplocalleader = "\\"
 
