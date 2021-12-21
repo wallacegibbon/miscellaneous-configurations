@@ -20,5 +20,8 @@
 !XTerm*geometry: 80x20
 !XTerm*termName: XTerm-256color
 !XTerm*inputMethod: ibus
-!XTerm*background: black
-!XTerm*foreground: white
+XTerm*font: 7x14
+XTerm*eightBitInput: false
+XTerm*eightBitOutput: true
+XTerm*background: black
+XTerm*foreground: white
