@@ -6,19 +6,19 @@
 !Xft.dpi: 180.0
 
 !URxvt*font: -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-1
-URxvt*font: 7x14
+!URxvt*font: 7x14
 !URxvt*font: xft:mono:pixelsize=14:charwidth=8:antialias=true
-URxvt*geometry: 80x20+0+0
-URxvt*scrollBar: false
-URxvt*lineSpace: 2
+!URxvt*geometry: 80x20+0+0
+!URxvt*scrollBar: false
+!URxvt*lineSpace: 2
 
-xterm*faceName: mono:pixelsize=14:antialias=false
-!xterm*faceName: mono:pixelsize=14:bold:italic:charwidth=9:antialias=true
-!xterm*faceNameDoublesize: WenQuanYi Micro Hei:pixelsize=14:charwidth=9
-!xterm*scaleHeight:1.1
-!xterm*geometry: 80x43+200+0
-xterm*geometry: 80x20
-!xterm*termName: xterm-256color
-!xterm*inputMethod: ibus
-!xterm*background: black
-!xterm*foreground: white
+!XTerm*faceName: mono:pixelsize=14:antialias=false
+!XTerm*faceName: mono:pixelsize=14:bold:italic:charwidth=9:antialias=true
+!XTerm*faceNameDoublesize: WenQuanYi Micro Hei:pixelsize=14:charwidth=9
+!XTerm*scaleHeight:1.1
+!XTerm*geometry: 80x43+200+0
+!XTerm*geometry: 80x20
+!XTerm*termName: XTerm-256color
+!XTerm*inputMethod: ibus
+!XTerm*background: black
+!XTerm*foreground: white
