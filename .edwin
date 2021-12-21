@@ -1,0 +1,10 @@
+;; -*- scheme -*-
+
+(define my-edwin-font
+  "-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso10646-1")
+
+((ref-command set-default-font) my-edwin-font)
+((ref-command set-font) my-edwin-font)
+
+((ref-command set-frame-size) 80 70)
+((ref-command set-frame-position) 670 10)
