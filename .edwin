@@ -1,8 +1,8 @@
-;; -*- scheme -*-
+;;; -*-Scheme-*-
 
 ;; Alias like "7x14" may not working, use the "X Logical Font Description".
+; (define my-edwin-font "-adobe-courier-bold-r-*-*-14-*-*-*-*-*-*-*")
 (define my-edwin-font "-misc-fixed-medium-r-*-*-14-*-*-*-*-*-*-*")
-;(define my-edwin-font "-adobe-courier-bold-r-*-*-14-*-*-*-*-*-*-*")
 
 ((ref-command set-default-font) my-edwin-font)
 ((ref-command set-font) my-edwin-font)
