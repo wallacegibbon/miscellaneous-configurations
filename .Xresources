@@ -1,18 +1,10 @@
-! More about font description:
-!   https://en.wikipedia.org/wiki/X_logical_font_description
-! Command `xfontsel` can to used to choose font name
-
 ! For high dpi screen (e.g. surface pro)
 !Xft.dpi: 180.0
 
-!URxvt*font: -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-1
-!URxvt*font: 7x14
 !URxvt*font: xft:mono:pixelsize=14:charwidth=8:antialias=true
-!URxvt*geometry: 80x20+0+0
 !URxvt*scrollBar: false
 !URxvt*lineSpace: 2
 
-!XTerm*faceName: mono:pixelsize=14:antialias=false
 !XTerm*faceName: mono:pixelsize=14:bold:italic:charwidth=9:antialias=true
 !XTerm*faceNameDoublesize: WenQuanYi Micro Hei:pixelsize=14:charwidth=9
 !XTerm*scaleHeight:1.1
@@ -20,7 +12,8 @@
 !XTerm*geometry: 80x20
 !XTerm*termName: XTerm-256color
 !XTerm*inputMethod: ibus
-XTerm*font: 7x14
+!XTerm*font: 7x14
+XTerm*font: -misc-fixed-medium-r-*-*-14-*-*-*-*-*-*-*
 XTerm*eightBitInput: false
 XTerm*eightBitOutput: true
 XTerm*background: black
