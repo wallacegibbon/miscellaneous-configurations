@@ -1,20 +1,21 @@
-! For high dpi screen (e.g. surface pro)
-!Xft.dpi: 180.0
+UXTerm*font: -misc-fixed-medium-r-*-*-14-*-*-*-*-*-*-*
+UXTerm*eightBitInput: false
+UXTerm*eightBitOutput: true
+!UXTerm*faceName: mono:pixelsize=14:bold:italic:charwidth=9:antialias=true
+!UXTerm*faceNameDoublesize: WenQuanYi Micro Hei:pixelsize=14:charwidth=9
+!UXTerm*scaleHeight:1.1
+!UXTerm*geometry: 80x43+200+0
+!UXTerm*geometry: 80x20
+!UXTerm*termName: UXTerm-256color
+!UXTerm*inputMethod: ibus
+!UXTerm*font: 7x14
+!UXTerm*background: black
+!UXTerm*foreground: white
 
 !URxvt*font: xft:mono:pixelsize=14:charwidth=8:antialias=true
 !URxvt*scrollBar: false
 !URxvt*lineSpace: 2
 
-!XTerm*faceName: mono:pixelsize=14:bold:italic:charwidth=9:antialias=true
-!XTerm*faceNameDoublesize: WenQuanYi Micro Hei:pixelsize=14:charwidth=9
-!XTerm*scaleHeight:1.1
-!XTerm*geometry: 80x43+200+0
-!XTerm*geometry: 80x20
-!XTerm*termName: XTerm-256color
-!XTerm*inputMethod: ibus
-!XTerm*font: 7x14
-XTerm*font: -misc-fixed-medium-r-*-*-14-*-*-*-*-*-*-*
-XTerm*eightBitInput: false
-XTerm*eightBitOutput: true
-XTerm*background: black
-XTerm*foreground: white
+! For high dpi screen (e.g. surface pro)
+!Xft.dpi: 180.0
+
