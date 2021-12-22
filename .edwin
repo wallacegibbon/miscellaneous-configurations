@@ -8,4 +8,4 @@
 ((ref-command set-font) my-edwin-font)
 
 ((ref-command set-frame-size) 81 70)
-((ref-command set-frame-position) 680 10)
+((ref-command set-frame-position) 700 10)
