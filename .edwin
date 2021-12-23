@@ -3,10 +3,11 @@
 ;; Alias like "7x14" may not working, use the "X Logical Font Description".
 ;(define my-edwin-font "-misc-fixed-medium-r-*-*-14-*-*-*-*-*-*-*")
 ;(define my-edwin-font "-adobe-courier-bold-o-*-*-14-*-*-*-*-*-*-*")
-(define my-edwin-font "-adobe-courier-bold-r-*-*-14-*-*-*-*-*-*-*")
+(define my-edwin-font "-adobe-courier-medium-r-*-*-14-*-*-*-*-*-*-*")
 
 ((ref-command set-default-font) my-edwin-font)
 ((ref-command set-font) my-edwin-font)
 
-((ref-command set-frame-size) 81 65)
+((ref-command set-frame-size) 81 70)
 ((ref-command set-frame-position) 640 10)
+((ref-command set-background-color) "rgb:ff/ff/ee")
