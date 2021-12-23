@@ -2,8 +2,8 @@ UXTerm*font: -adobe-courier-medium-r-*-*-14-*-*-*-*-*-*-*
 !UXTerm*font: 7x14
 UXTerm*eightBitInput: false
 UXTerm*eightBitOutput: true
-UXTerm*background: black
-UXTerm*foreground: #eeeeee
+UXTerm*background: #222222
+UXTerm*foreground: white
 !UXTerm*faceName: mono:pixelsize=14:bold:italic:charwidth=9:antialias=true
 !UXTerm*faceNameDoublesize: WenQuanYi Micro Hei:pixelsize=14:charwidth=9
 !UXTerm*scaleHeight:1.1
