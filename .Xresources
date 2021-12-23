@@ -1,4 +1,4 @@
-UXTerm*font: -misc-fixed-medium-r-*-*-14-*-*-*-*-*-*-*
+UXTerm*font: -adobe-courier-bold-r-*-*-14-*-*-*-*-*-*-*
 UXTerm*eightBitInput: false
 UXTerm*eightBitOutput: true
 !UXTerm*faceName: mono:pixelsize=14:bold:italic:charwidth=9:antialias=true
