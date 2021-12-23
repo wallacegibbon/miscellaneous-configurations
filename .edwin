@@ -10,4 +10,9 @@
 
 ((ref-command set-frame-size) 81 70)
 ((ref-command set-frame-position) 640 10)
-((ref-command set-background-color) "rgb:ff/ff/ee")
+
+(define my-foreground-color "rgb:ee/ee/ee")
+
+((ref-command set-foreground-color) my-foreground-color)
+((ref-command set-background-color) "black")
+((ref-command set-cursor-color) my-foreground-color)
