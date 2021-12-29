@@ -2,16 +2,16 @@
 
 -mode(compile).
 
+git_pull(Dir, Repo) ->
+    Ret = os:cmd( "cd " ++ Dir ++ " && git pull " ++ Repo ++ " master --tags && cd .." ),
+    io:format("~s  sync ~s (from ~s)~n~s~n", [lists:duplicate(60, "*"), Dir, Repo, Ret]).
+
 main([]) ->
-    PublicDirectoriesToSync = ["erlplayground", "ecompiler", "notes", "unixfiles"],
-    PrivateDirectoriesToSync = ["alfred", "iot-client", "isocube", "isocube-client", "arduinoprjs"],
-    lists:foreach(fun (Directory) -> gitPull(Directory, "origin") end, PrivateDirectoriesToSync),
-    lists:foreach(fun (Directory) -> gitPull(Directory, "origin") end, PublicDirectoriesToSync),
-    lists:foreach(fun (Directory) -> gitPull(Directory, "github") end, PublicDirectoriesToSync),
+    PubDirs = ["erlplayground", "ecompiler", "eddy", "notes", "unixfiles"],
+    PrvDirs = ["isocube", "isocube-client"],
+    lists:foreach(fun (Dir) -> git_pull(Dir, "origin") end, PrvDirs),
+    lists:foreach(fun (Dir) -> git_pull(Dir, "origin") end, PubDirs),
+    lists:foreach(fun (Dir) -> git_pull(Dir, "github") end, PubDirs),
     io:get_line("synchonise finished, press ENTER to exit..."),
     ok.
-
-gitPull(Directory, Respository) ->
-    Return = os:cmd( "cd " ++ Directory ++ " && git pull " ++ Respository ++ " master --tags && cd .." ),
-    io:format("~s  synchonise ~s (from ~s)~n~s~n", [lists:duplicate(60, "*"), Directory, Respository, Return]).
 
