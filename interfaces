@@ -1,29 +1,15 @@
-# This file describes the network interfaces available on your system
-# and how to activate them. For more information, see interfaces(5).
+# specify name server in /etc/resolv.conf
 
-# source /etc/network/interfaces.d/*
+auto lo eth0 wlan0
 
-# The loopback network interface
-auto lo
 iface lo inet loopback
 
-allow-hotplug eth0
 iface eth0 inet dhcp
-# iface eth0 inet static
-# address 192.168.2.222
-# gateway 192.168.2.1
-# netmask 255.255.255.0
 
-
-# WiFi
-allow-hotplug wlan0
 iface wlan0 inet static
 wpa-ssid mywifiname
 wpa-psk mywifipassword
 address 192.168.2.222
 netmask 255.255.255.0
 gateway 192.168.2.1
-
-# nameserver 8.8.8.8
-# you should specify namesever in /etc/resolv.conf
 
