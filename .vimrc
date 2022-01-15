@@ -1,5 +1,5 @@
 "au BufRead,BufNewFile *.xrl,*.yrl setlocal filetype=erlang
-au FileType c,cpp setlocal cino=(0,u0,U0,:0,l1,g0,t0 "cinoptions-values
+"au FileType c,cpp setlocal cino=(0,u0,U0,:0,l1,g0,t0 "cinoptions-values
 
 filetype plugin indent on
 syntax on
@@ -33,3 +33,4 @@ set lispwords+=match
 
 let maplocalleader = "\\"
 
+colorscheme slate
