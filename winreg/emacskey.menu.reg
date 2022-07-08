@@ -3,9 +3,9 @@ Windows Registry Editor Version 5.00
 ;; 1d,00,3a,00 means remapping capslock to be ctrl
 
 ;; left win:  e0 5b     right win:  e0 5c
-;; left ctrl: 1d        right ctrl: e0 1d
-;; left alt:  38        right alt:  e0 38
-;; menu: e0 5d          prtsc: e0 37
-;; caps lock: 3a
+;; left ctrl: 00 1d     right ctrl: e0 1d
+;; left alt:  00 38     right alt:  e0 38
+;; menu:      e0 5d     prtsc: e0 37
+;; caps lock: 00 3a
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
 "Scancode Map"=hex:00,00,00,00,00,00,00,00,07,00,00,00,5B,E0,1D,00,1D,00,38,00,38,00,5B,E0,1D,E0,38,E0,38,E0,5D,E0,5D,E0,1D,E0,00,00,00,00
