@@ -1,5 +1,5 @@
 "au BufRead,BufNewFile *.xrl,*.yrl setlocal filetype=erlang
-au FileType c,cpp setlocal cino=(s,:0,l1,g0,t0,N-s "cinoptions-values, e.g. (2s
+au FileType c,cpp setlocal cino=(s,:0,l1,g0,t0,N-s,E-s "cinoptions-values
 
 filetype plugin indent on
 syntax on
