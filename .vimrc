@@ -36,5 +36,6 @@ nnoremap gl <c-]>
 
 colorscheme slate
 hi Statement cterm=bold
+hi Comment cterm=bold
 hi String cterm=underline
 
