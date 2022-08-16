@@ -18,10 +18,6 @@ set title
 set ruler
 set incsearch
 
-hi Error NONE
-
-"inoremap \<tab> <tab>
-"inoremap <tab> <c-p>
 inoremap jf <esc>
 vnoremap jf <esc>
 cnoremap jf <c-f>
@@ -35,6 +31,7 @@ nnoremap gl <c-]>
 "let maplocalleader = "\\"
 
 colorscheme slate
+hi Error NONE
 hi Statement cterm=bold
 hi Comment cterm=bold
 hi String cterm=underline
