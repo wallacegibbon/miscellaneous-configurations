@@ -35,4 +35,6 @@ nnoremap gl <c-]>
 "let maplocalleader = "\\"
 
 colorscheme slate
+hi Statement cterm=bold
+hi String cterm=underline
 
