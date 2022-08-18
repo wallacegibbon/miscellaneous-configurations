@@ -4,19 +4,8 @@
 "filetype plugin indent on
 syntax on
 
-set nocompatible
-set nosmartindent
-set autoindent
-
-set enc=utf-8
-set modelines=5
-set modeline
-set ffs=unix
-set ff=unix
-
-set title
-set ruler
-set incsearch
+set nocompatible nosmartindent autoindent noincsearch title ruler
+set modeline modelines=6 ff=unix ffs=unix enc=utf-8
 
 "set lispwords-=if
 "set lispwords+=match
