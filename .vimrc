@@ -17,10 +17,8 @@ nnoremap gh <c-t>
 nnoremap gl <c-]>
 
 let mapleader = "\<space>"
-nnoremap <leader>fo :buffers<cr>:b<space>
-nnoremap <leader>fj :bnext<cr>
-nnoremap <leader>fk :bprevious<cr>
-nnoremap <leader>fl :b#<cr>
+nnoremap <leader>t :buffers<cr>:b<space>
+nnoremap <leader><space> :b#<cr>
 
 colorscheme slate
 hi Error NONE
