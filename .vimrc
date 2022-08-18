@@ -18,17 +18,19 @@ set title
 set ruler
 set incsearch
 
-inoremap jf <esc>
-vnoremap jf <esc>
-cnoremap jf <c-f>
-nnoremap <space> <c-f>
-nnoremap gh <c-t>
-nnoremap gl <c-]>
-
 "set lispwords-=if
 "set lispwords+=match
 
-"let maplocalleader = "\\"
+inoremap jf <esc>
+vnoremap jf <esc>
+cnoremap jf <c-f>
+nnoremap gh <c-t>
+nnoremap gl <c-]>
+
+let mapleader = "\<space>"
+nnoremap <leader>fo :buffers<cr>:b<space>
+nnoremap <leader>fj :bnext<cr>
+nnoremap <leader>fk :bprevious<cr>
 
 colorscheme slate
 hi Error NONE
