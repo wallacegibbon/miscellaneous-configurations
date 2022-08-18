@@ -20,6 +20,7 @@ let mapleader = "\<space>"
 nnoremap <leader>fo :buffers<cr>:b<space>
 nnoremap <leader>fj :bnext<cr>
 nnoremap <leader>fk :bprevious<cr>
+nnoremap <leader>fl :b#<cr>
 
 colorscheme slate
 hi Error NONE
