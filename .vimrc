@@ -1,9 +1,6 @@
 "au BufRead,BufNewFile *.xrl,*.yrl setlocal filetype=erlang
 "au FileType c,cpp setlocal cino=(s,:0,l1,g0,t0,N-s,E-s
 
-"filetype plugin indent on
-syntax on
-
 set nocompatible nosmartindent autoindent noincsearch title ruler
 set modeline modelines=6 ff=unix ffs=unix enc=utf-8
 
@@ -12,14 +9,14 @@ set modeline modelines=6 ff=unix ffs=unix enc=utf-8
 
 inoremap jf <esc>
 vnoremap jf <esc>
-cnoremap jf <c-f>
-nnoremap gh <c-t>
-nnoremap gl <c-]>
+cnoremap jf <c-c>
 
 let mapleader = "\<space>"
 nnoremap <leader>t :buffers<cr>:b<space>
 nnoremap <leader><space> :b#<cr>
 
+"filetype plugin indent on
+syntax on
 colorscheme slate
 hi Error NONE
 hi Statement cterm=bold
