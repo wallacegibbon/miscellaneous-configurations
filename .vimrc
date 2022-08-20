@@ -12,7 +12,7 @@ vnoremap jf <esc>
 cnoremap jf <c-c>
 
 let mapleader = "\<space>"
-nnoremap <leader>t :buffers<cr>:b<space>
+nnoremap <leader>b :buffers<cr>:b<space>
 nnoremap <leader><space> :b#<cr>
 nnoremap <leader>w :w<cr>
 
