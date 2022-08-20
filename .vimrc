@@ -13,7 +13,7 @@ cnoremap jf <c-c>
 
 let mapleader = "\<space>"
 nnoremap <leader>b :buffers<cr>:b<space>
-nnoremap <leader><space> :b#<cr>
+nnoremap <leader><tab> :b#<cr>
 nnoremap <leader>w :w<cr>
 
 "filetype plugin indent on
