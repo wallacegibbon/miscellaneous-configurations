@@ -21,5 +21,5 @@ colorscheme slate
 hi Error NONE
 hi Statement cterm=bold
 hi Comment cterm=bold
-hi String cterm=underline
+"hi String cterm=underline
 
