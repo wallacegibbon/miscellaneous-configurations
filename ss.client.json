@@ -1,9 +1,9 @@
 {
-	"server": "116.78.18.40",
-	"server_port": 9527,
-	"local_address": "0.0.0.0",
-	"local_port": 12345,
-	"password": "thisisafakeserver",
-	"timeout": 600,
-	"method": "aes-256-gcm"
+  "server": "116.78.18.40",
+  "server_port": 9527,
+  "local_address": "0.0.0.0",
+  "local_port": 12345,
+  "password": "thisisafakeserver",
+  "timeout": 600,
+  "method": "aes-256-gcm"
 }
