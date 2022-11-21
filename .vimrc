@@ -3,7 +3,7 @@
 
 set nocompatible nosmartindent autoindent noincsearch title ruler
 set modeline modelines=6 ff=unix ffs=unix enc=utf-8
-set sw=4 ts=4 sts=4 et
+set sw=2 ts=2 sts=2 et
 set nu
 
 "set lispwords-=if
