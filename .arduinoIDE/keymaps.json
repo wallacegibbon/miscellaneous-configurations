@@ -1,0 +1,22 @@
+[
+  {
+    "command": "search-in-workspace.replace",
+    "keybinding": "CtrlCmd+Shift+H"
+  },
+  {
+    "command": "search-in-workspace.open",
+    "keybinding": "CtrlCmd+Shift+F"
+  },
+  {
+    "command": "-library-list-widget:toggle",
+    "keybinding": "CtrlCmd+Shift+I"
+  },
+  {
+    "command": "-arduino-find-in-reference",
+    "keybinding": "CtrlCmd+Shift+F"
+  },
+  {
+    "command": "-typehierarchy:toggle",
+    "keybinding": "ctrlcmd+shift+h"
+  }
+]
