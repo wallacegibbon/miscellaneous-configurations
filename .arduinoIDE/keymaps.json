@@ -1,5 +1,13 @@
 [
   {
+    "command": "-textEditor.commands.go.back",
+    "keybinding": "ctrl+alt+-"
+  },
+  {
+    "command": "textEditor.commands.go.back",
+    "keybinding": "Alt+Left"
+  },
+  {
     "command": "search-in-workspace.replace",
     "keybinding": "CtrlCmd+Shift+H"
   },
@@ -18,5 +26,13 @@
   {
     "command": "-typehierarchy:toggle",
     "keybinding": "ctrlcmd+shift+h"
+  },
+  {
+    "command": "textEditor.commands.go.forward",
+    "keybinding": "Alt+Right"
+  },
+  {
+    "command": "-textEditor.commands.go.forward",
+    "keybinding": "ctrl+shift+-"
   }
 ]
