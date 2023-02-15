@@ -12,8 +12,8 @@ nnoremap <space>b :buffers<cr>:b<space>
 nnoremap <space>e :b#<cr>
 nnoremap <space>w :w<cr>
 "nnoremap jf <esc>
+"vnoremap jf <esc>
 inoremap jf <esc>
-vnoremap jf <esc>
 cnoremap jf <c-c>
 
 "filetype plugin indent on
