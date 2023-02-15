@@ -1,10 +1,8 @@
 "au BufRead,BufNewFile *.xrl,*.yrl setlocal filetype=erlang
 "au FileType c,cpp setlocal cino=(s,:0,l1,g0,t0,N-s,E-s
 
-set nocompatible nosmartindent autoindent noincsearch title ruler
+set nocompatible nosmartindent autoindent noincsearch title ruler nonu
 set modeline modelines=6 ff=unix ffs=unix enc=utf-8
-set sw=2 ts=2 sts=2 et
-set nu
 
 "set lispwords-=if
 "set lispwords+=match
@@ -13,6 +11,7 @@ set nu
 nnoremap <space>b :buffers<cr>:b<space>
 nnoremap <space>e :b#<cr>
 nnoremap <space>w :w<cr>
+nnoremap jf <esc>
 inoremap jf <esc>
 vnoremap jf <esc>
 cnoremap jf <c-c>
