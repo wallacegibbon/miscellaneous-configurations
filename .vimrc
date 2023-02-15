@@ -11,7 +11,7 @@ set modeline modelines=6 ff=unix ffs=unix enc=utf-8
 nnoremap <space>b :buffers<cr>:b<space>
 nnoremap <space>e :b#<cr>
 nnoremap <space>w :w<cr>
-nnoremap jf <esc>
+"nnoremap jf <esc>
 inoremap jf <esc>
 vnoremap jf <esc>
 cnoremap jf <c-c>
