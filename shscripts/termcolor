@@ -3,10 +3,10 @@
 ## Color control characters is like "\033[...m"
 
 for ((i=0; i<8; i++)); do
-  for ((j=0; j<8; j++)); do
-    printf "\033[3${i};4${j}m x \033[0m"
-  done
-  printf "\n"
+	for ((j=0; j<8; j++)); do
+		printf "\033[3${i};4${j}m x \033[0m"
+	done
+	printf "\n"
 done
 
 printf "\n\033[4mThis is underline test\033[0m\n\n"
