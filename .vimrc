@@ -16,7 +16,7 @@ nnoremap <space>w :w<cr>
 inoremap jf <esc>
 cnoremap jf <c-c>
 
-"filetype plugin indent on
+filetype plugin on
 syntax on
 "colorscheme slate
 hi Error NONE
