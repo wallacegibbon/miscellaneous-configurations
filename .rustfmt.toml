@@ -1,4 +1,5 @@
-max_width = 100
+max_width = 200
 tab_spaces = 8
 hard_tabs = true
 edition = "2021"
+
