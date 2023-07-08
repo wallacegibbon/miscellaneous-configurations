@@ -24,8 +24,7 @@ hi Comment cterm=bold
 "set lispwords-=if
 "set lispwords+=match
 
-"" Copy `coc.vim` to `~/.vim/pack/my/start/`,
-"" then `CocInstall coc-tsserver`, `CocInstall coc-clangd`
+"" Copy coc to `~/.vim/pack/my/start/`, then `CocInstall coc-tsserver coc-clangd`
 nmap <space>d <Plug>(coc-definition)
 nmap <space>r <Plug>(coc-references)
 nmap <space>t <Plug>(coc-type-definition)
