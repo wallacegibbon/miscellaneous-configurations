@@ -1,9 +1,7 @@
 "autocmd BufRead,BufNewFile *.xrl,*.yrl setlocal filetype=erlang
 "autocmd FileType c,cpp setlocal cinoptions=(s,:0,l1,g0,t0,N-s,E-s
 
-set nocompatible nosmartindent autoindent noincsearch title ruler number numberwidth=9 relativenumber modeline modelines=6
-set fileformat=unix fileformats=unix encoding=utf-8
-"set lispwords-=if lispwords+=match
+set nocompatible nosmartindent autoindent noincsearch title ruler number numberwidth=9 relativenumber modeline modelines=6 fileformat=unix fileformats=unix encoding=utf-8 lispwords-=if lispwords+=match
 
 "let mapleader = "\<space>"
 
@@ -26,6 +24,10 @@ highlight Comment cterm=bold
 "colorscheme slate
 
 "" Copy the coc package into "~/.vim/pack/my/start/", then run ":CocInstall coc-tsserver coc-clangd" in Vim.
+
+inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<cr>"
+nnoremap <silent> <space>? :call CocActionAsync("doHover")<cr>
+
 nmap <space>d <Plug>(coc-definition)
 nmap <space>r <Plug>(coc-references)
 nmap <space>t <Plug>(coc-type-definition)
