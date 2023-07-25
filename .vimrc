@@ -1,7 +1,7 @@
 "autocmd BufRead,BufNewFile *.xrl,*.yrl setlocal filetype=erlang
 "autocmd FileType c,cpp setlocal cinoptions=(s,:0,l1,g0,t0,N-s,E-s
 
-set nocompatible nosmartindent autoindent noincsearch title ruler number numberwidth=9 relativenumber modeline modelines=6 fileformat=unix fileformats=unix encoding=utf-8 lispwords-=if lispwords+=match
+set nocompatible nosmartindent autoindent noincsearch title ruler number numberwidth=9 relativenumber modeline modelines=6 laststatus=1 fileformat=unix fileformats=unix encoding=utf-8 lispwords-=if lispwords+=match
 
 "let mapleader = "\<space>"
 
@@ -17,13 +17,17 @@ filetype plugin on
 syntax on
 
 highlight Error NONE
-highlight Statement cterm=bold
-highlight Comment cterm=bold
+"highlight Statement cterm=bold
+"highlight Comment cterm=bold
 "highlight String cterm=underline
 
 "colorscheme slate
 
-"" Copy the coc package into "~/.vim/pack/my/start/", then run ":CocInstall coc-tsserver coc-clangd" in Vim.
+"" Install "https://github.com/junegunn/vim-plug", then run ":PlugInstall" and ":CocInstall coc-tsserver coc-clangd".
+
+call plug#begin()
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+call plug#end()
 
 inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<cr>"
 nnoremap <silent> <space>? :call CocActionAsync("doHover")<cr>
