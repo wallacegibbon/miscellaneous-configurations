@@ -1,4 +1,4 @@
-"" content of the initialization file of neovim: "~/.config/nvim/init.vim".
+"" Position of the initialization file of neovim: "~/.config/nvim/init.vim".
 
 colorscheme slate
 source ~/.vimrc
