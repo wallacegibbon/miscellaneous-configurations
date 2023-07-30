@@ -40,3 +40,5 @@ nmap <space>2 <Plug>(coc-rename)
 nmap <space>h <Plug>(coc-diagnostic-prev)
 nmap <space>l <Plug>(coc-diagnostic-next)
 
+let g:rust_recommended_style = 0
+
