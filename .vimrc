@@ -27,6 +27,7 @@ highlight Error NONE
 
 call plug#begin()
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 call plug#end()
 
 inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<cr>"
@@ -39,6 +40,8 @@ nmap <space>i <Plug>(coc-implementation)
 nmap <space>2 <Plug>(coc-rename)
 nmap <space>h <Plug>(coc-diagnostic-prev)
 nmap <space>l <Plug>(coc-diagnostic-next)
+
+nnoremap <space>f :FZF<cr>
 
 let g:rust_recommended_style = 0
 
