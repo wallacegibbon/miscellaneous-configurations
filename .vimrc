@@ -1,7 +1,7 @@
 "autocmd BufRead,BufNewFile *.xrl,*.yrl setlocal filetype=erlang
 "autocmd FileType c,cpp setlocal cinoptions=(s,:0,l1,g0,t0,N-s,E-s
 
-set nocompatible nosmartindent autoindent noincsearch title ruler number numberwidth=9 relativenumber modeline modelines=6 laststatus=2 fileformat=unix fileformats=unix encoding=utf-8 lispwords-=if lispwords+=match
+set nocompatible nosmartindent autoindent noincsearch title ruler number numberwidth=9 relativenumber modeline modelines=6 laststatus=0 fileformat=unix fileformats=unix encoding=utf-8 lispwords-=if lispwords+=match
 
 "let mapleader = "\<space>"
 
