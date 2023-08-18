@@ -1,20 +1,11 @@
----
-
-## https://zed0.co.uk/clang-format-configurator/
-
 BasedOnStyle: LLVM
-AllowShortBlocksOnASingleLine: 'true'
-#AllowShortCaseLabelsOnASingleLine: 'true'
-AllowShortIfStatementsOnASingleLine: WithoutElse
-AllowShortLambdasOnASingleLine: All
-AllowShortLoopsOnASingleLine: 'true'
-AlwaysBreakTemplateDeclarations: 'Yes'
-BinPackArguments: 'false'
-BinPackParameters: 'false'
+#BreakBeforeBraces: Linux
+ContinuationIndentWidth: 8
+IndentWidth: 8
+UseTab: Always
+AllowShortIfStatementsOnASingleLine: true
+AllowShortEnumsOnASingleLine: true
+IndentCaseLabels: false
+IndentGotoLabels: false
 AlignAfterOpenBracket: BlockIndent
-IndentWidth: 2
-ContinuationIndentWidth: 2
-ConstructorInitializerIndentWidth: 2
-AccessModifierOffset: -2
-
-...
+ColumnLimit: 0
