@@ -3,13 +3,13 @@
 [ -f /etc/mykeymap.gz ] || exit 0;
 
 case $1 in
-start)
-	loadkeys /etc/mykeymap.gz
-	;;
-*)
-	echo "Usage $0 {start}"
-	exit 1
-	;;
+  start)
+    loadkeys /etc/mykeymap.gz
+    ;;
+  *)
+    echo "Usage $0 {start}"
+    exit 1
+    ;;
 esac
 
 exit 0
