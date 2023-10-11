@@ -2,8 +2,8 @@ BasedOnStyle: LLVM
 #BreakBeforeBraces: Linux
 #ContinuationIndentWidth: 8
 #IndentWidth: 8
-ContinuationIndentWidth: 2
-IndentWidth: 2
+#ContinuationIndentWidth: 8
+IndentWidth: 4
 #UseTab: Always
 AllowShortIfStatementsOnASingleLine: true
 AllowShortEnumsOnASingleLine: true
