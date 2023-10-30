@@ -1,8 +1,8 @@
 #! /usr/bin/expect
 
-# this can push your target to the remote repository, but the local
-# push record will not be updated, this is not a function problem,
-# but it's annoying
+# this can push your target to the remote repository,
+# but the local push record will not be updated,
+# this is not a function problem, but it's annoying.
 
 set timeout 8
 spawn git push origin master
@@ -14,3 +14,4 @@ send "mega328\n"
 # maybe you should expect some output of git here
 expect eof
 exit
+

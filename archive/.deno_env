@@ -1,0 +1,14 @@
+#! /bin/sh
+
+## Add the following line to ~/.bashrc
+# . "$HOME/.deno_env"
+
+case ":${PATH}:" in
+*:"$HOME/.deno":*)
+	;;
+*)
+	export DENO_INSTALL="/home/wallace/.deno"
+	export PATH="$DENO_INSTALL/bin:$PATH"
+	;;
+esac
+

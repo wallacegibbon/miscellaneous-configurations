@@ -1,15 +1,16 @@
 #! /bin/bash
 
 case $1 in
-  English|english)
-    echo Loading English keymap ...
-    loadkeys /etc/console-setup/english.kmap.gz
-    ;;
-  Espanol|espanol)
-    echo Loading Espanol keymap ...
-    loadkeys /etc/console-setup/espanol.kmap.gz
-    ;;
-  *)
-    echo english or espanol
-    ;;
+English|english)
+	echo Loading English keymap ...
+	loadkeys /etc/console-setup/english.kmap.gz
+;;
+Espanol|espanol)
+	echo Loading Espanol keymap ...
+	loadkeys /etc/console-setup/espanol.kmap.gz
+;;
+*)
+	echo english or espanol
+;;
 esac
+

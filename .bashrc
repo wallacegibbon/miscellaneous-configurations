@@ -19,3 +19,4 @@ mesg n
 alias clojure="rlwrap -r -c -b \"(){}[],^%\\\$\#@\\\"\\\";:''|\\\\\" java -cp \`cat ~/leinpath\` clojure.main"
 
 alias cljs="rlwrap -r -c -b \"(){}[],^%\\\$\#@\\\"\\\";:''|\\\\\" java -cp \`cat ~/leinpath\` clojure.main -e \"(require 'cljs.repl.node 'cljs.repl)(cljs.repl/repl (cljs.repl.node/repl-env))\""
+
