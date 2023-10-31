@@ -11,7 +11,7 @@ FONTMAP=`cat /etc/vconsole.conf | sed -n 's/^FONT_MAP=\(.*\)/\1/p'`
 
 case $1 in
 start)
-	for C in 1 2 3 4 5 6; do
+	for C in $(seq 1 6); do
 		setfont $FONTNAME -m $FONTMAP -C /dev/tty$C
 	done
 	;;
