@@ -1,10 +1,15 @@
+"" Position of the initialization file of neovim: "~/.config/nvim/init.vim".
+
 "autocmd BufRead,BufNewFile *.xrl,*.yrl setlocal filetype=erlang
 "autocmd FileType c,cpp setlocal cinoptions=(s,:0,l1,g0,t0,N-s,E-s
 
 set nocompatible nosmartindent autoindent noincsearch title ruler modeline modelines=6 laststatus=0 fileformat=unix fileformats=unix encoding=utf-8
-set number numberwidth=9 relativenumber
+"set number numberwidth=9 relativenumber
 "set expandtab tabstop=2 softtabstop=2 shiftwidth=2
 "set lispwords-=if lispwords+=match
+
+"" "jumpoptions=stack" is the reason why I choose neovim.
+set jumpoptions=stack
 
 "let mapleader = "\<space>"
 
@@ -24,7 +29,7 @@ highlight Error NONE
 "highlight Comment cterm=bold
 "highlight String cterm=underline
 
-"colorscheme slate
+colorscheme slate
 
 "" Install "https://github.com/junegunn/vim-plug", then run ":PlugInstall" and ":CocInstall coc-tsserver coc-clangd".
 
