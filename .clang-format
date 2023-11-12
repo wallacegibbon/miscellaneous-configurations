@@ -3,9 +3,9 @@ BasedOnStyle: LLVM
 ContinuationIndentWidth: 8
 IndentWidth: 8
 UseTab: Always
-AllowShortIfStatementsOnASingleLine: true
-AllowShortEnumsOnASingleLine: true
 IndentCaseLabels: false
 IndentGotoLabels: false
 AlignAfterOpenBracket: BlockIndent
 ColumnLimit: 0
+#AllowShortIfStatementsOnASingleLine: true
+#AllowShortEnumsOnASingleLine: true
