@@ -1,0 +1,13 @@
+#! /bin/sh
+
+## Add the following line to ~/.bashrc
+# . "$HOME/.android_tool_env"
+
+case ":${PATH}:" in
+*:"$HOME/android-cmdline-tools/bin":*)
+	;;
+*)
+	export PATH="$HOME/android-cmdline-tools/bin:$PATH"
+	;;
+esac
+
