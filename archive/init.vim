@@ -1,9 +1,10 @@
-"" Position of the initialization file of neovim: "~/.config/nvim/init.vim".
+"" Position of the initialization file of neovim: "~/.config/nvim/init.vim" (Linux) or "~/AppData/Local/nvim/init.vim" (Windows).
 
 "autocmd BufRead,BufNewFile *.xrl,*.yrl setlocal filetype=erlang
 "autocmd FileType c,cpp setlocal cinoptions=(s,:0,l1,g0,t0,N-s,E-s
 
-set nocompatible nosmartindent autoindent noincsearch title ruler modeline modelines=6 laststatus=0 fileformat=unix fileformats=unix encoding=utf-8
+set nocompatible nosmartindent autoindent noincsearch title ruler modeline modelines=6 laststatus=0 encoding=utf-8
+"set fileformat=unix fileformats=unix
 "set number numberwidth=9 relativenumber
 "set expandtab tabstop=2 softtabstop=2 shiftwidth=2
 "set lispwords-=if lispwords+=match
@@ -54,4 +55,6 @@ nmap <space>p <Plug>(coc-format)
 nnoremap <space>f :FZF<cr>
 
 "let g:rust_recommended_style = 0
+
+"set guifont=Consolas:h16:i
 
