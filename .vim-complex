@@ -1,4 +1,5 @@
 "" vim: ft=vim :
+
 "autocmd BufRead,BufNewFile *.xrl,*.yrl setlocal filetype=erlang
 "autocmd FileType c,cpp setlocal cinoptions=(s,:0,l1,g0,t0,N-s,E-s
 
@@ -12,13 +13,6 @@ set nocompatible nosmartindent autoindent noincsearch title ruler modeline model
 set jumpoptions=stack
 
 "let mapleader = "\<space>"
-
-nnoremap <space>b :buffers<cr>:b<space>
-nnoremap <space>e :b#<cr>
-nnoremap <space>w :w<cr>
-nnoremap <space>q :qa<cr>
-inoremap jf <esc>
-cnoremap jf <c-c>
 
 filetype plugin on
 
