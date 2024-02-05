@@ -5,4 +5,5 @@ nnoremap <space>q :qa<cr>
 inoremap jf <esc>
 cnoremap jf <c-c>
 
-"source .vim-complex
+"source ~/.vim-complex
+
