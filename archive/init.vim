@@ -31,7 +31,7 @@ highlight Error NONE
 "highlight Comment cterm=bold
 "highlight String cterm=underline
 
-colorscheme slate
+"colorscheme slate
 
 "" Install "https://github.com/junegunn/vim-plug", then run ":PlugInstall" and ":CocInstall coc-tsserver coc-clangd".
 
@@ -56,5 +56,5 @@ nnoremap <space>f :FZF<cr>
 
 "let g:rust_recommended_style = 0
 
-"set guifont=Consolas:h16:i
+"set guifont=Consolas:h18:i
 
