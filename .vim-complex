@@ -25,6 +25,7 @@ highlight Error NONE
 "highlight String cterm=underline
 
 "" Install "https://github.com/junegunn/vim-plug", then run ":PlugInstall" and ":CocInstall coc-tsserver coc-clangd".
+"" Use ":CocConfig" to open the config file of COC. Add `"inlayHint.enable": false` to that file.
 
 call plug#begin()
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
