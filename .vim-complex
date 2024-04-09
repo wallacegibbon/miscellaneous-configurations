@@ -3,11 +3,14 @@
 "autocmd BufRead,BufNewFile *.xrl,*.yrl setlocal filetype=erlang
 "autocmd FileType c,cpp setlocal cinoptions=(s,:0,l1,g0,t0,N-s,E-s
 
-set nocompatible nosmartindent autoindent noincsearch title ruler modeline modelines=6 laststatus=0 encoding=utf-8 belloff=all
-"set number numberwidth=9 relativenumber
+set nocompatible nosmartindent autoindent noincsearch title ruler modeline modelines=6 laststatus=0 belloff=all
+set fileencodings=utf-8,latin-1,chinese,gbk,gb18030,gb2312 encoding=utf-8 langmenu=none
+set number numberwidth=9 relativenumber
 "set expandtab tabstop=2 softtabstop=2 shiftwidth=2
 "set fileformat=unix fileformats=unix
 "set lispwords-=if lispwords+=match
+
+language en
 
 "" "jumpoptions=stack" is not supported in old Vim. (older than Vim 9.0.1921)
 set jumpoptions=stack
