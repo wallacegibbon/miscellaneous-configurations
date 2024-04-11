@@ -4,12 +4,18 @@ auto lo eth0 wlan0
 
 iface lo inet loopback
 
-iface eth0 inet dhcp
-
 iface wlan0 inet static
 wpa-ssid mywifiname
 wpa-psk mywifipassword
 address 192.168.2.222
 netmask 255.255.255.0
 gateway 192.168.2.1
+
+allow-hotplug enp0s3
+iface enp0s3 inet dhcp
+
+allow-hotplug enp0s8
+iface enp0s8 inet static
+address 192.168.56.101
+netmask 255.255.255.0
 
