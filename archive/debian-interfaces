@@ -1,9 +1,9 @@
 # specify name server in /etc/resolv.conf
 
-auto lo eth0 wlan0
-
+auto lo
 iface lo inet loopback
 
+allow-hotplug wlan0
 iface wlan0 inet static
 wpa-ssid mywifiname
 wpa-psk mywifipassword

@@ -1,1 +1,28 @@
-wx	ALL=(ALL) NOPASSWD: ALL
+# vim: ft=sudoers :
+
+# In
+# 	root ALL = (ALL:ALL) ALL
+#
+# The 1st field indicates the username that the rule will apply to `root`
+# The 1st "ALL" indicates that this rule applies to all hosts.
+# The 2nd "ALL" indicates that the root user can run commands as all users.
+# The 3rd "ALL" indicates that the root user can run commands as all groups.
+# The 4th "ALL" indicates these rules apply to all commands.
+
+# Example 1:
+# In
+# 	wallace host1 = (operator) /bin/ls, (root) /bin/kill, /usr/bin/lprm
+#
+# User `wallace` is allowed to run /bin/ls as `operator`, and /bin/kill, /usr/bin/lprm as `root`.
+#
+# Example 2:
+# In
+# 	wallace ALL = (ALL:ALL) NOPASSWD: ALL, !/sbin/reboot
+# User `wallace` is allowed to run any command except /sbin/reboot.
+
+wallace ALL = (ALL:ALL) NOPASSWD: ALL
+
+# References:
+# https://askubuntu.com/a/546228
+# https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file
+
