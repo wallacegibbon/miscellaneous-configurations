@@ -1,0 +1,7 @@
+/// vim: ft=jsonc :
+/// This file should be in `~/vimfiles/` (for Windows) or `~/.vim/` (for Unix-like)
+/// You can also use `:CocConfig` to open this file.
+{
+	"inlayHint.enable": false,
+	"semanticTokens.enable": true
+}
