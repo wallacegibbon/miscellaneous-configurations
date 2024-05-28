@@ -55,4 +55,5 @@ nmap <space>p <Plug>(coc-format)
 nnoremap <space>f :FZF<cr>
 
 "let g:rust_recommended_style = 0
+let g:markdown_recommended_style = 0
 
