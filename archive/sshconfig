@@ -1,4 +1,4 @@
-## vim: set filetype=sshconfig :
+## vim:ft=sshconfig
 
 ## put the following content into `~/.ssh/config`
 Host github.com

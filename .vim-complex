@@ -1,4 +1,4 @@
-"" vim: ft=vim :
+"" vim:ft=vim
 
 "autocmd BufRead,BufNewFile *.xrl,*.yrl setlocal filetype=erlang
 autocmd BufRead,BufNewFile *.S,*.s,*.asm setlocal filetype=asm

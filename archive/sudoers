@@ -1,4 +1,4 @@
-# vim: ft=sudoers :
+# vim:ft=sudoers
 
 # In
 # 	root ALL = (ALL:ALL) ALL
