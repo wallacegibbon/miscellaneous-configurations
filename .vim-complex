@@ -56,4 +56,6 @@ nnoremap <space>f :FZF<cr>
 
 "let g:rust_recommended_style = 0
 let g:markdown_recommended_style = 0
+"" Compound literals is not well supported by the default vim syntax for C yet.
+let g:c_no_curly_error = 1
 
