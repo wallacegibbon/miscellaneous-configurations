@@ -29,7 +29,8 @@ highlight Error NONE
 "highlight Comment cterm=bold
 "highlight String cterm=underline
 
-"" Install "https://github.com/junegunn/vim-plug", then run ":PlugInstall" and ":CocInstall coc-tsserver coc-clangd".
+"" Install "https://github.com/junegunn/vim-plug", then run ":PlugInstall" and ":CocInstall coc-clangd coc-tsserver".
+"" COC plugins (node modules) are in "~/AppData/Local/coc/extensions" on Windows or "~/.config/coc/extensions/" on Unix.
 "" Use ":CocConfig" to open the config file of COC. Add `"inlayHint.enable": false` to that file.
 
 call plug#begin()
