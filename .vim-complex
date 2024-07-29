@@ -4,6 +4,7 @@
 autocmd BufRead,BufNewFile *.S,*.s,*.asm setlocal filetype=asm
 autocmd BufRead,BufNewFile *.hex,*.ihx setlocal filetype=hex
 "autocmd FileType c,cpp setlocal cinoptions=(s,:0,l1,g0,t0,N-s,E-s
+"autocmd BufRead,BufNewFile * colorscheme default
 
 set nocompatible nosmartindent autoindent noincsearch title ruler modeline modelines=6 laststatus=0 belloff=all
 set fileencodings=utf-8,latin-1,chinese,gbk,gb2312,gb18030 encoding=utf-8 langmenu=none
