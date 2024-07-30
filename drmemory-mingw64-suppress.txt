@@ -1,0 +1,4 @@
+UNADDRESSABLE ACCESS
+name=bug #2248 (___chkstk_ms seems to be not supported yet by drmemory)
+...
+KERNEL32.dll!BaseThreadInitThunk
