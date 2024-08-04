@@ -3,6 +3,7 @@
 "autocmd FileType c,cpp setlocal cinoptions=(s,:0,l1,g0,t0,N-s,E-s
 "autocmd BufRead,BufNewFile *.xrl setlocal filetype=erlang
 autocmd BufRead,BufNewFile *.yrl setlocal filetype=erlang
+autocmd BufRead,BufNewFile *.escript setlocal filetype=erlang
 autocmd BufRead,BufNewFile *.e setlocal filetype=elang
 autocmd BufRead,BufNewFile *.S,*.s,*.asm setlocal filetype=asm
 autocmd BufRead,BufNewFile *.hex,*.ihx setlocal filetype=hex
