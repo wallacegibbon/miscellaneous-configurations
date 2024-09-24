@@ -39,6 +39,7 @@ highlight Error NONE
 call plug#begin()
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'rescript-lang/vim-rescript'
 call plug#end()
 
 inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<cr>"
