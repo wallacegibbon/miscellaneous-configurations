@@ -1,7 +1,6 @@
 # vim:ft=sudoers
 
-# In
-# 	root ALL = (ALL:ALL) ALL
+# root ALL = (ALL:ALL) ALL
 #
 # The 1st field indicates the username that the rule will apply to `root`
 # The 1st "ALL" indicates that this rule applies to all hosts.
@@ -10,14 +9,15 @@
 # The 4th "ALL" indicates these rules apply to all commands.
 
 # Example 1:
-# In
-# 	wallace host1 = (operator) /bin/ls, (root) /bin/kill, /usr/bin/lprm
+#
+# wallace host1 = (operator) /bin/ls, (root) /bin/kill, /usr/bin/lprm
 #
 # User `wallace` is allowed to run /bin/ls as `operator`, and /bin/kill, /usr/bin/lprm as `root`.
-#
+
 # Example 2:
-# In
-# 	wallace ALL = (ALL:ALL) NOPASSWD: ALL, !/sbin/reboot
+#
+# wallace ALL = (ALL:ALL) NOPASSWD: ALL, !/sbin/reboot
+#
 # User `wallace` is allowed to run any command except /sbin/reboot.
 
 wallace ALL = (ALL:ALL) NOPASSWD: ALL

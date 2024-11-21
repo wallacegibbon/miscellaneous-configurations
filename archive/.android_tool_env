@@ -5,9 +5,9 @@
 
 case ":${PATH}:" in
 *:"$HOME/android-cmdline-tools/bin":*)
-	;;
+    ;;
 *)
-	export PATH="$HOME/android-cmdline-tools/bin:$PATH"
-	;;
+    export PATH="$HOME/android-cmdline-tools/bin:$PATH"
+    ;;
 esac
 

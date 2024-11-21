@@ -4,6 +4,6 @@
 /// You can also call `:CocConfig` in Vim to open the configuration file.
 
 {
-	"inlayHint.enable": false,
-	"semanticTokens.enable": true
+    "inlayHint.enable": false,
+    "semanticTokens.enable": true
 }

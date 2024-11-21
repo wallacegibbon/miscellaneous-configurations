@@ -1,10 +1,9 @@
 (defun add-to-exec-and-env (pathname)
-  "Add `pathname' to environment variable PATH and emacs's exec-path. return t
-when it is added, and nil when it's already in PATH"
+  "Add `pathname' to environment variable PATH and emacs's exec-path. return t when it is added, and nil when it's already in PATH"
   (add-to-list 'exec-path pathname t)
   (let ((env-path (getenv "PATH")))
     (if (string-match-p (regexp-quote pathname) env-path)
-	nil
+        nil
       (setenv "PATH" (concat pathname ":" env-path))
       t)))
 
@@ -18,7 +17,7 @@ when it is added, and nil when it's already in PATH"
   "Make valid font string that can be the argument of `set-frame-font'."
   (let ((font-size (if (surfacepro-p) 14 11)))
     (and font-name
-	 (format "%s-%d" font-name font-size))))
+         (format "%s-%d" font-name font-size))))
 
 
 (defun config-non-console-height ()
@@ -29,8 +28,8 @@ when it is added, and nil when it's already in PATH"
 
 (defun config-non-console-font (&optional font-str)
   (let* ((prefered-fonts '("ubuntu mono" "menlo" "consolas" "monospace"))
-	 (default-font (seq-find #'x-list-fonts prefered-fonts))
-	 (font (appropriate-font (or font-str default-font))))
+         (default-font (seq-find #'x-list-fonts prefered-fonts))
+         (font (appropriate-font (or font-str default-font))))
     (message "Setting font to %s" font)
     (set-frame-font font)))
 
@@ -47,24 +46,24 @@ when it is added, and nil when it's already in PATH"
 (require 'package)
 
 (add-to-list 'package-archives
-	     '("gnu" . "https://elpa.gnu.org/packages/")
-	     t)
+             '("gnu" . "https://elpa.gnu.org/packages/")
+             t)
 
 (add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/")
-	     t)
+             '("melpa" . "https://melpa.org/packages/")
+             t)
 
 (add-to-list 'package-archives
-	     '("org" . "https://orgmode.org/elpa/")
-	     t)
+             '("org" . "https://orgmode.org/elpa/")
+             t)
 
 (package-initialize)
 
 
 ;;; configure the face
 (add-hook 'window-setup-hook
-	  (lambda ()
-	    (when window-system (customize-window-system))))
+          (lambda ()
+            (when window-system (customize-window-system))))
 
 
 (column-number-mode t)
@@ -79,9 +78,9 @@ when it is added, and nil when it's already in PATH"
 
 
 ;; (set-face-attribute 'mode-line nil
-;; 		    :box nil :foreground "white" :background "blue")
+;;                     :box nil :foreground "white" :background "blue")
 ;; (set-face-attribute 'mode-line-inactive nil
-;; 		    :box nil)
+;;                     :box nil)
 
 
 (add-to-exec-and-env "/usr/local/bin")
@@ -96,37 +95,37 @@ when it is added, and nil when it's already in PATH"
   "Update the alist TARGET-ALIST with argument PAIRS"
   (dolist (d pairs)
     (setcdr (assoc (car d) target-alist)
-	    (cdr d))))
+            (cdr d))))
 
 
 ;;; change the indent of enum definition and array initialization.
 (add-hook 'c-mode-common-hook
-	  (lambda ()
-	    (alist-update c-offsets-alist
-			  '((brace-list-intro . +)))))
+          (lambda ()
+            (alist-update c-offsets-alist
+                          '((brace-list-intro . +)))))
 
 ;;; change the indent of struct definition.
 (add-hook 'c-mode-hook
-	  (lambda ()
-	    (alist-update c-offsets-alist
-			  '((class-open . +)
-			    (class-close . +)))))
+          (lambda ()
+            (alist-update c-offsets-alist
+                          '((class-open . +)
+                            (class-close . +)))))
 
 
 ;;; configurations for web
 (add-hook 'js-mode-hook
-	  (lambda ()
-	    (setq js-indent-level 2)))
+          (lambda ()
+            (setq js-indent-level 2)))
 
 (add-hook 'css-mode-hook
-	  (lambda ()
-	    (setq css-indent-offset 2)))
+          (lambda ()
+            (setq css-indent-offset 2)))
 
 
 ;; the clojure mode will use space rather than tab, fix it
 (add-hook 'clojure-mode-hook
-	  (lambda ()
-	    (setq indent-tabs-mode t)))
+          (lambda ()
+            (setq indent-tabs-mode t)))
 
 
 ;;; miscellaneous functions
@@ -145,8 +144,8 @@ when it is added, and nil when it's already in PATH"
 ;; (setq slime-contribs '(slime-fancy slime-cl-indent))
 ;; (require 'slime)
 ;; (add-hook 'slime-mode-hook
-;; 	  (lambda ()
-;; 	    (local-set-key (kbd "C-j") #'slime-eval-print-last-expression)))
+;;           (lambda ()
+;;             (local-set-key (kbd "C-j") #'slime-eval-print-last-expression)))
 
 
 ;;; Scheme

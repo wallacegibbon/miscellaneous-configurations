@@ -19,11 +19,11 @@
 
 (defun power-info ()
   (list (read-number-from-file
-	 "/sys/class/power_supply/axp288_fuel_gauge/charge_now")
-	(read-number-from-file
-	 "/sys/class/power_supply/axp288_fuel_gauge/charge_full")
-	(read-file-trim
-	 "/sys/class/power_supply/axp288_fuel_gauge/status")))
+         "/sys/class/power_supply/axp288_fuel_gauge/charge_now")
+        (read-number-from-file
+         "/sys/class/power_supply/axp288_fuel_gauge/charge_full")
+        (read-file-trim
+         "/sys/class/power_supply/axp288_fuel_gauge/status")))
 
 
 (defun thermal-cpu ()
@@ -32,11 +32,11 @@
 
 (defun power-info-string ()
   (let* ((v-info (power-info))
-	 (now (car v-info))
-	 (max (cadr v-info))
-	 (status (caddr v-info)))
+         (now (car v-info))
+         (max (cadr v-info))
+         (status (caddr v-info)))
     (format "%.2f%% (%s)"
-	    (* 100 (/ now max 1.0)) status)))
+            (* 100 (/ now max 1.0)) status)))
 
 
 (defun thermal-cpu-string ()
@@ -46,6 +46,6 @@
 (defun misc-info-show ()
   (interactive)
   (message "CPU temperature: %s, Power: %s"
-	   (thermal-cpu-string)
-	   (power-info-string)))
+           (thermal-cpu-string)
+           (power-info-string)))
 
