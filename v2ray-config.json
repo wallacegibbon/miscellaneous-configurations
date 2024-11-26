@@ -1,0 +1,38 @@
+{
+    "dns": {
+        "servers": ["223.5.5.5", "180.76.76.76"]
+    },
+    "inbounds": [
+        {
+            "listen": "0.0.0.0",
+            "port": 8082,
+            "protocol": "http",
+            "settings": { "allowTransparent": true, "timeout": 300 },
+            "tag": "http_IN"
+        },
+        {
+            "listen": "0.0.0.0",
+            "port": 8081,
+            "protocol": "socks",
+            "settings": { "auth": "noauth", "ip": "0.0.0.0", "udp": true },
+            "tag": "socks_IN"
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "shadowsocks",
+            "sendThrough": "0.0.0.0",
+            "settings": {
+                "servers": [
+                    {
+                        "address": "",
+                        "method": "aes-128-gcm",
+                        "password": "",
+                        "port": 1234
+                    }
+                ]
+            },
+            "tag": "PROXY"
+        }
+    ]
+}
