@@ -1,0 +1,10 @@
+"editor.tokenColorCustomizations": {
+    "textMateRules": [
+        {
+            "scope": ["comment", "constant", "emphasis", "entity", "invalid", "keyword", "markup", "meta", "storage", "string", "strong", "support", "variable"],
+            "settings": {
+                "fontStyle": "italic"
+            }
+        }
+    ],
+},
