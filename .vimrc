@@ -2,10 +2,10 @@
 
 "autocmd FileType c,cpp setlocal cinoptions=(s,:0,l1,g0,t0,N-s,E-s
 autocmd BufRead,BufNewFile *.yrl,*.escript,*.es setlocal filetype=erlang
-autocmd BufRead,BufNewFile *.pl,*.pro setlocal filetype=prolog
-autocmd BufRead,BufNewFile *.e setlocal filetype=elang
+"autocmd BufRead,BufNewFile *.pl,*.pro setlocal filetype=prolog
 autocmd BufRead,BufNewFile *.S,*.s,*.asm setlocal filetype=asm
 autocmd BufRead,BufNewFile *.hex,*.ihx setlocal filetype=hex
+autocmd BufRead,BufNewFile *.e setlocal filetype=elang
 "autocmd BufRead,BufNewFile * colorscheme default
 
 set nocompatible nosmartindent autoindent noincsearch title ruler modeline modelines=6 laststatus=0 belloff=all
@@ -33,13 +33,12 @@ highlight Error NONE
 "highlight String cterm=underline
 
 "" Install "https://github.com/junegunn/vim-plug", then run ":PlugInstall" and ":CocInstall coc-clangd coc-tsserver".
-"" COC plugins (node modules) are in "~/AppData/Local/coc/extensions" on Windows or "~/.config/coc/extensions/" on Unix.
+"" COC plugins are in "~/AppData/Local/coc/extensions" on Windows and "~/.config/coc/extensions/" on Unix.
 "" Use ":CocConfig" to open the config file of COC. Add `"inlayHint.enable": false` to that file.
 
 call plug#begin()
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'rescript-lang/vim-rescript'
 call plug#end()
 
 inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<cr>"
@@ -71,4 +70,3 @@ cnoremap jf <c-c>
 let g:markdown_recommended_style = 0
 "" Compound literals is not well supported by the default vim syntax for C yet.
 let g:c_no_curly_error = 1
-
