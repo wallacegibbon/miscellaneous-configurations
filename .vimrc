@@ -8,7 +8,7 @@ autocmd BufRead,BufNewFile *.hex,*.ihx setlocal filetype=hex
 autocmd BufRead,BufNewFile *.e setlocal filetype=elang
 "autocmd BufRead,BufNewFile * colorscheme default
 
-set nocompatible nosmartindent autoindent noincsearch title ruler modeline modelines=6 laststatus=0 belloff=all
+set nocompatible nosmartindent autoindent noincsearch nostartofline title ruler modeline modelines=6 laststatus=0 belloff=all
 set fileencodings=utf-8,latin-1,chinese,gbk,gb2312,gb18030 encoding=utf-8 langmenu=none
 set number numberwidth=9 relativenumber
 set expandtab tabstop=4 softtabstop=4 shiftwidth=4
