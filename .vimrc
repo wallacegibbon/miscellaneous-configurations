@@ -1,6 +1,6 @@
 "" vim:ft=vim
 
-"autocmd FileType c,cpp setlocal cinoptions=(s,:0,l1,g0,t0,N-s,E-s
+autocmd FileType c,cpp setlocal cinoptions=(0,:0,g0,t0,N-s,E-s
 autocmd BufRead,BufNewFile *.yrl,*.escript,*.es setlocal filetype=erlang
 "autocmd BufRead,BufNewFile *.pl,*.pro setlocal filetype=prolog
 autocmd BufRead,BufNewFile *.S,*.s,*.asm setlocal filetype=asm
@@ -8,23 +8,24 @@ autocmd BufRead,BufNewFile *.hex,*.ihx setlocal filetype=hex
 autocmd BufRead,BufNewFile *.e setlocal filetype=elang
 "autocmd BufRead,BufNewFile * colorscheme default
 
-set nocompatible nosmartindent autoindent noincsearch nostartofline title ruler modeline modelines=6 laststatus=0 belloff=all
-set fileencodings=utf-8,latin-1,chinese,gbk,gb2312,gb18030 encoding=utf-8 langmenu=none
-set number numberwidth=9 relativenumber
-set expandtab tabstop=4 softtabstop=4 shiftwidth=4
-"set fileformat=unix fileformats=unix
-"set lispwords-=if lispwords+=match
-
-language C
-
 "" "jumpoptions=stack" is not supported in old Vim. (older than Vim 9.0.1921)
 set jumpoptions=stack
+
+set nocompatible smartindent noincsearch nostartofline
+set expandtab tabstop=4 softtabstop=4 shiftwidth=4
+set number numberwidth=9 relativenumber
+"set fileformat=unix fileformats=unix
+"set lispwords-=if lispwords+=match
+set title ruler modeline modelines=6 laststatus=0 belloff=all
+set fileencodings=utf-8,latin-1,chinese,gbk,gb2312,gb18030 encoding=utf-8 langmenu=none
+
+language C
 
 "let mapleader = "\<space>"
 
 filetype plugin on
 
-"" The "syntax on" command have to be before the "highlight ..." commands to make highlight working.
+"" "syntax on" have to be before "highlight ..." to make highlight working.
 syntax on
 
 highlight Error NONE
@@ -32,9 +33,15 @@ highlight Error NONE
 "highlight Comment cterm=bold
 "highlight String cterm=underline
 
-"" Install "https://github.com/junegunn/vim-plug", then run ":PlugInstall" and ":CocInstall coc-clangd coc-tsserver".
-"" COC plugins are in "~/AppData/Local/coc/extensions" on Windows and "~/.config/coc/extensions/" on Unix.
-"" Use ":CocConfig" to open the config file of COC. Add `"inlayHint.enable": false` to that file.
+"" Install "https://github.com/junegunn/vim-plug",
+"" then run ":PlugInstall" and ":CocInstall coc-clangd coc-tsserver".
+
+"" COC plugins are in "~/AppData/Local/coc/extensions" on Windows
+"" and "~/.config/coc/extensions/" on Unix.
+"" You can use `npm` to install the extensions, too.
+
+"" Use ":CocConfig" to open the config file of COC.
+"" Add `"inlayHint.enable": false` to that file.
 
 call plug#begin()
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -68,5 +75,5 @@ cnoremap jf <c-c>
 
 "let g:rust_recommended_style = 0
 let g:markdown_recommended_style = 0
-"" Compound literals is not well supported by the default vim syntax for C yet.
+"" Compound literals are not well supported by C syntax yet.
 let g:c_no_curly_error = 1
