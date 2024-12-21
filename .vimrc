@@ -12,7 +12,7 @@ autocmd FileType c,cpp setlocal cinoptions=(0,:0,g0,t0,N-s,E-s
 set jumpoptions=stack
 
 set nocompatible smartindent noincsearch nostartofline
-set expandtab tabstop=2 softtabstop=2 shiftwidth=2
+set expandtab tabstop=4 softtabstop=4 shiftwidth=4
 set number numberwidth=9 relativenumber
 "set fileformat=unix fileformats=unix
 "set lispwords-=if lispwords+=match
@@ -39,7 +39,6 @@ highlight Error NONE
 call plug#begin()
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'elixir-editors/vim-elixir'
 call plug#end()
 
 "" Run ":CocInstall coc-clangd coc-tsserver" to install COC plugins.
