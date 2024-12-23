@@ -11,7 +11,7 @@ autocmd FileType c,cpp setlocal cinoptions=(0,:0,g0,t0,N-s,E-s
 "" "jumpoptions=stack" is not supported in old Vim. (older than Vim 9.0.1921)
 set jumpoptions=stack
 
-set nocompatible smartindent noincsearch nostartofline
+set nocompatible smartindent noincsearch nostartofline scrolloff=0
 set expandtab tabstop=4 softtabstop=4 shiftwidth=4
 set number numberwidth=9 relativenumber
 "set fileformat=unix fileformats=unix
