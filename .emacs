@@ -30,12 +30,35 @@
 	    (show-paren-mode t)
 	    (setq-local column-number-mode t)
 	    (display-line-numbers-mode t)
-	    (setq-local display-line-numbers-width 8)))
+	    (setq-local display-line-numbers-width 8)
+	    (pixel-scroll-precision-mode)))
 
-(setq lisp-indent-function 'common-lisp-indent-function)
+(setq lisp-indent-function #'common-lisp-indent-function)
+(setq ring-bell-function 'ignore)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+
+(defun filter-mwheel-always-coalesce (orig &rest args)
+  "A filter function suitable for :around advices that ensures only
+coalesced scroll events reach the advised function."
+  (if mwheel-coalesce-scroll-events
+      (apply orig args)
+    (setq mwheel-coalesce-scroll-events t)))
+
+(defun filter-mwheel-never-coalesce (orig &rest args)
+  "A filter function suitable for :around advices that ensures only
+non-coalesced scroll events reach the advised function."
+  (if mwheel-coalesce-scroll-events
+      (setq mwheel-coalesce-scroll-events nil)
+    (apply orig args)))
+
+(advice-add 'pixel-scroll-precision :around #'filter-mwheel-never-coalesce)
+
+;; Coalesce for default scrolling (which is still used for horizontal scrolling)
+;; and text scaling (bound to ctrl + mouse wheel by default).
+(advice-add 'mwheel-scroll :around #'filter-mwheel-always-coalesce)
+(advice-add 'mouse-wheel-text-scale :around #'filter-mwheel-always-coalesce)
 
 
 (require 'package)
