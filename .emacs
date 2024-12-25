@@ -102,6 +102,14 @@
   (slime-eval-print string))
 
 
+(defun find-file-by-pattern (directory pattern)
+  "Find the first file in DIRECTORY matching PATTERN and return its full path.
+PATTERN is a regular expression to match file names."
+  (let* ((files (directory-files directory t)))
+    (seq-find (lambda (file)
+		(string-match-p pattern (file-name-nondirectory file)))
+	      files)))
+
 ;;; Erlang
 (setq erlang-root-dir (cond ((memq system-type '(windows-nt ms-dos))
 			     "C:/Program Files/Erlang OTP")
@@ -113,15 +121,6 @@
 		     "/emacs"))
 
 (require 'erlang-start)
-
-
-(defun find-file-by-pattern (directory pattern)
-  "Find the first file in DIRECTORY matching PATTERN and return its full path.
-PATTERN is a regular expression to match file names."
-  (let* ((files (directory-files directory t)))
-    (seq-find (lambda (file)
-		(string-match-p pattern (file-name-nondirectory file)))
-	      files)))
 
 
 ;;; Auto complete
