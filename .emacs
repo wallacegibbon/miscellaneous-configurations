@@ -64,11 +64,9 @@ return t when it is added, and nil when it's already in PATH."
 (require 'slime)
 (add-hook 'slime-mode-hook
 	  (lambda ()
-	    (local-set-key (kbd "C-j") #'slime-eval-print-last-expression)))
+	    (local-set-key (kbd "C-j") #'slime-eval-print-last-expression-split-window)))
 
 ;;; Scheme
-;;; The scheme configuration comes from YinWang's configuration:
-;;; https://www.yinwang.org/blog-cn/2013/04/11/scheme-setup
 (setq scheme-program-name "scheme")
 (require 'cmuscheme)
 (add-hook 'scheme-mode-hook
@@ -91,21 +89,27 @@ return t when it is added, and nil when it's already in PATH."
   (switch-to-buffer name)
   (other-window 1))
 
-(defun scheme-split-window ()
+(defun my-split-window (window-name)
   (cond
     ((= 1 (count-windows))
-     (split-window-vertically (floor (* 0.68 (window-height))))
-     ;; (split-window-horizontally (floor (* 0.5 (window-width))))
-     (switch-other-window-to-buffer "*scheme*"))
-    ((not (member "*scheme*"
+     (split-window-vertically (floor (* 0.5 (window-height))))
+     (switch-other-window-to-buffer window-name))
+    ((not (member window-name
 		  (mapcar (lambda (w) (buffer-name (window-buffer w)))
 			  (window-list))))
-     (switch-other-window-to-buffer "*scheme*"))))
+     (switch-other-window-to-buffer window-name))))
 
 (defun scheme-send-last-sexp-split-window ()
   (interactive)
-  (scheme-split-window)
+  (my-split-window "*scheme*")
   (scheme-send-last-sexp))
+
+(defun slime-eval-print-last-expression-split-window (string)
+  "This function is modified from `slime-eval-print-last-expression'."
+  (interactive (list (slime-last-expression)))
+  (my-split-window "*slime-repl sbcl*")
+  (insert "\n")
+  (slime-eval-print string))
 
 ;;; Auto complete
 (require 'auto-complete)
