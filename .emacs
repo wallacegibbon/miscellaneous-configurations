@@ -80,7 +80,7 @@ return t when it is added, and nil when it's already in PATH."
                (get-buffer scheme-buffer)
                (comint-check-proc scheme-buffer))
     (save-window-excursion
-      (run-scheme scheme-program-name)))
+     (run-scheme scheme-program-name)))
   (or (scheme-get-process)
       (error "No current process. See variable `scheme-buffer'")))
 
