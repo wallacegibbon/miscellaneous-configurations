@@ -15,16 +15,12 @@
 (defun is-high-resolution-screen ()
   t)
 
-(defun customize-window-system ()
-  (config-non-console-font)
-  (add-to-list 'default-frame-alist '(fullscreen . maximized))
-  (load-theme 'deeper-blue t))
-
 (add-hook 'emacs-startup-hook
 	  (lambda ()
 	    (when window-system
-	      (customize-window-system))))
-
+	      (add-to-list 'default-frame-alist '(fullscreen . maximized))
+	      (load-theme 'deeper-blue t)
+	      (config-non-console-font))))
 
 (add-hook 'prog-mode-hook
 	  (lambda ()
@@ -34,11 +30,20 @@
 	    (setq-local display-line-numbers-width 8)
 	    (pixel-scroll-precision-mode)))
 
-(when (eq system-type 'windows-nt)
-  (setq w32-pass-alt-to-system nil)
-  (setq w32-recognize-altgr nil))
+;;; In Emacs 29, `lisp-indent-function' was changed to improve the way indentation is handled,
+;;; and `common-lisp-indent-function' no longer works the same way for Emacs Lisp.
+(defun my-common-lisp-if-indent (indent-point state)
+  (let ((normal-indent (current-column)))
+    (goto-char (1+ (car state))) ; Go to the second element (the body)
+    (parse-partial-sexp (point) indent-point 0 t)
+    (+ normal-indent 1)))
 
-(setq lisp-indent-function #'common-lisp-indent-function)
+(add-hook 'emacs-lisp-mode-hook
+          (lambda ()
+	    ;; Set the custom function for `if`
+            (put 'if 'lisp-indent-function #'my-common-lisp-if-indent)))
+
+
 (setq ring-bell-function 'ignore)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -50,21 +55,24 @@
 coalesced scroll events reach the advised function."
   (if mwheel-coalesce-scroll-events
       (apply orig args)
-    (setq mwheel-coalesce-scroll-events t)))
+      (setq mwheel-coalesce-scroll-events t)))
 
 (defun filter-mwheel-never-coalesce (orig &rest args)
   "A filter function suitable for :around advices that ensures only
 non-coalesced scroll events reach the advised function."
   (if mwheel-coalesce-scroll-events
       (setq mwheel-coalesce-scroll-events nil)
-    (apply orig args)))
+      (apply orig args)))
 
-(advice-add 'pixel-scroll-precision :around #'filter-mwheel-never-coalesce)
+(advice-add 'pixel-scroll-precision
+	    :around #'filter-mwheel-never-coalesce)
 
 ;; Coalesce for default scrolling (which is still used for horizontal scrolling)
 ;; and text scaling (bound to ctrl + mouse wheel by default).
-(advice-add 'mwheel-scroll :around #'filter-mwheel-always-coalesce)
-(advice-add 'mouse-wheel-text-scale :around #'filter-mwheel-always-coalesce)
+(advice-add 'mwheel-scroll
+	    :around #'filter-mwheel-always-coalesce)
+(advice-add 'mouse-wheel-text-scale
+	    :around #'filter-mwheel-always-coalesce)
 
 
 (require 'package)
@@ -147,7 +155,7 @@ non-coalesced scroll events reach the advised function."
 (defun find-file-by-pattern (directory pattern)
   "Find the first file in DIRECTORY matching PATTERN and return its full path.
 PATTERN is a regular expression to match file names."
-  (let* ((files (directory-files directory t)))
+  (let ((files (directory-files directory t)))
     (seq-find (lambda (file)
 		(string-match-p pattern (file-name-nondirectory file)))
 	      files)))
