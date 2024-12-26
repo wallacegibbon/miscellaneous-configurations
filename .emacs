@@ -103,7 +103,7 @@ non-coalesced scroll events reach the advised function."
 (require 'slime)
 (add-hook 'slime-mode-hook
 	  (lambda ()
-	    (local-set-key (kbd "C-j") #'slime-eval-print-last-expression-split-window)))
+	    (local-set-key (kbd "C-<return>") #'slime-eval-print-last-expression-split-window)))
 
 
 ;;; Scheme
@@ -111,7 +111,7 @@ non-coalesced scroll events reach the advised function."
 (require 'cmuscheme)
 (add-hook 'scheme-mode-hook
 	  (lambda ()
-	    (local-set-key (kbd "C-j") #'scheme-send-last-sexp-split-window)))
+	    (local-set-key (kbd "C-<return>") #'scheme-send-last-sexp-split-window)))
 
 
 ;; bypass the interactive question and start the default interpreter
