@@ -19,7 +19,8 @@
 	  (lambda ()
 	    (when window-system
 	      (add-to-list 'default-frame-alist '(fullscreen . maximized))
-	      (load-theme 'deeper-blue t)
+					;(load-theme 'deeper-blue t)
+	      (load-theme 'dichromacy t)
 	      (config-non-console-font))))
 
 (add-hook 'prog-mode-hook
@@ -176,3 +177,11 @@ PATTERN is a regular expression to match file names."
 ;;; Auto complete
 (require 'auto-complete)
 (ac-config-default)
+
+;;; Magit
+(require 'magit)
+
+
+(custom-set-variables
+ '(package-selected-packages '(magit slime paredit auto-complete)))
+
