@@ -25,6 +25,7 @@
 	    (when window-system
 	      (customize-window-system))))
 
+
 (add-hook 'prog-mode-hook
 	  (lambda ()
 	    (show-paren-mode t)
@@ -72,7 +73,20 @@ non-coalesced scroll events reach the advised function."
 (setq url-proxy-services '(("http" . "localhost:8082")
 			   ("https" . "localhost:8082")))
 
-;;; `slime' and `auto-complete' are not builtin packages, we need to install them.
+;;; To install packages, just type `M-x' and `package-install'.
+
+
+(require 'paredit)
+
+;;; `paredit' is useful for all lisp dialects.
+(defun shared-lisp-configuration ()
+  (paredit-mode)
+  (local-set-key (kbd "C-0") #'paredit-forward-slurp-sexp)
+  (local-set-key (kbd "C-9") #'paredit-forward-barf-sexp))
+
+(add-hook 'lisp-mode-hook #'shared-lisp-configuration)
+(add-hook 'emacs-lisp-mode-hook #'shared-lisp-configuration)
+(add-hook 'scheme-mode-hook #'shared-lisp-configuration)
 
 
 ;;; Common Lisp
