@@ -33,11 +33,16 @@
 	    (setq-local display-line-numbers-width 8)
 	    (pixel-scroll-precision-mode)))
 
+(when (eq system-type 'windows-nt)
+  (setq w32-pass-alt-to-system nil)
+  (setq w32-recognize-altgr nil))
+
 (setq lisp-indent-function #'common-lisp-indent-function)
 (setq ring-bell-function 'ignore)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+
 
 (defun filter-mwheel-always-coalesce (orig &rest args)
   "A filter function suitable for :around advices that ensures only
