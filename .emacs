@@ -169,13 +169,12 @@ PATTERN is a regular expression to match file names."
 (require 'erlang-start)
 
 
-;;; Auto complete
-(require 'auto-complete)
-(ac-config-default)
+;;; Company (auto complete)
+(add-hook 'after-init-hook #'global-company-mode)
 
 ;;; Magit
 (require 'magit)
 
 
 (custom-set-variables
- '(package-selected-packages '(magit paredit auto-complete)))
+ '(package-selected-packages '(company magit paredit)))
