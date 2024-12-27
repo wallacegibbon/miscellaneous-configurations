@@ -80,14 +80,21 @@ non-coalesced scroll events reach the advised function."
 	    :around #'filter-mwheel-always-coalesce)
 
 
+;;; Update package indexes: `M-x' and `package-refresh-contents'.
+;;; Install new package: `M-x' and `package-install'.
+;;; Install selected packages: `M-x' and `package-install-selected-packages'.
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
 (setq url-proxy-services '(("http" . "localhost:8082")
 			   ("https" . "localhost:8082")))
 
-;;; Update  package : `M-x' and `package-refresh-contents'.
-;;; Install package : `M-x' and `package-install'.
+(custom-set-variables
+ '(package-selected-packages '(company magit paredit)))
+
+(custom-set-faces
+ )
 
 
 (require 'paredit)
@@ -155,7 +162,8 @@ PATTERN is a regular expression to match file names."
 (defun first-existing-path (path-list)
   (seq-find #'file-exists-p path-list))
 
-;;; Erlang
+
+;;; Erlang (Not installed from elpa, but from the OTP library)
 (setq erlang-root-dir
       (cond ((eq system-type 'windows-nt)
 	     "C:/Program Files/Erlang OTP")
@@ -175,6 +183,3 @@ PATTERN is a regular expression to match file names."
 ;;; Magit
 (require 'magit)
 
-
-(custom-set-variables
- '(package-selected-packages '(company magit paredit)))
