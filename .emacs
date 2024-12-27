@@ -41,9 +41,9 @@
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
-	    ;; Set the custom function for `if`
             (put 'if 'lisp-indent-function #'my-common-lisp-if-indent)))
 
+;;; Windows lack some basic tools like `diff`. use those provided by Git toolchain.
 (when (eq system-type 'windows-nt)
   (add-to-list 'exec-path "C:/Program Files/Git/usr/bin"))
 
@@ -53,9 +53,9 @@
 (scroll-bar-mode -1)
 
 ;;; Display time in mode lines.
-(display-time-mode)
 ;;(setq display-time-interval 1)
-(setq display-time-format "%I:%M:%S")
+(setq display-time-format "%F %R")
+(display-time-mode)
 
 (defun filter-mwheel-always-coalesce (orig &rest args)
   "A filter function suitable for :around advices that ensures only
