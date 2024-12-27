@@ -50,6 +50,10 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 
+;;; Display time in mode lines.
+(display-time-mode)
+;;(setq display-time-interval 1)
+(setq display-time-format "%I:%M:%S")
 
 (defun filter-mwheel-always-coalesce (orig &rest args)
   "A filter function suitable for :around advices that ensures only
