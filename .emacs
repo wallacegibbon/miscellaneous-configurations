@@ -44,6 +44,8 @@
 	    ;; Set the custom function for `if`
             (put 'if 'lisp-indent-function #'my-common-lisp-if-indent)))
 
+(when (eq system-type 'windows-nt)
+  (add-to-list 'exec-path "C:/Program Files/Git/usr/bin"))
 
 (setq ring-bell-function 'ignore)
 (tool-bar-mode -1)
