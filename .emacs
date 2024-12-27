@@ -19,7 +19,7 @@
 	  (lambda ()
 	    (when window-system
 	      (add-to-list 'default-frame-alist '(fullscreen . maximized))
-					;(load-theme 'deeper-blue t)
+	      ;;(load-theme 'deeper-blue t)
 	      (load-theme 'dichromacy t)
 	      (config-non-console-font))))
 
@@ -82,7 +82,8 @@ non-coalesced scroll events reach the advised function."
 (setq url-proxy-services '(("http" . "localhost:8082")
 			   ("https" . "localhost:8082")))
 
-;;; To install packages, just type `M-x' and `package-install'.
+;;; Update  package : `M-x' and `package-refresh-contents'.
+;;; Install package : `M-x' and `package-install'.
 
 
 (require 'paredit)
@@ -98,17 +99,10 @@ non-coalesced scroll events reach the advised function."
 (add-hook 'scheme-mode-hook #'shared-lisp-configuration)
 
 
-;;; Common Lisp
-(setq inferior-lisp-program "sbcl")
-(setq slime-contribs '(slime-fancy slime-cl-indent))
-(require 'slime)
-(add-hook 'slime-mode-hook
-	  (lambda ()
-	    (local-set-key (kbd "C-<return>") #'slime-eval-print-last-expression-split-window)))
-
-
 ;;; Scheme
-(setq scheme-program-name "scheme")
+(setq scheme-program-name "scheme")	; Chez Scheme
+;;(setq scheme-program-name "racket")	; Racket
+
 (require 'cmuscheme)
 (add-hook 'scheme-mode-hook
 	  (lambda ()
@@ -145,13 +139,6 @@ non-coalesced scroll events reach the advised function."
   (my-split-window "*scheme*")
   (scheme-send-last-sexp))
 
-(defun slime-eval-print-last-expression-split-window (string)
-  "This function is modified from `slime-eval-print-last-expression'."
-  (interactive (list (slime-last-expression)))
-  (my-split-window "*slime-repl sbcl*")
-  (insert "\n")
-  (slime-eval-print string))
-
 
 (defun find-file-by-pattern (directory pattern)
   "Find the first file in DIRECTORY matching PATTERN and return its full path.
@@ -161,11 +148,15 @@ PATTERN is a regular expression to match file names."
 		(string-match-p pattern (file-name-nondirectory file)))
 	      files)))
 
+(defun first-existing-path (path-list)
+  (seq-find #'file-exists-p path-list))
+
 ;;; Erlang
-(setq erlang-root-dir (cond ((memq system-type '(windows-nt ms-dos))
-			     "C:/Program Files/Erlang OTP")
-			    (t
-			     "/usr/local/lib/erlang")))
+(setq erlang-root-dir
+      (cond ((eq system-type 'windows-nt)
+	     "C:/Program Files/Erlang OTP")
+	    (t
+	     (seq-find #'file-directory-p '("/usr/local/lib/erlang" "/usr/lib/erlang")))))
 
 (add-to-list 'load-path
 	     (concat (find-file-by-pattern (concat erlang-root-dir "/lib") "^tools*")
@@ -183,5 +174,4 @@ PATTERN is a regular expression to match file names."
 
 
 (custom-set-variables
- '(package-selected-packages '(magit slime paredit auto-complete)))
-
+ '(package-selected-packages '(magit paredit auto-complete)))
