@@ -48,6 +48,7 @@
   (add-to-list 'exec-path "C:/Program Files/Git/usr/bin"))
 
 (setq ring-bell-function 'ignore)
+(setq inhibit-startup-screen t)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
