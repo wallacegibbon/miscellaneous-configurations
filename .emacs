@@ -74,8 +74,8 @@ non-coalesced scroll events reach the advised function."
 (advice-add 'pixel-scroll-precision
 	    :around #'filter-mwheel-never-coalesce)
 
-;; Coalesce for default scrolling (which is still used for horizontal scrolling)
-;; and text scaling (bound to ctrl + mouse wheel by default).
+;;; Coalesce for default scrolling (which is still used for horizontal scrolling)
+;;; and text scaling (bound to ctrl + mouse wheel by default).
 (advice-add 'mwheel-scroll
 	    :around #'filter-mwheel-always-coalesce)
 (advice-add 'mouse-wheel-text-scale
@@ -89,8 +89,8 @@ non-coalesced scroll events reach the advised function."
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
-(setq url-proxy-services '(("http" . "localhost:8082")
-			   ("https" . "localhost:8082")))
+(setq url-proxy-services '(("http" . "localhost:7890")
+			   ("https" . "localhost:7890")))
 
 (custom-set-variables
  '(package-selected-packages '(company magit paredit)))
@@ -114,7 +114,7 @@ non-coalesced scroll events reach the advised function."
 
 ;;; Scheme
 (setq scheme-program-name "scheme")	; Chez Scheme
-;;(setq scheme-program-name "racket")	; Racket
+;; (setq scheme-program-name "racket")	; Racket
 
 (require 'cmuscheme)
 (add-hook 'scheme-mode-hook
@@ -122,7 +122,7 @@ non-coalesced scroll events reach the advised function."
 	    (local-set-key (kbd "C-<return>") #'scheme-send-last-sexp-split-window)))
 
 
-;; bypass the interactive question and start the default interpreter
+;;; Bypass the interactive question and start the default interpreter
 (defun scheme-proc ()
   "Return the current Scheme process, starting one if necessary."
   (unless (and scheme-buffer
