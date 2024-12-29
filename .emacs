@@ -54,9 +54,9 @@
 (scroll-bar-mode -1)
 
 ;;; Display time in mode lines.
-;;(setq display-time-interval 1)
-(setq display-time-format "%F %R")
-(display-time-mode)
+;; (setq display-time-interval 1)
+;; (setq display-time-format "%F %R")
+;; (display-time-mode)
 
 (defun filter-mwheel-always-coalesce (orig &rest args)
   "A filter function suitable for :around advices that ensures only
@@ -105,8 +105,8 @@ non-coalesced scroll events reach the advised function."
 ;;; `paredit' is useful for all lisp dialects.
 (defun shared-lisp-configuration ()
   (paredit-mode)
-  (local-set-key (kbd "C-0") #'paredit-forward-slurp-sexp)
-  (local-set-key (kbd "C-9") #'paredit-forward-barf-sexp))
+  (local-set-key (kbd "C-.") #'paredit-forward-slurp-sexp)
+  (local-set-key (kbd "C-,") #'paredit-forward-barf-sexp))
 
 (add-hook 'lisp-mode-hook #'shared-lisp-configuration)
 (add-hook 'emacs-lisp-mode-hook #'shared-lisp-configuration)
@@ -114,8 +114,9 @@ non-coalesced scroll events reach the advised function."
 
 
 ;;; Scheme
-(setq scheme-program-name "scheme")	; Chez Scheme
-;; (setq scheme-program-name "racket")	; Racket
+(setq scheme-program-name "scheme")
+;; (setq scheme-program-name "guile")
+;; (setq scheme-program-name "racket")
 
 (require 'cmuscheme)
 (add-hook 'scheme-mode-hook
