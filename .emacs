@@ -1,15 +1,19 @@
 (defun config-non-console-font (&optional font-string)
-  (let* ((prefered-fonts '("cascadia code" "consolas" "ubuntu mono" "menlo" "monospace"))
+  (let* ((prefered-fonts '("cascadia code" "ubuntu mono" "menlo" "consolas" "monospace"))
 	 (default-font (seq-find #'x-list-fonts prefered-fonts))
-	 (font (appropriate-font (or font-string default-font))))
+	 (font (get-appropriate-font (or font-string default-font))))
     (message "Setting font to %s" font)
     (set-frame-font font)))
 
-(defun appropriate-font (font-name)
+(defun get-appropriate-font (font-name)
   "Make a valid font string who can be used as the argument of `set-frame-font'."
-  (let ((font-size (if (is-high-resolution-screen) 20 16)))
-    (and font-name
-	 (format "%s-%d" font-name font-size))))
+  (if font-name
+      (format "%s-%d" font-name (get-appropriate-font-size))
+      "NOFONT"))
+
+(defun get-appropriate-font-size ()
+  (cond ((is-high-resolution-screen) 20)
+	(t 16)))
 
 ;;; TODO: check screen resolution on runtime
 (defun is-high-resolution-screen ()
