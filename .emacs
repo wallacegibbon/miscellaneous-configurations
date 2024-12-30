@@ -118,8 +118,8 @@ non-coalesced scroll events reach the advised function."
 
 
 ;;; Scheme
-(setq scheme-program-name "scheme")
-;; (setq scheme-program-name "guile")
+(setq scheme-program-name "guile")
+;; (setq scheme-program-name "scheme")
 ;; (setq scheme-program-name "racket")
 
 (require 'cmuscheme)
