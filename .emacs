@@ -33,7 +33,7 @@
 	    (setq-local column-number-mode t)
 	    (display-line-numbers-mode t)
 	    (setq-local display-line-numbers-width 8)
-	    (pixel-scroll-precision-mode)))
+	    (pixel-scroll-precision-mode t)))
 
 ;;; In Emacs 29, `lisp-indent-function' was changed to improve the way indentation is handled,
 ;;; and `common-lisp-indent-function' no longer works the same way for Emacs Lisp.
@@ -60,7 +60,7 @@
 ;;; Display time in mode lines.
 ;; (setq display-time-interval 1)
 ;; (setq display-time-format "%F %R")
-;; (display-time-mode)
+;; (display-time-mode t)
 
 (defun filter-mwheel-always-coalesce (orig &rest args)
   "A filter function suitable for :around advices that ensures only
@@ -87,6 +87,12 @@ non-coalesced scroll events reach the advised function."
 	    :around #'filter-mwheel-always-coalesce)
 
 
+;;; Enable the awesome IDO mode. (Included in Emacs since 23.1 (2017))
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode t)
+
+
 ;;; Update package indexes: `M-x' and `package-refresh-contents'.
 ;;; Install new package: `M-x' and `package-install'.
 ;;; Install selected packages: `M-x' and `package-install-selected-packages'.
@@ -108,7 +114,7 @@ non-coalesced scroll events reach the advised function."
 
 ;;; `paredit' is useful for all lisp dialects.
 (defun shared-lisp-configuration ()
-  (paredit-mode)
+  (paredit-mode t)
   (local-set-key (kbd "C-.") #'paredit-forward-slurp-sexp)
   (local-set-key (kbd "C-,") #'paredit-forward-barf-sexp))
 
