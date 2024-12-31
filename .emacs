@@ -159,7 +159,7 @@ Return t when it is added, and nil when it's already in PATH."
 (defun switch-other-window-to-buffer (name)
   (other-window 1)
   (switch-to-buffer name)
-  (other-window 1))
+  (other-window -1))
 
 (defun my-split-window (window-name)
   (cond ((= 1 (count-windows))
