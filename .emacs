@@ -74,28 +74,10 @@ Return t when it is added, and nil when it's already in PATH."
 
 ;;; Enable the pixel scrolling mode. (Supported since Emacs 29)
 (pixel-scroll-precision-mode 1)
-
-(defun filter-mwheel-always-coalesce (orig &rest args)
-  (if mwheel-coalesce-scroll-events
-      (apply orig args)
-      (setq mwheel-coalesce-scroll-events t)))
-
-(defun filter-mwheel-never-coalesce (orig &rest args)
-  (when mwheel-coalesce-scroll-events
-    (setq mwheel-coalesce-scroll-events nil))
-  (apply orig args))
-
-;;; Use smoother vertical scrolling.
-(advice-add 'pixel-scroll-precision
-	    :around #'filter-mwheel-never-coalesce)
-
-;;; Keep other scrollings (like horizontal scrolling) the old way.
-(advice-add 'mwheel-scroll
-	    :around #'filter-mwheel-always-coalesce)
-
-;;; Text scaling (by Ctrl + mouse wheel) would be hard to use if events are not coalesced.
-(advice-add 'mouse-wheel-text-scale
-	    :around #'filter-mwheel-always-coalesce)
+;;; Interpolate scrolling via the Page Down and Page Up keys.
+(setq pixel-scroll-precision-interpolate-page t)
+;;; Make it fluent when bottom got scrolled out of screen and then scrolled back.
+(setq scroll-conservatively 10000)
 
 
 ;;; Enable the awesome IDO mode. (Included in Emacs since 23.1 (2017))
