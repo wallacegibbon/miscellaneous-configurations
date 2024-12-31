@@ -9,9 +9,9 @@ Return t when it is added, and nil when it's already in PATH."
   (add-to-list 'exec-path pathname)
   (let ((env-path (getenv "PATH")))
     (if (string-match-p (regexp-quote pathname) env-path)
-        nil
+	nil
 	(progn (setenv "PATH" (join-path pathname env-path))
-               t))))
+	       t))))
 
 (defun join-path (new-path old-path)
   (concat new-path
@@ -68,8 +68,8 @@ Return t when it is added, and nil when it's already in PATH."
     (+ normal-indent 1)))
 
 (add-hook 'emacs-lisp-mode-hook
-          (lambda ()
-            (put 'if 'lisp-indent-function #'my-common-lisp-if-indent)))
+	  (lambda ()
+	    (put 'if 'lisp-indent-function #'my-common-lisp-if-indent)))
 
 
 ;;; Enable the pixel scrolling mode. (Supported since Emacs 29)
