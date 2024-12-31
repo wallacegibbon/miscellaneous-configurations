@@ -1,3 +1,23 @@
+(defun add-to-exec-and-env (pathname)
+  "Add `pathname' to both environment variable `PATH' and Emacs's `exec-path'.
+
+Adding to `exec-path' will make commands in `pathname' usable for tool like `ediff'.
+But tools like `eshell' still don't know commands in `pathname'.
+That's why we need to add it to `PATH', too.
+
+Return t when it is added, and nil when it's already in PATH."
+  (add-to-list 'exec-path pathname t)
+  (let ((env-path (getenv "PATH")))
+    (if (string-match-p (regexp-quote pathname) env-path)
+        nil
+	(progn (setenv "PATH" (concat pathname ":" env-path))
+               t))))
+
+;;; Windows lack some basic tools like `diff`. use those provided by Git toolchain.
+(when (eq system-type 'windows-nt)
+  (add-to-exec-and-env "C:/Program Files/Git/usr/bin"))
+
+
 (defun config-non-console-font (&optional font-string)
   (let* ((prefered-fonts '("cascadia code" "ubuntu mono" "menlo" "consolas" "monospace"))
 	 (default-font (seq-find #'x-list-fonts prefered-fonts))
@@ -40,11 +60,6 @@
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
             (put 'if 'lisp-indent-function #'my-common-lisp-if-indent)))
-
-
-;;; Windows lack some basic tools like `diff`. use those provided by Git toolchain.
-(when (eq system-type 'windows-nt)
-  (add-to-list 'exec-path "C:/Program Files/Git/usr/bin"))
 
 
 ;;; Enable the pixel scrolling mode. (Supported since Emacs 29)
