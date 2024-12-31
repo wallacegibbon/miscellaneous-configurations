@@ -1,20 +1,30 @@
 (defun add-to-exec-and-env (pathname)
   "Add `pathname' to both environment variable `PATH' and Emacs's `exec-path'.
 
-Adding to `exec-path' will make commands in `pathname' usable for tool like `ediff'.
-But tools like `eshell' still don't know commands in `pathname'.
+Adding to `exec-path' will make commands inside `pathname' usable for tools like `ediff'.
+But other tools like shell (inside emacs) still don't know commands in `pathname'.
 That's why we need to add it to `PATH', too.
 
 Return t when it is added, and nil when it's already in PATH."
-  (add-to-list 'exec-path pathname t)
+  (add-to-list 'exec-path pathname)
   (let ((env-path (getenv "PATH")))
     (if (string-match-p (regexp-quote pathname) env-path)
         nil
-	(progn (setenv "PATH" (concat pathname ":" env-path))
+	(progn (setenv "PATH" (join-path pathname env-path))
                t))))
 
-;;; Windows lack some basic tools like `diff`. use those provided by Git toolchain.
+(defun join-path (new-path old-path)
+  (concat new-path
+	  (if (eq system-type 'windows-nt) ";" ":")
+	  old-path))
+
+;;; Windows specific configurations.
 (when (eq system-type 'windows-nt)
+  (setq explicit-shell-file-name "C:/Program Files/Git/bin/bash.exe")
+  (setq shell-file-name "bash")
+  (setq explicit-bash-args '("--login" "-i"))
+  (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)
+  ;; Necessary for `eshell' to use Unix tools like `diff'.
   (add-to-exec-and-env "C:/Program Files/Git/usr/bin"))
 
 
