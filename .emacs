@@ -5,35 +5,29 @@
     (message "Setting font to %s" font)
     (set-frame-font font)))
 
+(defvar *default-font-size* 20)
+
 (defun get-appropriate-font (font-name)
   "Make a valid font string who can be used as the argument of `set-frame-font'."
   (if font-name
-      (format "%s-%d" font-name (get-appropriate-font-size))
+      (format "%s-%d" font-name *default-font-size*)
       "NOFONT"))
-
-(defun get-appropriate-font-size ()
-  (cond ((is-high-resolution-screen) 20)
-	(t 16)))
-
-;;; TODO: check screen resolution on runtime
-(defun is-high-resolution-screen ()
-  t)
 
 (add-hook 'emacs-startup-hook
 	  (lambda ()
 	    (when window-system
 	      (add-to-list 'default-frame-alist '(fullscreen . maximized))
-	      ;;(load-theme 'deeper-blue t)
 	      (load-theme 'dichromacy t)
 	      (config-non-console-font))))
 
+
 (add-hook 'prog-mode-hook
 	  (lambda ()
-	    (show-paren-mode t)
-	    (setq-local column-number-mode t)
-	    (display-line-numbers-mode t)
-	    (setq-local display-line-numbers-width 8)
-	    (pixel-scroll-precision-mode t)))
+	    (show-paren-mode 1)
+	    (setq-local column-number-mode 1)
+	    (display-line-numbers-mode 1)
+	    (setq-local display-line-numbers-width 8)))
+
 
 ;;; In Emacs 29, `lisp-indent-function' was changed to improve the way indentation is handled,
 ;;; and `common-lisp-indent-function' no longer works the same way for Emacs Lisp.
@@ -47,42 +41,34 @@
           (lambda ()
             (put 'if 'lisp-indent-function #'my-common-lisp-if-indent)))
 
+
 ;;; Windows lack some basic tools like `diff`. use those provided by Git toolchain.
 (when (eq system-type 'windows-nt)
   (add-to-list 'exec-path "C:/Program Files/Git/usr/bin"))
 
-(setq ring-bell-function 'ignore)
-(setq inhibit-startup-screen t)
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
 
-;;; Display time in mode lines.
-;; (setq display-time-interval 1)
-;; (setq display-time-format "%F %R")
-;; (display-time-mode t)
+;;; Enable the pixel scrolling mode. (Supported since Emacs 29)
+(pixel-scroll-precision-mode 1)
 
 (defun filter-mwheel-always-coalesce (orig &rest args)
-  "A filter function suitable for :around advices that ensures only
-coalesced scroll events reach the advised function."
   (if mwheel-coalesce-scroll-events
       (apply orig args)
       (setq mwheel-coalesce-scroll-events t)))
 
 (defun filter-mwheel-never-coalesce (orig &rest args)
-  "A filter function suitable for :around advices that ensures only
-non-coalesced scroll events reach the advised function."
-  (if mwheel-coalesce-scroll-events
-      (setq mwheel-coalesce-scroll-events nil)
-      (apply orig args)))
+  (when mwheel-coalesce-scroll-events
+    (setq mwheel-coalesce-scroll-events nil))
+  (apply orig args))
 
+;;; Use smoother vertical scrolling.
 (advice-add 'pixel-scroll-precision
 	    :around #'filter-mwheel-never-coalesce)
 
-;;; Coalesce for default scrolling (which is still used for horizontal scrolling)
-;;; and text scaling (bound to ctrl + mouse wheel by default).
+;;; Keep other scrollings (like horizontal scrolling) the old way.
 (advice-add 'mwheel-scroll
 	    :around #'filter-mwheel-always-coalesce)
+
+;;; Text scaling (by Ctrl + mouse wheel) would be hard to use if events are not coalesced.
 (advice-add 'mouse-wheel-text-scale
 	    :around #'filter-mwheel-always-coalesce)
 
@@ -90,7 +76,7 @@ non-coalesced scroll events reach the advised function."
 ;;; Enable the awesome IDO mode. (Included in Emacs since 23.1 (2017))
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
-(ido-mode t)
+(ido-mode 1)
 
 
 ;;; Update package indexes: `M-x' and `package-refresh-contents'.
@@ -114,7 +100,7 @@ non-coalesced scroll events reach the advised function."
 
 ;;; `paredit' is useful for all lisp dialects.
 (defun shared-lisp-configuration ()
-  (paredit-mode t)
+  (paredit-mode 1)
   (local-set-key (kbd "C-.") #'paredit-forward-slurp-sexp)
   (local-set-key (kbd "C-,") #'paredit-forward-barf-sexp))
 
@@ -194,6 +180,20 @@ PATTERN is a regular expression to match file names."
 ;;; Company (auto complete)
 (add-hook 'after-init-hook #'global-company-mode)
 
+
 ;;; Magit
 (require 'magit)
 
+
+;;; Miscellaneous global configurations.
+(setq ring-bell-function 'ignore)
+(setq inhibit-startup-screen t)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+
+
+;;; Display time in mode lines.
+;; (setq display-time-interval 1)
+;; (setq display-time-format "%F %R")
+;; (display-time-mode 1)
