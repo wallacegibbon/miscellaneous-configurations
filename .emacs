@@ -76,6 +76,9 @@ Return t when it is added, and nil when it's already in PATH."
 	    (local-set-key (kbd "C-c l") #'dictionary-lookup-definition)
 	    (text-scale-adjust -2)))
 
+(when (eq system-type 'windows-nt)
+  (setq dictionary-server "dict.org"))
+
 
 ;;; In Emacs 29, `lisp-indent-function' was changed to improve the way indentation is handled,
 ;;; and `common-lisp-indent-function' no longer works the same way for Emacs Lisp.
