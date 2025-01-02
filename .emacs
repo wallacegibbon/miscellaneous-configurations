@@ -50,13 +50,31 @@ Return t when it is added, and nil when it's already in PATH."
 	      (load-theme 'dichromacy t)
 	      (config-non-console-font))))
 
-
 (add-hook 'prog-mode-hook
 	  (lambda ()
-	    (show-paren-mode 1)
+	    (setq-local display-line-numbers-width 8)
 	    (setq-local column-number-mode 1)
 	    (display-line-numbers-mode 1)
-	    (setq-local display-line-numbers-width 8)))
+	    (show-paren-mode 1)))
+
+
+;;; Dictionary (which is provided since Emacs 28) setting:
+;;; Install `dictd' first: apt install dictd dict dict-{wn,vera,jargon,devil,gcide,foldoc}
+;;; Start `dictd' on startup: systemctl enable dictd
+
+(add-hook 'eww-mode-hook
+	  (lambda ()
+	    (local-set-key (kbd "C-c l") #'dictionary-lookup-definition)
+	    (text-scale-adjust -1)))
+
+(add-hook 'Info-mode-hook
+	  (lambda ()
+	    (local-set-key (kbd "C-c l") #'dictionary-lookup-definition)))
+
+(add-hook 'dictionary-mode-hook
+	  (lambda ()
+	    (local-set-key (kbd "C-c l") #'dictionary-lookup-definition)
+	    (text-scale-adjust -2)))
 
 
 ;;; In Emacs 29, `lisp-indent-function' was changed to improve the way indentation is handled,
