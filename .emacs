@@ -141,7 +141,7 @@ Return t when it is added, and nil when it's already in PATH."
 ;; (setq scheme-program-name "racket")
 
 (setq geiser-mode-eval-last-sexp-to-buffer t)
-(setq geiser-mode-eval-to-buffer-prefix "\n;=> ")
+(setq geiser-mode-eval-to-buffer-prefix "\n;;> ")
 
 (add-hook 'geiser-mode-hook
 	  (lambda ()
