@@ -106,6 +106,8 @@ Return t when it is added, and nil when it's already in PATH."
 (setq ido-everywhere t)
 (ido-mode 1)
 
+;;; Disable image loading of EWW. (Since image loading can slow down emacs)
+(setq shr-inhibit-images t)
 
 ;;; Update package indexes: `M-x' and `package-refresh-contents'.
 ;;; Install new package: `M-x' and `package-install'.
