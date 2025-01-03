@@ -64,16 +64,16 @@ Return t when it is added, and nil when it's already in PATH."
 
 (add-hook 'eww-mode-hook
 	  (lambda ()
-	    (local-set-key (kbd "C-c l") #'dictionary-lookup-definition)
+	    (keymap-local-set "C-c l" #'dictionary-lookup-definition)
 	    (text-scale-adjust -1)))
 
 (add-hook 'Info-mode-hook
 	  (lambda ()
-	    (local-set-key (kbd "C-c l") #'dictionary-lookup-definition)))
+	    (keymap-local-set "C-c l" #'dictionary-lookup-definition)))
 
 (add-hook 'dictionary-mode-hook
 	  (lambda ()
-	    (local-set-key (kbd "C-c l") #'dictionary-lookup-definition)
+	    (keymap-local-set "C-c l" #'dictionary-lookup-definition)
 	    (text-scale-adjust -2)))
 
 (when (eq system-type 'windows-nt)
@@ -118,7 +118,7 @@ Return t when it is added, and nil when it's already in PATH."
 			   ("https" . "localhost:7890")))
 
 (custom-set-variables
- '(package-selected-packages '(company magit paredit)))
+ '(package-selected-packages '(geiser-guile company magit paredit)))
 
 (custom-set-faces
  )
@@ -128,9 +128,7 @@ Return t when it is added, and nil when it's already in PATH."
 
 ;;; `paredit' is useful for all lisp dialects.
 (defun shared-lisp-configuration ()
-  (paredit-mode 1)
-  (local-set-key (kbd "C-.") #'paredit-forward-slurp-sexp)
-  (local-set-key (kbd "C-,") #'paredit-forward-barf-sexp))
+  (paredit-mode 1))
 
 (add-hook 'lisp-mode-hook #'shared-lisp-configuration)
 (add-hook 'emacs-lisp-mode-hook #'shared-lisp-configuration)
@@ -142,41 +140,12 @@ Return t when it is added, and nil when it's already in PATH."
 ;; (setq scheme-program-name "scheme")
 ;; (setq scheme-program-name "racket")
 
-(require 'cmuscheme)
-(add-hook 'scheme-mode-hook
+(setq geiser-mode-eval-last-sexp-to-buffer t)
+(setq geiser-mode-eval-to-buffer-prefix "\n;=> )")
+
+(add-hook 'geiser-mode-hook
 	  (lambda ()
-	    (local-set-key (kbd "C-<return>") #'scheme-send-last-sexp-split-window)))
-
-
-;;; Bypass the interactive question and start the default interpreter
-(defun scheme-proc ()
-  "Return the current Scheme process, starting one if necessary."
-  (unless (and scheme-buffer
-	       (get-buffer scheme-buffer)
-	       (comint-check-proc scheme-buffer))
-    (save-window-excursion
-      (run-scheme scheme-program-name)))
-  (or (scheme-get-process)
-      (error "No current process. See variable `scheme-buffer'")))
-
-(defun switch-other-window-to-buffer (name)
-  (other-window 1)
-  (switch-to-buffer name)
-  (other-window -1))
-
-(defun my-split-window (window-name)
-  (cond ((= 1 (count-windows))
-	 (split-window-vertically (floor (* 0.5 (window-height))))
-	 (switch-other-window-to-buffer window-name))
-	((not (member window-name
-		      (mapcar (lambda (w) (buffer-name (window-buffer w)))
-			      (window-list))))
-	 (switch-other-window-to-buffer window-name))))
-
-(defun scheme-send-last-sexp-split-window ()
-  (interactive)
-  (my-split-window "*scheme*")
-  (scheme-send-last-sexp))
+	    (keymap-local-set "C-<return>" #'geiser-eval-last-sexp)))
 
 
 (defun find-file-by-pattern (directory pattern)
@@ -198,6 +167,7 @@ PATTERN is a regular expression to match file names."
 	    (t
 	     (seq-find #'file-directory-p '("/usr/local/lib/erlang" "/usr/lib/erlang")))))
 
+;;; Add Erlang package path to `load-path'.
 (add-to-list 'load-path
 	     (concat (find-file-by-pattern (concat erlang-root-dir "/lib") "^tools*")
 		     "/emacs"))
