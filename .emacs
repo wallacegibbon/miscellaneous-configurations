@@ -94,7 +94,7 @@ Return t when it is added, and nil when it's already in PATH."
 
 (add-hook 'scheme-mode-hook
 	  (lambda ()
-	    (put 'with-ellipsis #'scheme-indent-function 1)))
+	    (put 'with-ellipsis 'scheme-indent-function 1)))
 
 ;;; Enable the pixel scrolling mode. (Supported since Emacs 29)
 (pixel-scroll-precision-mode 1)
