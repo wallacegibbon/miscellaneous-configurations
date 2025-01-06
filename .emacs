@@ -104,6 +104,10 @@ know commands in `pathname'.  That's why we need to add it to
 ;; 	  (lambda ()
 ;; 	    (put 'with-ellipsis 'scheme-indent-function 1)))
 
+(add-hook 'lisp-interaction-mode-hook
+	  (lambda ()
+	    (keymap-local-set "C-<return>" #'eval-print-last-sexp)))
+
 
 ;;; Enable the pixel scrolling mode.  (Supported since Emacs 29)
 (pixel-scroll-precision-mode 1)
