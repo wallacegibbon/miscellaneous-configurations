@@ -61,6 +61,10 @@ know commands in `pathname'.  That's why we need to add it to
 	    (show-paren-mode 1)))
 
 
+;;; Disable image loading of EWW.  (Image loading can slow down emacs)
+(setq shr-inhibit-images t)
+
+
 ;;; Dictionary (which is provided since Emacs 28) setting:
 ;;; Install `dictd' first: apt install dictd dict dict-{wn,vera,jargon,devil,gcide,foldoc}
 ;;; Start `dictd' on startup: systemctl enable dictd
@@ -96,9 +100,10 @@ know commands in `pathname'.  That's why we need to add it to
 ;; 	  (lambda ()
 ;; 	    (put 'if 'lisp-indent-function #'my-common-lisp-if-indent)))
 
-(add-hook 'scheme-mode-hook
-	  (lambda ()
-	    (put 'with-ellipsis 'scheme-indent-function 1)))
+;; (add-hook 'scheme-mode-hook
+;; 	  (lambda ()
+;; 	    (put 'with-ellipsis 'scheme-indent-function 1)))
+
 
 ;;; Enable the pixel scrolling mode.  (Supported since Emacs 29)
 (pixel-scroll-precision-mode 1)
@@ -113,9 +118,6 @@ know commands in `pathname'.  That's why we need to add it to
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
-
-;;; Disable image loading of EWW.  (Image loading can slow down emacs)
-(setq shr-inhibit-images t)
 
 ;;; Update package indexes: `M-x' and `package-refresh-contents'.
 ;;; Install new package: `M-x' and `package-install'.
@@ -176,11 +178,10 @@ file names."
 
 ;;; Erlang (Not installed from elpa, but from the OTP library)
 (setq erlang-root-dir
-      (cond ((eq system-type 'windows-nt)
-	     "C:/Program Files/Erlang OTP")
-	    (t
-	     (seq-find #'file-directory-p
-		       '("/usr/local/lib/erlang" "/usr/lib/erlang")))))
+      (if (eq system-type 'windows-nt)
+	  "C:/Program Files/Erlang OTP"
+	(seq-find #'file-directory-p
+		  '("/usr/local/lib/erlang" "/usr/lib/erlang"))))
 
 ;;; Add Erlang package path to `load-path'.
 (add-to-list 'load-path
