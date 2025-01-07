@@ -169,7 +169,7 @@ know commands in `pathname'.  That's why we need to add it to
 			   ("https" . "localhost:7890")))
 
 (custom-set-variables
- '(package-selected-packages '(geiser-guile company magit paredit)))
+ '(package-selected-packages '(slime geiser-guile company magit paredit)))
 
 (custom-set-faces
  )
@@ -187,6 +187,16 @@ know commands in `pathname'.  That's why we need to add it to
 (add-hook 'emacs-lisp-mode-hook #'shared-lisp-configuration)
 (add-hook 'lisp-mode-hook #'shared-lisp-configuration)
 (add-hook 'scheme-mode-hook #'shared-lisp-configuration)
+
+
+;;; Common Lisp
+(setq inferior-lisp-program "sbcl")
+(setq slime-contribs '(slime-fancy slime-cl-indent))
+(require 'slime)
+
+(add-hook 'slime-mode-hook
+	  (lambda ()
+	    (keymap-local-set "C-<return>" #'slime-eval-last-expression)))
 
 
 ;;; Scheme
