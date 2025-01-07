@@ -1,3 +1,31 @@
+;;; The way to use Emacs ergonomically: Using SPACE as both SPACE and CTRL.
+;;;
+;;; - https://www.emacswiki.org/emacs/MovingTheCtrlKey
+;;; - https://github.com/pietroiusti/janus-key
+;;; - https://github.com/wallacegibbon/janus-key (the fork I use)
+;;;
+;;; This could cause some delay during content input, which is annoying for
+;;; writting documents but okay for writting code.
+
+;;; Since the SPACE key is used for CTRL, we can't press Ctrl-Space anymore.
+;;; The original function for "C-t" is not so useful, we use it for
+;;; `set-mark-command'.
+(keymap-global-set "C-t" #'set-mark-command)
+
+;;; The "C-z" is not useful in GUI environment.
+(keymap-global-unset "C-z")
+
+(setq fill-column 80)
+(setq ring-bell-function 'ignore)
+(setq inhibit-startup-screen t)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+
+;; (setq display-time-interval 1)
+(setq display-time-format "%F %R")
+;; (display-time-mode 1)
+
 (defun add-to-exec-and-env (pathname)
   "Add `pathname' to both environment variable `PATH' and Emacs's
 `exec-path'.  Return `t' when it is added, and `nil' when it's
@@ -88,8 +116,8 @@ know commands in `pathname'.  That's why we need to add it to
 
 
 ;;; In Emacs 29, `lisp-indent-function' was changed to improve the way
-;;; indentation is handled, and `common-lisp-indent-function' no
-;;; longer works the same way for Emacs Lisp.
+;;; indentation is handled, and `common-lisp-indent-function' no longer works
+;;; the same way for Emacs Lisp.
 ;; (defun my-common-lisp-if-indent (indent-point state)
 ;;   (let ((normal-indent (current-column)))
 ;;     (goto-char (1+ (car state))) ; Go to the second element (the body)
@@ -100,9 +128,9 @@ know commands in `pathname'.  That's why we need to add it to
 ;; 	  (lambda ()
 ;; 	    (put 'if 'lisp-indent-function #'my-common-lisp-if-indent)))
 
-;; (add-hook 'scheme-mode-hook
-;; 	  (lambda ()
-;; 	    (put 'with-ellipsis 'scheme-indent-function 1)))
+(add-hook 'scheme-mode-hook
+	  (lambda ()
+	    (put 'with-ellipsis 'scheme-indent-function 1)))
 
 (add-hook 'lisp-interaction-mode-hook
 	  (lambda ()
@@ -134,15 +162,15 @@ know commands in `pathname'.  That's why we need to add it to
 			   ("https" . "localhost:7890")))
 
 (custom-set-variables
- '(package-selected-packages '(company magit paredit)))
+ '(package-selected-packages '(geiser-guile company magit paredit)))
 
 (custom-set-faces
  )
 
 
-;;; Some paredit keybindings (like `C-)') are not working on Windows.
-;;; Check your system input method and disable the keybinding for
-;;; input method switching.
+;;; Some paredit keybindings (like `C-)') are not working on Windows.  Check
+;;; your system input method and disable the keybinding for input method
+;;; switching.
 (require 'paredit)
 
 ;;; `paredit' is useful for all lisp dialects.
@@ -155,16 +183,16 @@ know commands in `pathname'.  That's why we need to add it to
 
 
 ;;; Scheme
-;; (setq scheme-program-name "guile")
+(setq scheme-program-name "guile")
 ;; (setq scheme-program-name "scheme")
 ;; (setq scheme-program-name "racket")
 
-;; (setq geiser-mode-eval-last-sexp-to-buffer t)
-;; (setq geiser-mode-eval-to-buffer-prefix "\n;;> ")
+(setq geiser-mode-eval-last-sexp-to-buffer t)
+(setq geiser-mode-eval-to-buffer-prefix "\n")
 
-;; (add-hook 'geiser-mode-hook
-;; 	  (lambda ()
-;; 	    (keymap-local-set "C-<return>" #'geiser-eval-last-sexp)))
+(add-hook 'geiser-mode-hook
+	  (lambda ()
+	    (keymap-local-set "C-<return>" #'geiser-eval-last-sexp)))
 
 
 (defun find-file-by-pattern (directory pattern)
@@ -203,16 +231,3 @@ file names."
 ;;; Magit
 (require 'magit)
 
-
-;;; Miscellaneous global configurations.
-(setq ring-bell-function 'ignore)
-(setq inhibit-startup-screen t)
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-
-
-;;; Display time in mode lines.
-;; (setq display-time-interval 1)
-;; (setq display-time-format "%F %R")
-;; (display-time-mode 1)
