@@ -12,18 +12,26 @@
 ;;; `set-mark-command'.
 (keymap-global-set "C-t" #'set-mark-command)
 
-;;; The "C-z" is not useful in GUI environment.
-(keymap-global-unset "C-z")
+;;; The "C-z" (suspend-frame) is not useful in GUI environment.
+(when window-system
+  (keymap-global-unset "C-z"))
 
-(setq fill-column 80)
+;;; Miscellaneous configurations to make Emacs more comfortable.
 (setq ring-bell-function 'ignore)
 (setq inhibit-startup-screen t)
+
+;;; The default `fill-column' value `70' is too narrow for me.
+(setq fill-column 80)
+
+;;; The Toolbar, Menubar and Scrollbar is not necessary for Emacs.
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 
-;; (setq display-time-interval 1)
+;;; Displaying system time is sometimes useful in terminal, we prepare the
+;;; format and enable it when necessary.
 (setq display-time-format "%F %R")
+;; (setq display-time-interval 1)
 ;; (display-time-mode 1)
 
 (defun add-to-exec-and-env (pathname)
@@ -46,13 +54,12 @@ know commands in `pathname'.  That's why we need to add it to
 	  (if (eq system-type 'windows-nt) ";" ":")
 	  old-path))
 
-;;; Windows specific configurations.
+;;; Windows specific configurations for basic shell functions.
 (when (eq system-type 'windows-nt)
   (setq explicit-shell-file-name "C:/Program Files/Git/bin/bash.exe")
   (setq shell-file-name "bash")
   (setq explicit-bash-args '("--login" "-i"))
   (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)
-  ;; Necessary for `eshell' to use Unix tools like `diff'.
   (add-to-exec-and-env "C:/Program Files/Git/usr/bin"))
 
 
