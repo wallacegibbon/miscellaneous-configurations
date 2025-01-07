@@ -20,13 +20,13 @@
 (setq ring-bell-function 'ignore)
 (setq inhibit-startup-screen t)
 
-;;; The default `fill-column' value `70' is too narrow for me.
-(setq fill-column 80)
+;;; A wider `fill-column' (whose default value `70') is better for documents.
+(setq-default fill-column 80)
 
 ;;; The Toolbar, Menubar and Scrollbar is not necessary for Emacs.
+(scroll-bar-mode -1)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
-(scroll-bar-mode -1)
 
 ;;; Displaying system time is sometimes useful in terminal, we prepare the
 ;;; format and enable it when necessary.
