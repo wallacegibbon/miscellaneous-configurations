@@ -175,13 +175,21 @@ know commands in `pathname'.  That's why we need to add it to
  )
 
 
-;;; Some paredit keybindings (like `C-)') are not working on Windows.  Check
+;;; When paredit keybindings (like `C-)') are not working on Windows.  Check
 ;;; your system input method and disable the keybinding for input method
-;;; switching.
+;;; switching.  The hook function for `paredit' should be shared by all lisp
+;;; dialects.
+
 (require 'paredit)
 
-;;; `paredit' is useful for all lisp dialects.
+
+;;; The default key bindings for `paredit' is good but requiring `Shift' key.
+;;; We use more ergonomic keybindings for common operations.
 (defun shared-lisp-configuration ()
+  (keymap-local-set "C-8" #'paredit-backward-slurp-sexp)
+  (keymap-local-set "C-9" #'paredit-forward-slurp-sexp)
+  (keymap-local-set "C-," #'paredit-backward-barf-sexp)
+  (keymap-local-set "C-." #'paredit-forward-barf-sexp)
   (paredit-mode 1))
 
 (add-hook 'emacs-lisp-mode-hook #'shared-lisp-configuration)
@@ -191,6 +199,7 @@ know commands in `pathname'.  That's why we need to add it to
 
 ;;; Common Lisp
 (setq inferior-lisp-program "sbcl")
+;; (setq inferior-lisp-program "clisp")
 (setq slime-contribs '(slime-fancy slime-cl-indent))
 (require 'slime)
 
