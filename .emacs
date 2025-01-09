@@ -203,6 +203,10 @@ know commands in `pathname'.  That's why we need to add it to
 (setq slime-contribs '(slime-fancy slime-cl-indent))
 (require 'slime)
 
+;;; Make HyperSpec installed by `(ql:quickload "clhs")' available to emacs.
+(load "/home/wallace/.quicklisp/clhs-use-local.el" t)
+(setq browse-url-browser-function 'eww-browse-url)
+
 (add-hook 'slime-mode-hook
 	  (lambda ()
 	    (keymap-local-set "C-<return>" #'slime-eval-last-expression)))
