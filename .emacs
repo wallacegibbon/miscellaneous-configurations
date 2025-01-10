@@ -35,14 +35,9 @@
 ;; (display-time-mode 1)
 
 (defun add-to-exec-and-env (pathname)
-  "Add `pathname' to both environment variable `PATH' and Emacs's
-`exec-path'.  Return `t' when it is added, and `nil' when it's
-already in PATH.
-
-Adding `pathname' to to `exec-path' will make commands inside
-`pathname' usable for tools like `ediff'.  But shell still don't
-know commands in `pathname'.  That's why we need to add it to
-`PATH', too."
+  "Add PATHNAME to both environment variable PATH and `exec-path'.
+Adding to to `exec-path' won't make shell see the commands in
+PATHNAME.  That's why we need to add it to `PATH', too."
   (add-to-list 'exec-path pathname)
   (let ((env-path (getenv "PATH")))
     (if (string-match-p (regexp-quote pathname) env-path)
@@ -86,13 +81,30 @@ know commands in `pathname'.  That's why we need to add it to
       (format "%s-%d" font-name *default-font-size*)
     "NOFONT"))
 
+
+;;; Themes are NOT exclusive, they may affect each other.  This function
+;;; disables other themes and left only one.
+(defun load-theme-single (theme)
+  (interactive (list (intern (completing-read "Load custom theme: "
+					      (mapcar #'symbol-name
+						      (custom-available-themes))))))
+  (unless (custom-theme-name-valid-p theme)
+    (error "Invalid theme name `%s'" theme))
+  (dolist (old-theme custom-enabled-themes)
+    (disable-theme old-theme))
+  (load-theme theme t))
+
+
+;;; Functions hooked on `emacs-startup-hook' will only run once.  We can safely
+;;; reload this file without calling these functions again.
 (add-hook 'emacs-startup-hook
 	  (lambda ()
 	    (when window-system
 	      (add-to-list 'default-frame-alist '(fullscreen . maximized))
 	      (add-to-list 'default-frame-alist '(undecorated . t))
-	      (load-theme 'modus-vivendi t)
-	      (config-non-console-font))))
+	      (config-non-console-font)
+	      (load-theme-single 'modus-vivendi))))
+
 
 (add-hook 'prog-mode-hook
 	  (lambda ()
@@ -248,12 +260,10 @@ know commands in `pathname'.  That's why we need to add it to
 
 ;;; This function was used to find the erlang's "tools-xx" directory by pattern.
 ;;; Usage: (find-file-by-pattern (concat erlang-root-dir "/lib") "^tools*")
-;;;
-;;; But now erlang command is used to do that.
 (defun find-file-by-pattern (directory pattern)
-  "Find the first file in `directory' that matching PATTERN and
-return its full path.  `pattern' is a regular expression to match
-file names."
+  "Find the first file in DIRECTORY that matching PATTERN and return
+its full path.  PATTERN is the regular expression to match
+filename."
   (let ((files (directory-files directory t)))
     (seq-find (lambda (file)
 		(string-match-p pattern (file-name-nondirectory file)))
