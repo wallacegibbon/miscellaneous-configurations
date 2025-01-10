@@ -72,7 +72,12 @@ know commands in `pathname'.  That's why we need to add it to
     (message "Setting font to %s" font)
     (set-frame-font font)))
 
+
+;;; Use a dynamic-bindings variable so that you can re-configure it.
 (defvar *default-font-size* 20)
+
+;; (let ((*default-font-size* 16)) (config-non-console-font))
+;; (let ((*default-font-size* 20)) (config-non-console-font))
 
 (defun get-appropriate-font (font-name)
   "Make a valid font string who can be used as the argument of
@@ -85,6 +90,7 @@ know commands in `pathname'.  That's why we need to add it to
 	  (lambda ()
 	    (when window-system
 	      (add-to-list 'default-frame-alist '(fullscreen . maximized))
+	      (add-to-list 'default-frame-alist '(undecorated . t))
 	      (load-theme 'modus-vivendi t)
 	      (config-non-console-font))))
 
