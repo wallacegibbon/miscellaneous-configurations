@@ -225,6 +225,21 @@ know commands in `pathname'.  That's why we need to add it to
 	    (keymap-local-set "C-<return>" #'geiser-eval-last-sexp)))
 
 
+;;; To solve the GNU-style problem of company. (no space after function name)
+(defun fix-gnu-style-after-complete (s)
+  (save-excursion
+    (when (and (search-backward s nil t)
+	       (looking-at (concat s "(")))
+      (search-forward "(")
+      (backward-char 1)
+      (insert " "))))
+
+(add-hook 'c-mode-common-hook
+	  (lambda ()
+	    (add-hook 'company-after-completion-hook
+		      #'fix-gnu-style-after-complete)))
+
+
 ;;; This function was used to find the erlang's "tools-xx" directory by pattern.
 ;;; Usage: (find-file-by-pattern (concat erlang-root-dir "/lib") "^tools*")
 ;;;
