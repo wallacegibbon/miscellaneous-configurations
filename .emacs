@@ -85,7 +85,7 @@ know commands in `pathname'.  That's why we need to add it to
 	  (lambda ()
 	    (when window-system
 	      (add-to-list 'default-frame-alist '(fullscreen . maximized))
-	      (load-theme 'dichromacy t)
+	      (load-theme 'modus-vivendi t)
 	      (config-non-console-font))))
 
 (add-hook 'prog-mode-hook
@@ -241,9 +241,9 @@ file names."
 ;;; Erlang (Not installed from elpa, but from the OTP library)
 ;;; Add Erlang package path to `load-path'.
 (defun erlang-package-path ()
-  (concat (shell-command-to-string
-	   "erl -noinput -eval 'io:put_chars(code:lib_dir(tools)), halt()'")
-	  "/emacs"))
+  (file-name-concat (shell-command-to-string
+		     "erl -noinput -eval 'io:put_chars(code:lib_dir(tools)), halt()'")
+		    "emacs"))
 
 (when (executable-find "erl")
   (add-to-list 'load-path (erlang-package-path))
