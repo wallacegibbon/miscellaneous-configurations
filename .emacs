@@ -225,6 +225,10 @@ know commands in `pathname'.  That's why we need to add it to
 	    (keymap-local-set "C-<return>" #'geiser-eval-last-sexp)))
 
 
+;;; This function was used to find the erlang's "tools-xx" directory by pattern.
+;;; Usage: (find-file-by-pattern (concat erlang-root-dir "/lib") "^tools*")
+;;;
+;;; But now erlang command is used to do that.
 (defun find-file-by-pattern (directory pattern)
   "Find the first file in `directory' that matching PATTERN and
 return its full path.  `pattern' is a regular expression to match
@@ -234,24 +238,16 @@ file names."
 		(string-match-p pattern (file-name-nondirectory file)))
 	      files)))
 
-(defun first-existing-path (path-list)
-  (seq-find #'file-exists-p path-list))
-
-
 ;;; Erlang (Not installed from elpa, but from the OTP library)
-(setq erlang-root-dir
-      (if (eq system-type 'windows-nt)
-	  "C:/Program Files/Erlang OTP"
-	(seq-find #'file-directory-p
-		  '("/usr/local/lib/erlang" "/usr/lib/erlang"))))
-
 ;;; Add Erlang package path to `load-path'.
-(add-to-list 'load-path
-	     (concat (find-file-by-pattern (concat erlang-root-dir "/lib")
-					   "^tools*")
-		     "/emacs"))
+(defun erlang-package-path ()
+  (concat (shell-command-to-string
+	   "erl -noinput -eval 'io:put_chars(code:lib_dir(tools)), halt()'")
+	  "/emacs"))
 
-(require 'erlang-start)
+(when (executable-find "erl")
+  (add-to-list 'load-path (erlang-package-path))
+  (require 'erlang-start))
 
 
 ;;; Company (auto complete)
