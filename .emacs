@@ -8,9 +8,7 @@
 ;;; writting documents but okay for writting code.
 
 ;;; Since the SPACE key is used for CTRL, we can't press Ctrl-Space anymore.
-;;; The original function for "C-t" is not so useful, we use it for
-;;; `set-mark-command'.
-(keymap-global-set "C-t" #'set-mark-command)
+(keymap-global-set "C-2" #'set-mark-command)
 
 ;;; The "C-z" (suspend-frame) is not useful in GUI environment.
 (when window-system
