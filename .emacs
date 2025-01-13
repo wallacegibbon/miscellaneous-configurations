@@ -1,8 +1,15 @@
-;;; The way to use Emacs ergonomically: Using SPACE as both SPACE and CTRL.
+;;; The most practical way to use Emacs ergonomically in a normal keyboard:
+;;;   Using SPACE as both SPACE and CTRL (when hold). Using CAPSLOCK as ESCAPE.
 ;;;
-;;; - https://www.emacswiki.org/emacs/MovingTheCtrlKey
-;;; - https://github.com/pietroiusti/janus-key
-;;; - https://github.com/wallacegibbon/janus-key (the fork I use)
+;;; Background: https://www.emacswiki.org/emacs/MovingTheCtrlKey
+;;;
+;;; Projects that make this possible:
+;;; - Linux: https://github.com/pietroiusti/janus-key
+;;; - MSWin: https://github.com/lydell/dual
+;;;
+;;; Forks (modified) I am using:
+;;; - Linux: https://github.com/wallacegibbon/janus-key
+;;; - MSWin: https://github.com/wallacegibbon/dual
 ;;;
 ;;; This could cause some delay during content input, which is annoying for
 ;;; writting documents but okay for writting code.
