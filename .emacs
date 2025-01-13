@@ -39,6 +39,13 @@
 ;; (setq display-time-interval 1)
 ;; (display-time-mode 1)
 
+(defun join-env-path (new-path old-path)
+  "Join the path stirng used by environment variable PATH.  Linux
+and Windows have different separator for this join."
+  (concat new-path
+	  (if (eq system-type 'windows-nt) ";" ":")
+	  old-path))
+
 (defun add-to-exec-and-env (pathname)
   "Add PATHNAME to both environment variable PATH and `exec-path'.
 Adding to to `exec-path' won't make shell see the commands in
@@ -47,16 +54,11 @@ PATHNAME.  That's why we need to add it to `PATH', too."
   (let ((env-path (getenv "PATH")))
     (if (string-match-p (regexp-quote pathname) env-path)
 	nil
-      (setenv "PATH" (join-path pathname env-path)))))
+      (setenv "PATH" (join-env-path pathname env-path)))))
 
 ;;; My Utilities
 (add-to-exec-and-env (file-name-concat (getenv "HOME") ".local/bin"))
 
-
-(defun join-path (new-path old-path)
-  (concat new-path
-	  (if (eq system-type 'windows-nt) ";" ":")
-	  old-path))
 
 ;;; Windows specific configurations for basic shell functions.
 (when (eq system-type 'windows-nt)
