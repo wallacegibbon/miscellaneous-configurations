@@ -49,6 +49,10 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 	nil
       (setenv "PATH" (join-path pathname env-path)))))
 
+;;; My Utilities
+(add-to-exec-and-env (file-name-concat (getenv "HOME") ".local/bin"))
+
+
 (defun join-path (new-path old-path)
   (concat new-path
 	  (if (eq system-type 'windows-nt) ";" ":")
@@ -293,3 +297,9 @@ filename."
 ;;; Magit
 (require 'magit)
 
+
+(defun load-when-exist (filename)
+  (and (file-exists-p filename)
+       (load filename)))
+
+(load-when-exist "~/playground/emacs-lisp-playground/dired-util.el")
