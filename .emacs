@@ -47,6 +47,9 @@
   "\"/\" on Unix and \"\\\" on Windows")
 
 (defmacro path-segment-match (pathname path-string)
+  "The path segment PATHNAME could be at the start, at the end, or
+in the middle of PATH-STRING.  Any one of the situations make the
+match success."
   `(or ,@(mapcar (lambda (segment)
 		   `(string-match-p ,segment ,path-string))
 		 `((regexp-quote (concat ,path-separator ,pathname ,path-separator))
