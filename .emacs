@@ -238,7 +238,7 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 
 (add-hook 'slime-mode-hook
 	  (lambda ()
-	    (keymap-local-set "C-<return>" #'slime-eval-last-expression)))
+	    (keymap-local-set "C-<return>" #'slime-eval-print-last-expression)))
 
 
 ;;; Scheme
