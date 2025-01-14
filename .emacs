@@ -39,29 +39,54 @@
 ;; (setq display-time-interval 1)
 ;; (display-time-mode 1)
 
-(defun join-env-path (new-path old-path)
-  "Join the path stirng used by environment variable PATH.  Linux
-and Windows have different separator for this join."
-  (concat new-path
-	  (if (eq system-type 'windows-nt) ";" ":")
-	  old-path))
+(defconst system-is-not-unix (cl-case system-type
+			       ((windows-nt ms-dos cygwin) t)
+			       (t nil)))
 
-(defun add-to-exec-and-env (pathname)
+(defconst directory-separator (if system-is-not-unix "\\" "/")
+  "\"/\" on Unix and \"\\\" on Windows")
+
+(defmacro path-segment-match (pathname path-string)
+  `(or ,@(mapcar (lambda (segment)
+		   `(string-match-p ,segment ,path-string))
+		 `((regexp-quote (concat ,path-separator ,pathname ,path-separator))
+		   (concat "^" (regexp-quote (concat ,pathname ,path-separator)))
+		   (concat (regexp-quote (concat ,path-separator ,pathname)) "$")))))
+
+;; (macroexpand '(path-segment-match "/" "/bin:/usr/bin:/:"))
+;; (path-segment-match "/" "/bin:/usr/bin:/")
+;; (path-segment-match "/" "/:/bin:/usr/bin")
+;; (path-segment-match "/" "/:/bin:/:/usr/bin")
+;; (path-segment-match "/" "/bin:/usr/bin")
+
+(defun drop-tailing (string trailing-str)
+  (if (equal string trailing-str)
+      string
+    (if (string-suffix-p trailing-str string)
+	(substring string 0 (1- (length string)))
+      string)))
+
+;; (drop-tailing "a/b/c/" "/")
+;; (drop-tailing "a/b/c" "/")
+;; (drop-tailing "/" "/")
+
+(defun add-to-exec-and-env (raw-pathname)
   "Add PATHNAME to both environment variable PATH and `exec-path'.
 Adding to to `exec-path' won't make shell see the commands in
 PATHNAME.  That's why we need to add it to `PATH', too."
-  (add-to-list 'exec-path pathname)
-  (let ((env-path (getenv "PATH")))
-    (if (string-match-p (regexp-quote pathname) env-path)
-	nil
-      (setenv "PATH" (join-env-path pathname env-path)))))
+  (interactive "DPath to add: ")
+  (let ((pathname (drop-tailing raw-pathname directory-separator)))
+    (add-to-list 'exec-path pathname)
+    (let ((env-path (getenv "PATH")))
+      (unless (path-segment-match pathname env-path)
+	(setenv "PATH" (concat pathname path-separator env-path))
+	(message "\"%s\" is added to PATH" pathname)))))
 
 ;;; My Utilities
 (add-to-exec-and-env (file-name-concat (getenv "HOME") ".local/bin"))
 
-
 ;;; Windows specific configurations for basic shell functions.
-(when (eq system-type 'windows-nt)
+(when system-is-not-unix
   (setq explicit-shell-file-name "C:/Program Files/Git/bin/bash.exe")
   (setq shell-file-name "bash")
   (setq explicit-bash-args '("--login" "-i"))
@@ -69,28 +94,21 @@ PATHNAME.  That's why we need to add it to `PATH', too."
   (add-to-exec-and-env "C:/Program Files/Git/usr/bin"))
 
 
+;;; Use dynamic-bindings variables to re-configure it in more situations.
+(defvar *my-prefered-fonts* '("cascadia code" "menlo" "consolas" "monospace"))
+(defvar *my-font-size* 20)
+
+;; (let ((*my-font-size* 16)) (config-non-console-font))
+;; (let ((*my-font-size* 20)) (config-non-console-font))
+
 (defun config-non-console-font (&optional font-string)
-  (let* ((prefered-fonts '("cascadia code" "ubuntu mono" "menlo" "consolas"
-			   "monospace"))
-	 (default-font (seq-find #'x-list-fonts
-				 prefered-fonts))
-	 (font (get-appropriate-font (or font-string default-font))))
+  (let* ((default-font (seq-find #'x-list-fonts *my-prefered-fonts*))
+	 (font (let ((font-name (or font-string default-font)))
+		 (if font-name
+		     (format "%s-%d" font-name *my-font-size*)
+		   "NOFONT"))))
     (message "Setting font to %s" font)
     (set-frame-font font)))
-
-
-;;; Use a dynamic-bindings variable so that you can re-configure it.
-(defvar *default-font-size* 20)
-
-;; (let ((*default-font-size* 16)) (config-non-console-font))
-;; (let ((*default-font-size* 20)) (config-non-console-font))
-
-(defun get-appropriate-font (font-name)
-  "Make a valid font string who can be used as the argument of
-`set-frame-font'."
-  (if font-name
-      (format "%s-%d" font-name *default-font-size*)
-    "NOFONT"))
 
 
 ;;; Themes are NOT exclusive, they may affect each other.  This function
@@ -147,7 +165,7 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 	    (keymap-local-set "C-c l" #'dictionary-lookup-definition)
 	    (text-scale-adjust -2)))
 
-(when (eq system-type 'windows-nt)
+(when system-is-not-unix
   (setq dictionary-server "dict.org"))
 
 
@@ -214,16 +232,16 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 
 ;;; The default key bindings for `paredit' is good but requiring `Shift' key.
 ;;; We use more ergonomic keybindings for common operations.
-(defun shared-lisp-configuration ()
+(defun shared-lisp-hook-fn ()
   (keymap-local-set "C-8" #'paredit-backward-slurp-sexp)
   (keymap-local-set "C-9" #'paredit-forward-slurp-sexp)
   (keymap-local-set "C-," #'paredit-backward-barf-sexp)
   (keymap-local-set "C-." #'paredit-forward-barf-sexp)
   (paredit-mode 1))
 
-(add-hook 'emacs-lisp-mode-hook #'shared-lisp-configuration)
-(add-hook 'lisp-mode-hook #'shared-lisp-configuration)
-(add-hook 'scheme-mode-hook #'shared-lisp-configuration)
+(add-hook 'emacs-lisp-mode-hook #'shared-lisp-hook-fn)
+(add-hook 'lisp-mode-hook #'shared-lisp-hook-fn)
+(add-hook 'scheme-mode-hook #'shared-lisp-hook-fn)
 
 
 ;;; Common Lisp
