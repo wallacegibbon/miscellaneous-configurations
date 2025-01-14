@@ -222,7 +222,7 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 ;;  '(package-selected-packages '(slime geiser-guile company magit paredit)))
 
 (custom-set-variables
- '(package-selected-packages '(company magit paredit)))
+ '(package-selected-packages '(slime company magit paredit)))
 
 (custom-set-faces
  )
@@ -234,7 +234,6 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 ;;; dialects.
 
 (require 'paredit)
-
 
 ;;; The default key bindings for `paredit' is good but requiring `Shift' key.
 ;;; We use more ergonomic keybindings for common operations.
@@ -253,16 +252,16 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 ;;; Common Lisp
 (setq inferior-lisp-program "sbcl")
 ;; (setq inferior-lisp-program "clisp")
-;; (setq slime-contribs '(slime-fancy slime-cl-indent))
-;; (require 'slime)
+(setq slime-contribs '(slime-fancy slime-cl-indent))
+(require 'slime)
 
-;; ;;; Make HyperSpec installed by `(ql:quickload "clhs")' available to emacs.
-;; (load "/home/wallace/.quicklisp/clhs-use-local.el" t)
-;; (setq browse-url-browser-function 'eww-browse-url)
+;;; Make HyperSpec installed by `(ql:quickload "clhs")' available to emacs.
+(load "/home/wallace/.quicklisp/clhs-use-local.el" t)
+(setq browse-url-browser-function 'eww-browse-url)
 
-;; (add-hook 'slime-mode-hook
-;; 	  (lambda ()
-;; 	    (keymap-local-set "C-<return>" #'slime-eval-print-last-expression)))
+(add-hook 'slime-mode-hook
+	  (lambda ()
+	    (keymap-local-set "C-<return>" #'slime-eval-print-last-expression)))
 
 
 ;;; Scheme
