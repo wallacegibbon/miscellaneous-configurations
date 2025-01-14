@@ -218,8 +218,11 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 (setq url-proxy-services '(("http" . "localhost:7890")
 			   ("https" . "localhost:7890")))
 
+;; (custom-set-variables
+;;  '(package-selected-packages '(slime geiser-guile company magit paredit)))
+
 (custom-set-variables
- '(package-selected-packages '(slime geiser-guile company magit paredit)))
+ '(package-selected-packages '(company magit paredit)))
 
 (custom-set-faces
  )
@@ -250,16 +253,16 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 ;;; Common Lisp
 (setq inferior-lisp-program "sbcl")
 ;; (setq inferior-lisp-program "clisp")
-(setq slime-contribs '(slime-fancy slime-cl-indent))
-(require 'slime)
+;; (setq slime-contribs '(slime-fancy slime-cl-indent))
+;; (require 'slime)
 
-;;; Make HyperSpec installed by `(ql:quickload "clhs")' available to emacs.
-(load "/home/wallace/.quicklisp/clhs-use-local.el" t)
-(setq browse-url-browser-function 'eww-browse-url)
+;; ;;; Make HyperSpec installed by `(ql:quickload "clhs")' available to emacs.
+;; (load "/home/wallace/.quicklisp/clhs-use-local.el" t)
+;; (setq browse-url-browser-function 'eww-browse-url)
 
-(add-hook 'slime-mode-hook
-	  (lambda ()
-	    (keymap-local-set "C-<return>" #'slime-eval-print-last-expression)))
+;; (add-hook 'slime-mode-hook
+;; 	  (lambda ()
+;; 	    (keymap-local-set "C-<return>" #'slime-eval-print-last-expression)))
 
 
 ;;; Scheme
@@ -267,12 +270,12 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 ;; (setq scheme-program-name "scheme")
 ;; (setq scheme-program-name "racket")
 
-(setq geiser-mode-eval-last-sexp-to-buffer t)
-(setq geiser-mode-eval-to-buffer-prefix "\n")
+;; (setq geiser-mode-eval-last-sexp-to-buffer t)
+;; (setq geiser-mode-eval-to-buffer-prefix "\n")
 
-(add-hook 'geiser-mode-hook
-	  (lambda ()
-	    (keymap-local-set "C-<return>" #'geiser-eval-last-sexp)))
+;; (add-hook 'geiser-mode-hook
+;; 	  (lambda ()
+;; 	    (keymap-local-set "C-<return>" #'geiser-eval-last-sexp)))
 
 
 ;;; To solve the GNU-style problem of company. (no space after function name)
