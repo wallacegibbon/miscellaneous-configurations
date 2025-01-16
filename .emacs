@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 ;;; The most practical way to use Emacs ergonomically in a normal keyboard:
 ;;;   Using SPACE as both SPACE and CTRL (when hold). Using CAPSLOCK as ESCAPE.
 ;;;
