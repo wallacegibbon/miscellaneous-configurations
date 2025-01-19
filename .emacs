@@ -219,15 +219,6 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 (setq url-proxy-services '(("http" . "localhost:7890")
 			   ("https" . "localhost:7890")))
 
-;; (custom-set-variables
-;;  '(package-selected-packages '(slime geiser-guile company magit paredit)))
-
-(custom-set-variables
- '(package-selected-packages '(slime company magit paredit)))
-
-(custom-set-faces
- )
-
 
 ;;; When paredit keybindings (like `C-)') are not working on Windows.  Check
 ;;; your system input method and disable the keybinding for input method
@@ -265,7 +256,7 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 	    (keymap-local-set "C-<return>" #'slime-eval-print-last-expression)))
 
 
-;;; Scheme
+;;; Scheme (Install geiser (geiser-guile, geiser-racket, etc.)
 (setq scheme-program-name "guile")
 ;; (setq scheme-program-name "scheme")
 ;; (setq scheme-program-name "racket")
@@ -324,8 +315,29 @@ filename."
 (require 'magit)
 
 
+;;; Org
+(keymap-global-set "C-c l" 'org-store-link)
+(keymap-global-set "C-c a" 'org-agenda)
+(keymap-global-set "C-c c" 'org-capture)
+
+
 (defun load-when-exist (filename)
   (and (file-exists-p filename)
        (load filename)))
 
 (load-when-exist "~/playground/emacs-lisp-playground/dired-util.el")
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-agenda-files nil)
+ '(package-selected-packages '(slime company magit paredit)))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
