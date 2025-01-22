@@ -51,24 +51,26 @@
   "The path segment PATHNAME could be at the start, at the end, or
 in the middle of PATH-STRING.  Any one of the situations make the
 match success."
-  `(or ,@(mapcar (lambda (segment)
-		   `(string-match-p ,segment ,path-string))
-		 `((regexp-quote (concat ,path-separator ,pathname ,path-separator))
-		   (concat "^" (regexp-quote (concat ,pathname ,path-separator)))
-		   (concat (regexp-quote (concat ,path-separator ,pathname)) "$")))))
+  (let ((p (gensym)) (ps (gensym)))
+    `(let ((,p ,pathname) (,ps ,path-string))
+       (or ,@(mapcar (lambda (segment)
+		       `(string-match-p ,segment ,ps))
+		     `((concat "^" (regexp-quote (concat ,p ,path-separator)))
+		       (regexp-quote (concat ,path-separator ,p ,path-separator))
+		       (concat (regexp-quote (concat ,path-separator ,p)) "$")))))))
 
 ;; (macroexpand '(path-segment-match "/" "/bin:/usr/bin:/:"))
 ;; (path-segment-match "/" "/bin:/usr/bin:/")
 ;; (path-segment-match "/" "/:/bin:/usr/bin")
-;; (path-segment-match "/" "/:/bin:/:/usr/bin")
+;; (path-segment-match "/" "/bin:/:/usr/bin")
 ;; (path-segment-match "/" "/bin:/usr/bin")
 
 (defun drop-tailing (string trailing-str)
   (if (equal string trailing-str)
       string
-    (if (string-suffix-p trailing-str string)
-	(substring string 0 (1- (length string)))
-      string)))
+      (if (string-suffix-p trailing-str string)
+	  (substring string 0 (1- (length string)))
+	  string)))
 
 ;; (drop-tailing "a/b/c/" "/")
 ;; (drop-tailing "a/b/c" "/")
@@ -110,7 +112,7 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 	 (font (let ((font-name (or font-string default-font)))
 		 (if font-name
 		     (format "%s-%d" font-name *my-font-size*)
-		   "NOFONT"))))
+		     "NOFONT"))))
     (message "Setting font to %s" font)
     (set-frame-font font)))
 
@@ -176,15 +178,15 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 ;;; In Emacs 29, `lisp-indent-function' was changed to improve the way
 ;;; indentation is handled, and `common-lisp-indent-function' no longer works
 ;;; the same way for Emacs Lisp.
-;; (defun my-common-lisp-if-indent (indent-point state)
-;;   (let ((normal-indent (current-column)))
-;;     (goto-char (1+ (car state))) ; Go to the second element (the body)
-;;     (parse-partial-sexp (point) indent-point 0 t)
-;;     (+ normal-indent 1)))
+(defun my-common-lisp-if-indent (indent-point state)
+  (let ((normal-indent (current-column)))
+    (goto-char (1+ (car state))) ; Go to the second element (the body)
+    (parse-partial-sexp (point) indent-point 0 t)
+    (+ normal-indent 1)))
 
-;; (add-hook 'emacs-lisp-mode-hook
-;; 	  (lambda ()
-;; 	    (put 'if 'lisp-indent-function #'my-common-lisp-if-indent)))
+(add-hook 'emacs-lisp-mode-hook
+	  (lambda ()
+	    (put 'if 'lisp-indent-function #'my-common-lisp-if-indent)))
 
 (add-hook 'scheme-mode-hook
 	  (lambda ()
