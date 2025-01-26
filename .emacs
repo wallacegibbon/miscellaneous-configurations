@@ -136,7 +136,6 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 	  (lambda ()
 	    (when window-system
 	      (add-to-list 'default-frame-alist '(fullscreen . maximized))
-	      (add-to-list 'default-frame-alist '(undecorated . t))
 	      (config-non-console-font)
 	      (load-theme-single 'modus-vivendi))))
 
