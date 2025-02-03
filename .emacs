@@ -15,6 +15,7 @@
 ;;; This could cause some delay during content input, which is annoying for
 ;;; writting documents but okay for writting code.
 
+
 ;;; Since the SPACE key is used for CTRL, we can't press Ctrl-Space anymore.
 (keymap-global-set "C-2" #'set-mark-command)
 
@@ -136,6 +137,7 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 	  (lambda ()
 	    (when window-system
 	      (add-to-list 'default-frame-alist '(fullscreen . maximized))
+	      (add-to-list 'default-frame-alist '(undecorated . t))
 	      (config-non-console-font)
 	      (load-theme-single 'modus-vivendi))))
 
