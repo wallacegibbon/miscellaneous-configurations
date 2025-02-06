@@ -69,9 +69,9 @@ match success."
 (defun drop-tailing (string trailing-str)
   (if (equal string trailing-str)
       string
-      (if (string-suffix-p trailing-str string)
-	  (substring string 0 (1- (length string)))
-	  string)))
+    (if (string-suffix-p trailing-str string)
+	(substring string 0 (1- (length string)))
+      string)))
 
 ;; (drop-tailing "a/b/c/" "/")
 ;; (drop-tailing "a/b/c" "/")
@@ -113,7 +113,7 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 	 (font (let ((font-name (or font-string default-font)))
 		 (if font-name
 		     (format "%s-%d" font-name *my-font-size*)
-		     "NOFONT"))))
+		   "NOFONT"))))
     (message "Setting font to %s" font)
     (set-frame-font font)))
 
@@ -185,9 +185,9 @@ PATHNAME.  That's why we need to add it to `PATH', too."
     (parse-partial-sexp (point) indent-point 0 t)
     (+ normal-indent 1)))
 
-(add-hook 'emacs-lisp-mode-hook
-	  (lambda ()
-	    (put 'if 'lisp-indent-function #'my-common-lisp-if-indent)))
+;; (add-hook 'emacs-lisp-mode-hook
+;; 	  (lambda ()
+;; 	    (put 'if 'lisp-indent-function #'my-common-lisp-if-indent)))
 
 (add-hook 'scheme-mode-hook
 	  (lambda ()
@@ -237,30 +237,37 @@ PATHNAME.  That's why we need to add it to `PATH', too."
   (keymap-local-set "C-9" #'paredit-forward-slurp-sexp)
   (keymap-local-set "C-," #'paredit-backward-barf-sexp)
   (keymap-local-set "C-." #'paredit-forward-barf-sexp)
+  ;; Let's keep `M-?' for `xref'.
+  (define-key paredit-mode-map (kbd "M-?") nil)
   (paredit-mode 1))
 
 (add-hook 'emacs-lisp-mode-hook #'shared-lisp-hook-fn)
 (add-hook 'lisp-mode-hook #'shared-lisp-hook-fn)
 (add-hook 'scheme-mode-hook #'shared-lisp-hook-fn)
 
+(add-hook 'emacs-lisp-mode-hook
+	  (lambda ()
+	    (add-to-list 'paredit-space-for-delimiter-predicates
+			 (lambda (endp delimiter)
+			   nil))))
 
 ;;; Common Lisp
-(setq inferior-lisp-program "sbcl")
-;; (setq inferior-lisp-program "clisp")
-(setq slime-contribs '(slime-fancy slime-cl-indent))
-(require 'slime)
+;; (setq inferior-lisp-program "sbcl")
+;; ;; (setq inferior-lisp-program "clisp")
+;; (setq slime-contribs '(slime-fancy slime-cl-indent))
+;; (require 'slime)
 
 ;;; Make HyperSpec installed by `(ql:quickload "clhs")' available to emacs.
-(load "/home/wallace/.quicklisp/clhs-use-local.el" t)
-(setq browse-url-browser-function 'eww-browse-url)
+;; (load "/home/wallace/.quicklisp/clhs-use-local.el" t)
+;; (setq browse-url-browser-function 'eww-browse-url)
 
-(add-hook 'slime-mode-hook
-	  (lambda ()
-	    (keymap-local-set "C-<return>" #'slime-eval-print-last-expression)))
+;; (add-hook 'slime-mode-hook
+;; 	  (lambda ()
+;; 	    (keymap-local-set "C-<return>" #'slime-eval-print-last-expression)))
 
 
 ;;; Scheme (Install geiser (geiser-guile, geiser-racket, etc.)
-(setq scheme-program-name "guile")
+;; (setq scheme-program-name "guile")
 ;; (setq scheme-program-name "scheme")
 ;; (setq scheme-program-name "racket")
 
@@ -336,7 +343,7 @@ filename."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-agenda-files nil)
- '(package-selected-packages '(slime company magit paredit)))
+ '(package-selected-packages '(company magit paredit)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
