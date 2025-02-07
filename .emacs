@@ -224,32 +224,29 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 
 
 ;;; When paredit keybindings (like `C-)') are not working on Windows.  Check
-;;; your system input method and disable the keybinding for input method
-;;; switching.  The hook function for `paredit' should be shared by all lisp
-;;; dialects.
+;;; system input method and disable the keybinding for input method switching.
 
 (require 'paredit)
 
-;;; The default key bindings for `paredit' is good but requiring `Shift' key.
-;;; We use more ergonomic keybindings for common operations.
-(defun shared-lisp-hook-fn ()
+(defun my-paredit-hookfn ()
+  "This function should be put into hooks of modes where you want to
+enable paredit mode."
+  ;; The default key bindings for `paredit' is good but requiring `Shift' key.
+  ;; We use more ergonomic keybindings for common operations.
   (keymap-local-set "C-8" #'paredit-backward-slurp-sexp)
   (keymap-local-set "C-9" #'paredit-forward-slurp-sexp)
   (keymap-local-set "C-," #'paredit-backward-barf-sexp)
   (keymap-local-set "C-." #'paredit-forward-barf-sexp)
   ;; Let's keep `M-?' for `xref'.
   (define-key paredit-mode-map (kbd "M-?") nil)
+  ;; Do not insert spaces automatically.
+  (add-to-list 'paredit-space-for-delimiter-predicates (lambda (endp delimiter) nil))
   (paredit-mode 1))
 
-(add-hook 'emacs-lisp-mode-hook #'shared-lisp-hook-fn)
-(add-hook 'lisp-mode-hook #'shared-lisp-hook-fn)
-(add-hook 'scheme-mode-hook #'shared-lisp-hook-fn)
+(add-hook 'emacs-lisp-mode-hook #'my-paredit-hookfn)
+(add-hook 'lisp-mode-hook #'my-paredit-hookfn)
+(add-hook 'scheme-mode-hook #'my-paredit-hookfn)
 
-(add-hook 'emacs-lisp-mode-hook
-	  (lambda ()
-	    (add-to-list 'paredit-space-for-delimiter-predicates
-			 (lambda (endp delimiter)
-			   nil))))
 
 ;;; Common Lisp
 ;; (setq inferior-lisp-program "sbcl")
