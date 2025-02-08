@@ -37,9 +37,9 @@
 
 ;;; Displaying system time is sometimes useful in terminal, we prepare the
 ;;; format and enable it when necessary.
-(setq display-time-format "%F %R")
+(setq display-time-format "%H:%M")
 ;; (setq display-time-interval 1)
-;; (display-time-mode 1)
+(display-time-mode 1)
 
 (defconst system-is-not-unix (cl-case system-type
 			       ((windows-nt ms-dos cygwin) t)
@@ -49,9 +49,8 @@
   "\"/\" on Unix and \"\\\" on Windows")
 
 (defmacro path-segment-match (pathname path-string)
-  "The path segment PATHNAME could be at the start, at the end, or
-in the middle of PATH-STRING.  Any one of the situations make the
-match success."
+  "The path segment PATHNAME could be at the start, at the end, or in the middle
+of PATH-STRING.  Any one of the situations make the match success."
   (let ((p (gensym)) (ps (gensym)))
     `(let ((,p ,pathname) (,ps ,path-string))
        (or ,@(mapcar (lambda (segment)
@@ -60,7 +59,6 @@ match success."
 		       (regexp-quote (concat ,path-separator ,p ,path-separator))
 		       (concat (regexp-quote (concat ,path-separator ,p)) "$")))))))
 
-;; (macroexpand '(path-segment-match "/" "/bin:/usr/bin:/:"))
 ;; (path-segment-match "/" "/bin:/usr/bin:/")
 ;; (path-segment-match "/" "/:/bin:/usr/bin")
 ;; (path-segment-match "/" "/bin:/:/usr/bin")
@@ -78,9 +76,9 @@ match success."
 ;; (drop-tailing "/" "/")
 
 (defun add-to-exec-and-env (raw-pathname)
-  "Add PATHNAME to both environment variable PATH and `exec-path'.
-Adding to to `exec-path' won't make shell see the commands in
-PATHNAME.  That's why we need to add it to `PATH', too."
+  "Add PATHNAME to both environment variable PATH and `exec-path'. Adding to
+  `exec-path' won't make shell see the commands in PATHNAME.  That's why we need
+  to add it to `PATH', too."
   (interactive "DPath to add: ")
   (let ((pathname (drop-tailing raw-pathname directory-separator)))
     (add-to-list 'exec-path pathname)
@@ -229,8 +227,8 @@ PATHNAME.  That's why we need to add it to `PATH', too."
 (require 'paredit)
 
 (defun my-paredit-hookfn ()
-  "This function should be put into hooks of modes where you want to
-enable paredit mode."
+  "This function should be put into hooks of modes where you want to enable
+paredit mode."
   ;; The default key bindings for `paredit' is good but requiring `Shift' key.
   ;; We use more ergonomic keybindings for common operations.
   (keymap-local-set "C-8" #'paredit-backward-slurp-sexp)
@@ -241,7 +239,8 @@ enable paredit mode."
   (define-key paredit-mode-map (kbd "M-?") nil)
   ;; Do not insert spaces automatically.
   (add-to-list 'paredit-space-for-delimiter-predicates (lambda (endp delimiter) nil))
-  (paredit-mode 1))
+  (paredit-mode 1)
+  (auto-fill-mode 1))
 
 (add-hook 'emacs-lisp-mode-hook #'my-paredit-hookfn)
 (add-hook 'lisp-mode-hook #'my-paredit-hookfn)
@@ -294,9 +293,8 @@ enable paredit mode."
 ;;; This function was used to find the erlang's "tools-xx" directory by pattern.
 ;;; Usage: (find-file-by-pattern (concat erlang-root-dir "/lib") "^tools*")
 (defun find-file-by-pattern (directory pattern)
-  "Find the first file in DIRECTORY that matching PATTERN and return
-its full path.  PATTERN is the regular expression to match
-filename."
+  "Find the first file in DIRECTORY that matching PATTERN and return its full
+path.  PATTERN is the regular expression to match filename."
   (let ((files (directory-files directory t)))
     (seq-find (lambda (file)
 		(string-match-p pattern (file-name-nondirectory file)))
@@ -327,19 +325,33 @@ filename."
 (keymap-global-set "C-c a" 'org-agenda)
 (keymap-global-set "C-c c" 'org-capture)
 
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "|" "DONE(d)")
+	(sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
+	(sequence "|" "CANCELED(c)")))
 
+(setq org-agenda-include-diary t)
+
+(setq calendar-chinese-celestial-stem
+      ["甲" "乙" "丙" "丁" "戊" "己" "庚" "辛" "壬" "癸"])
+(setq calendar-chinese-terrestrial-branch
+      ["子" "丑" "寅" "卯" "辰" "巳" "午" "未" "申" "酉" "戌" "亥"])
+
+
+;;; Miscellaneous utilities
 (defun load-when-exist (filename)
   (and (file-exists-p filename)
        (load filename)))
 
 (load-when-exist "~/playground/emacs-lisp-playground/dired-util.el")
 
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files nil)
+ '(org-agenda-files '("~/org/work.org" "~/org/home.org" "~/org/misc.org"))
  '(package-selected-packages '(company magit paredit)))
 
 (custom-set-faces
