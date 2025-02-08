@@ -321,9 +321,9 @@ path.  PATTERN is the regular expression to match filename."
 
 
 ;;; Org
-(keymap-global-set "C-c l" 'org-store-link)
-(keymap-global-set "C-c a" 'org-agenda)
-(keymap-global-set "C-c c" 'org-capture)
+(keymap-global-set "C-c l" #'org-store-link)
+(keymap-global-set "C-c a" #'org-agenda)
+(keymap-global-set "C-c c" #'org-capture)
 
 (setq org-todo-keywords
       '((sequence "TODO(t)" "|" "DONE(d)")
