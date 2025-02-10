@@ -142,14 +142,19 @@ of PATH-STRING.  Any one of the situations make the match success."
 
 (add-hook 'prog-mode-hook
 	  (lambda ()
-	    (setq-local display-line-numbers-width 8)
 	    (setq-local column-number-mode 1)
-	    (display-line-numbers-mode 1)
 	    (show-paren-mode 1)))
 
 
-;;; Disable image loading of EWW.  (Image loading can slow down emacs)
-(setq shr-inhibit-images t)
+;;; Line number is useful, enable it globally.
+(setq-default display-line-numbers-width 8)
+(setq-default display-line-numbers t)
+
+
+;;; Disable image loading of EWW.  (Image loading can slow down EWW)
+(add-hook 'eww-mode-hook
+	  (lambda ()
+	    (setq shr-inhibit-images t)))
 
 
 ;;; Dictionary (which is provided since Emacs 28) setting:
@@ -157,7 +162,7 @@ of PATH-STRING.  Any one of the situations make the match success."
 ;;; Install `dictd' first: apt install dictd dict dict-{wn,vera,jargon,devil,gcide,foldoc}
 ;;; Start `dictd' on startup: systemctl enable dictd
 
-;;; Use `M-x' and `dictionary-lookup-definition' on words directly.
+;;; Use `M-x' `dictionary-lookup-definition' on words directly.
 
 (when system-is-not-unix
   (setq dictionary-server "dict.org"))
@@ -199,9 +204,9 @@ of PATH-STRING.  Any one of the situations make the match success."
 (setq ido-everywhere t)
 (ido-mode 1)
 
-;;; Update package indexes: `M-x' and `package-refresh-contents'.
-;;; Install new package: `M-x' and `package-install'.
-;;; Install selected packages: `M-x' and `package-install-selected-packages'.
+;;; Update package indexes: `M-x' `package-refresh-contents'.
+;;; Install new package: `M-x' `package-install'.
+;;; Install selected packages: `M-x' `package-install-selected-packages'.
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
