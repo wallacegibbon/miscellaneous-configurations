@@ -153,22 +153,11 @@ of PATH-STRING.  Any one of the situations make the match success."
 
 
 ;;; Dictionary (which is provided since Emacs 28) setting:
+
 ;;; Install `dictd' first: apt install dictd dict dict-{wn,vera,jargon,devil,gcide,foldoc}
 ;;; Start `dictd' on startup: systemctl enable dictd
 
-(add-hook 'eww-mode-hook
-	  (lambda ()
-	    (keymap-local-set "C-c l" #'dictionary-lookup-definition)
-	    (text-scale-adjust -1)))
-
-(add-hook 'Info-mode-hook
-	  (lambda ()
-	    (keymap-local-set "C-c l" #'dictionary-lookup-definition)))
-
-(add-hook 'dictionary-mode-hook
-	  (lambda ()
-	    (keymap-local-set "C-c l" #'dictionary-lookup-definition)
-	    (text-scale-adjust -2)))
+;;; Use `M-x' and `dictionary-lookup-definition' on words directly.
 
 (when system-is-not-unix
   (setq dictionary-server "dict.org"))
