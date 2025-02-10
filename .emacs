@@ -45,9 +45,6 @@
 			       ((windows-nt ms-dos cygwin) t)
 			       (t nil)))
 
-(defconst directory-separator (if system-is-not-unix "\\" "/")
-  "\"/\" on Unix and \"\\\" on Windows")
-
 (defmacro path-segment-match (pathname path-string)
   "The path segment PATHNAME could be at the start, at the end, or in the middle
 of PATH-STRING.  Any one of the situations make the match success."
@@ -64,28 +61,24 @@ of PATH-STRING.  Any one of the situations make the match success."
 ;; (path-segment-match "/" "/bin:/:/usr/bin")
 ;; (path-segment-match "/" "/bin:/usr/bin")
 
-(defun drop-tailing (string trailing-str)
-  (if (equal string trailing-str)
-      string
-    (if (string-suffix-p trailing-str string)
-	(substring string 0 (1- (length string)))
-      string)))
-
-;; (drop-tailing "a/b/c/" "/")
-;; (drop-tailing "a/b/c" "/")
-;; (drop-tailing "/" "/")
-
 (defun add-to-exec-and-env (raw-pathname)
   "Add PATHNAME to both environment variable PATH and `exec-path'. Adding to
   `exec-path' won't make shell see the commands in PATHNAME.  That's why we need
   to add it to `PATH', too."
   (interactive "DPath to add: ")
-  (let ((pathname (drop-tailing raw-pathname directory-separator)))
-    (add-to-list 'exec-path pathname)
-    (let ((env-path (getenv "PATH")))
-      (unless (path-segment-match pathname env-path)
-	(setenv "PATH" (concat pathname path-separator env-path))
-	(message "\"%s\" is added to PATH" pathname)))))
+  (cl-labels ((drop-tailing (string trailing-str)
+		(if (equal string trailing-str)
+		    string
+		  (if (string-suffix-p trailing-str string)
+		      (substring string 0 (- (length string) (length trailing-str)))
+		    string))))
+    (let ((pathname (drop-tailing raw-pathname
+				  (if system-is-not-unix "\\" "/"))))
+      (add-to-list 'exec-path pathname)
+      (let ((env-path (getenv "PATH")))
+	(unless (path-segment-match pathname env-path)
+	  (setenv "PATH" (concat pathname path-separator env-path))
+	  (message "\"%s\" was added to PATH" pathname))))))
 
 ;;; My Utilities
 (add-to-exec-and-env (file-name-concat (getenv "HOME") ".local/bin"))
@@ -103,22 +96,23 @@ of PATH-STRING.  Any one of the situations make the match success."
 (defvar *my-prefered-fonts* '("cascadia code" "menlo" "consolas" "monospace"))
 (defvar *my-font-size* 20)
 
+(defun config-non-console-font (&optional font-string)
+  "Setting a font when possible (Running GUI version Emacs, and font exists)."
+  (let* ((prefered-font (seq-find #'x-list-fonts *my-prefered-fonts*))
+	 (font (let ((font-name (or font-string prefered-font)))
+		 (if font-name
+		     (format "%s-%d" font-name *my-font-size*)))))
+    (when font
+      (message "Setting font to %s" font)
+      (set-frame-font font))))
+
 ;; (let ((*my-font-size* 16)) (config-non-console-font))
 ;; (let ((*my-font-size* 20)) (config-non-console-font))
 
-(defun config-non-console-font (&optional font-string)
-  (let* ((default-font (seq-find #'x-list-fonts *my-prefered-fonts*))
-	 (font (let ((font-name (or font-string default-font)))
-		 (if font-name
-		     (format "%s-%d" font-name *my-font-size*)
-		   "NOFONT"))))
-    (message "Setting font to %s" font)
-    (set-frame-font font)))
 
-
-;;; Themes are NOT exclusive, they may affect each other.  This function
-;;; disables other themes and left only one.
 (defun load-theme-single (theme)
+  "Themes are NOT exclusive, they may affect each other.  This function disables
+other themes and left only one."
   (interactive (list (intern (completing-read "Load custom theme: "
 					      (mapcar #'symbol-name
 						      (custom-available-themes))))))
@@ -142,13 +136,14 @@ of PATH-STRING.  Any one of the situations make the match success."
 
 (add-hook 'prog-mode-hook
 	  (lambda ()
-	    (setq-local column-number-mode 1)
 	    (show-paren-mode 1)))
 
 
 ;;; Line number is useful, enable it globally.
 (setq-default display-line-numbers-width 8)
 (setq-default display-line-numbers t)
+
+(setq-default column-number-mode 1)
 
 
 ;;; Disable image loading of EWW.  (Image loading can slow down EWW)
@@ -168,18 +163,20 @@ of PATH-STRING.  Any one of the situations make the match success."
   (setq dictionary-server "dict.org"))
 
 
-;;; In Emacs 29, `lisp-indent-function' was changed to improve the way
-;;; indentation is handled, and `common-lisp-indent-function' no longer works
-;;; the same way for Emacs Lisp.
-(defun my-common-lisp-if-indent (indent-point state)
+(defun indent-emacs-lisp-in-cl-style (indent-point state)
+  "Indent the `if' form in Common Lisp style.  (Align both condition branch)
+
+In Emacs 29, `lisp-indent-function' was changed to improve the way indentation
+is handled, and `common-lisp-indent-function' no longer works the same way for
+Emacs Lisp."
   (let ((normal-indent (current-column)))
-    (goto-char (1+ (car state))) ; Go to the second element (the body)
+    (goto-char (1+ (car state)))
     (parse-partial-sexp (point) indent-point 0 t)
     (+ normal-indent 1)))
 
 ;; (add-hook 'emacs-lisp-mode-hook
 ;; 	  (lambda ()
-;; 	    (put 'if 'lisp-indent-function #'my-common-lisp-if-indent)))
+;; 	    (put 'if 'lisp-indent-function #'indent-emacs-lisp-in-cl-style)))
 
 (add-hook 'scheme-mode-hook
 	  (lambda ()
@@ -220,7 +217,7 @@ of PATH-STRING.  Any one of the situations make the match success."
 
 (require 'paredit)
 
-(defun my-paredit-hookfn ()
+(defun customize-paredit-mode ()
   "This function should be put into hooks of modes where you want to enable
 paredit mode."
   ;; The default key bindings for `paredit' is good but requiring `Shift' key.
@@ -236,9 +233,9 @@ paredit mode."
   (paredit-mode 1)
   (auto-fill-mode 1))
 
-(add-hook 'emacs-lisp-mode-hook #'my-paredit-hookfn)
-(add-hook 'lisp-mode-hook #'my-paredit-hookfn)
-(add-hook 'scheme-mode-hook #'my-paredit-hookfn)
+(add-hook 'emacs-lisp-mode-hook #'customize-paredit-mode)
+(add-hook 'lisp-mode-hook #'customize-paredit-mode)
+(add-hook 'scheme-mode-hook #'customize-paredit-mode)
 
 
 ;;; Common Lisp
@@ -269,8 +266,8 @@ paredit mode."
 ;; 	    (keymap-local-set "C-<return>" #'geiser-eval-last-sexp)))
 
 
-;;; To solve the GNU-style problem of company. (no space after function name)
 (defun fix-gnu-style-after-complete (s)
+  "Fix the GNU style problem with `company' mode.  (No space after function name)"
   (save-excursion
     (when (and (search-backward s nil t)
 	       (looking-at (concat s "(")))
@@ -285,7 +282,7 @@ paredit mode."
 
 
 ;;; This function was used to find the erlang's "tools-xx" directory by pattern.
-;;; Usage: (find-file-by-pattern (concat erlang-root-dir "/lib") "^tools*")
+;;; e.g. (find-file-by-pattern (concat erlang-root-dir "/lib") "^tools*")
 (defun find-file-by-pattern (directory pattern)
   "Find the first file in DIRECTORY that matching PATTERN and return its full
 path.  PATTERN is the regular expression to match filename."
@@ -326,18 +323,16 @@ path.  PATTERN is the regular expression to match filename."
 
 (setq org-agenda-include-diary t)
 
-(setq calendar-chinese-celestial-stem
-      ["甲" "乙" "丙" "丁" "戊" "己" "庚" "辛" "壬" "癸"])
-(setq calendar-chinese-terrestrial-branch
-      ["子" "丑" "寅" "卯" "辰" "巳" "午" "未" "申" "酉" "戌" "亥"])
 
+;;; Miscellaneous Emacs Lisp Utilities.
+(defvar *my-elisp-files* nil)
 
-;;; Miscellaneous utilities
-(defun load-when-exist (filename)
-  (and (file-exists-p filename)
-       (load filename)))
+(add-to-list '*my-elisp-files* "~/playground/emacs-lisp-playground/dired-util.el")
 
-(load-when-exist "~/playground/emacs-lisp-playground/dired-util.el")
+(mapc (lambda (filename)
+	(and (file-exists-p filename)
+	     (load filename)))
+      *my-elisp-files*)
 
 
 (custom-set-variables
