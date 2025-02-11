@@ -178,6 +178,10 @@ Emacs Lisp."
 ;; 	  (lambda ()
 ;; 	    (put 'if 'lisp-indent-function #'indent-emacs-lisp-in-cl-style)))
 
+(add-hook 'emacs-lisp-mode-hook
+	  (lambda ()
+	    (keymap-local-set "C-c C-m" #'macrostep-expand)))
+
 (add-hook 'scheme-mode-hook
 	  (lambda ()
 	    (put 'with-ellipsis 'scheme-indent-function 1)))
