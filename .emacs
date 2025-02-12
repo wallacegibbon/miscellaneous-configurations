@@ -328,6 +328,45 @@ path.  PATTERN is the regular expression to match filename."
 (setq org-agenda-include-diary t)
 
 
+;;; Gnus
+(setq gnus-select-method
+      '(nnimap "imqp.aliyun.com"
+               (nnimap-address "imap.aliyun.com")
+               (nnimap-server-port 993)
+               (nnimap-stream ssl)))
+
+;;; Make sure read messages are visible.
+(setq gnus-summary-hide-read nil)
+
+;;; Ensure that read messages are not collapsed or excluded in threads.
+(setq gnus-summary-ignore-threads nil)
+(setq gnus-summary-visible-threads t)
+
+(setq gnus-article-sort-functions
+      '(gnus-article-sort-by-date))
+
+;;; Refresh the group (folder) to include all messages.
+(setq user-mail-address "wallacegibbon@aliyun.com")
+(setq user-full-name "Wallace Gibbon")
+
+(setq gnus-home-directory "~/.gnus/")
+(setq gnus-directory "~/.mail/")
+(setq gnus-article-date-format-alist
+      '((t . "%Y-%m-%d %H:%M")))
+
+;;; SMTP settings.
+(setq send-mail-function 'smtpmail-send-it)
+(setq smtpmail-smtp-server "smtp.aliyun.com")
+(setq smtpmail-stream-type 'ssl)
+(setq smtpmail-smtp-service 465)
+
+(setq smtpmail-smtp-user "wallacegibbon@aliyun.com")
+
+;;; Both IMAP and SMTP use ~/.authinfo for password management.
+(setq smtpmail-smtp-auth-credentials
+      (auth-source-user-and-password "smtp.aliyun.com"))
+
+
 ;;; Miscellaneous Emacs Lisp Utilities.
 (defvar *my-elisp-files* nil)
 
