@@ -385,8 +385,8 @@ path.  PATTERN is the regular expression to match filename."
     ("opf-programming@qq.com" "smtp.qq.com" 465 ssl "OPF Creator")))
 
 (defmacro dynamic-let (binds &rest body)
-  "This is not real dynamic scoping, but a dirty emulation.  Variables will be
-  restored after the finish of body."
+  "Works just like `let'.  This is not real dynamic scoping, but a dirty
+emulation.  Variables in BINDS will be restored after the finish of BODY."
   (declare (indent 1))
   (let ((tmpvars (mapcar (lambda (x) (gensym))
 			 binds)))
