@@ -15,7 +15,6 @@
 ;;; This could cause some delay during content input, which is annoying for
 ;;; writting documents but okay for writting code.
 
-
 ;;; Since the SPACE key is used for CTRL, we can't press Ctrl-Space anymore.
 (keymap-global-set "C-2" #'set-mark-command)
 
@@ -78,7 +77,8 @@ of PATH-STRING.  Any one of the situations make the match success."
       (let ((env-path (getenv "PATH")))
 	(unless (path-segment-match pathname env-path)
 	  (setenv "PATH" (concat pathname path-separator env-path))
-	  (message "\"%s\" was added to PATH" pathname))))))
+	  (message "Environment preparing: \"%s\" was added to PATH"
+		   pathname))))))
 
 ;;; My Utilities
 (add-to-exec-and-env (file-name-concat (getenv "HOME") ".local/bin"))
@@ -90,7 +90,6 @@ of PATH-STRING.  Any one of the situations make the match success."
   (setq explicit-bash-args '("--login" "-i"))
   (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)
   (add-to-exec-and-env "C:/Program Files/Git/usr/bin"))
-
 
 ;;; Use dynamic-bindings variables to re-configure it in more situations.
 (defvar *my-prefered-fonts* '("cascadia code" "menlo" "consolas" "monospace"))
@@ -109,7 +108,6 @@ of PATH-STRING.  Any one of the situations make the match success."
 ;; (let ((*my-font-size* 16)) (config-non-console-font))
 ;; (let ((*my-font-size* 20)) (config-non-console-font))
 
-
 (defun load-theme-single (theme)
   "Themes are NOT exclusive, they may affect each other.  This function disables
 other themes and left only one."
@@ -122,7 +120,6 @@ other themes and left only one."
     (disable-theme old-theme))
   (load-theme theme t))
 
-
 ;;; Functions hooked on `emacs-startup-hook' will only run once.  We can safely
 ;;; reload this file without calling these functions again.
 (add-hook 'emacs-startup-hook
@@ -133,11 +130,9 @@ other themes and left only one."
 	      (config-non-console-font)
 	      (load-theme-single 'modus-vivendi))))
 
-
 (add-hook 'prog-mode-hook
 	  (lambda ()
 	    (show-paren-mode 1)))
-
 
 ;;; Line number is useful, enable it globally.
 (setq-default display-line-numbers-width 8)
@@ -145,14 +140,17 @@ other themes and left only one."
 
 (setq-default column-number-mode 1)
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; EWW
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Disable image loading of EWW.  (Image loading can slow down EWW)
 (add-hook 'eww-mode-hook
 	  (lambda ()
 	    (setq shr-inhibit-images t)))
 
-
-;;; Dictionary (which is provided since Emacs 28) setting:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Dictionary (which is provided since Emacs 28)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;; Install `dictd' first: apt install dictd dict dict-{wn,vera,jargon,devil,gcide,foldoc}
 ;;; Start `dictd' on startup: systemctl enable dictd
@@ -162,7 +160,9 @@ other themes and left only one."
 (when system-is-not-unix
   (setq dictionary-server "dict.org"))
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Lisp Miscellaneous
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun indent-emacs-lisp-in-cl-style (indent-point state)
   "Indent the `if' form in Common Lisp style.  (Align both condition branch)
 
@@ -190,8 +190,9 @@ Emacs Lisp."
 	  (lambda ()
 	    (keymap-local-set "C-<return>" #'eval-print-last-sexp)))
 
-
-;;; Enable the pixel scrolling mode.  (Supported since Emacs 29)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Pixel scrolling mode.  (Supported since Emacs 29)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (pixel-scroll-precision-mode 1)
 ;;; Interpolate scrolling via the Page Down and Page Up keys.
 (setq pixel-scroll-precision-interpolate-page t)
@@ -199,12 +200,16 @@ Emacs Lisp."
 ;;; scrolled back.
 (setq scroll-conservatively 10000)
 
-
-;;; Enable the awesome IDO mode.  (Included in Emacs since 23.1 (2017))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; IDO mode.  (Included in Emacs since 23.1 (2017))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Package management
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Update package indexes: `M-x' `package-refresh-contents'.
 ;;; Install new package: `M-x' `package-install'.
 ;;; Install selected packages: `M-x' `package-install-selected-packages'.
@@ -215,25 +220,27 @@ Emacs Lisp."
 (setq url-proxy-services '(("http" . "localhost:7890")
 			   ("https" . "localhost:7890")))
 
-
-;;; When paredit keybindings (like `C-)') are not working on Windows.  Check
-;;; system input method and disable the keybinding for input method switching.
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Paredit
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'paredit)
 
 (defun customize-paredit-mode ()
   "This function should be put into hooks of modes where you want to enable
 paredit mode."
-  ;; The default key bindings for `paredit' is good but requiring `Shift' key.
-  ;; We use more ergonomic keybindings for common operations.
-  (keymap-local-set "C-8" #'paredit-backward-slurp-sexp)
-  (keymap-local-set "C-9" #'paredit-forward-slurp-sexp)
-  (keymap-local-set "C-," #'paredit-backward-barf-sexp)
-  (keymap-local-set "C-." #'paredit-forward-barf-sexp)
+  ;; "M-(" and "M-)" are already bound by paredit, rebind it with define-key
+  (define-key paredit-mode-map (kbd "M-(") #'paredit-backward-slurp-sexp)
+  (define-key paredit-mode-map (kbd "M-)") #'paredit-forward-slurp-sexp)
+
+  (keymap-local-set "M-{" #'paredit-backward-barf-sexp)
+  (keymap-local-set "M-}" #'paredit-forward-barf-sexp)
+
   ;; Let's keep `M-?' for `xref'.
   (define-key paredit-mode-map (kbd "M-?") nil)
+
   ;; Do not insert spaces automatically.
   (add-to-list 'paredit-space-for-delimiter-predicates (lambda (endp delimiter) nil))
+
   (paredit-mode 1)
   (auto-fill-mode 1))
 
@@ -241,8 +248,9 @@ paredit mode."
 (add-hook 'lisp-mode-hook #'customize-paredit-mode)
 (add-hook 'scheme-mode-hook #'customize-paredit-mode)
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Common Lisp
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (setq inferior-lisp-program "sbcl")
 ;; ;; (setq inferior-lisp-program "clisp")
 ;; (setq slime-contribs '(slime-fancy slime-cl-indent))
@@ -256,8 +264,9 @@ paredit mode."
 ;; 	  (lambda ()
 ;; 	    (keymap-local-set "C-<return>" #'slime-eval-print-last-expression)))
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Scheme (Install geiser (geiser-guile, geiser-racket, etc.)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; (setq scheme-program-name "guile")
 ;; (setq scheme-program-name "scheme")
 ;; (setq scheme-program-name "racket")
@@ -269,7 +278,9 @@ paredit mode."
 ;; 	  (lambda ()
 ;; 	    (keymap-local-set "C-<return>" #'geiser-eval-last-sexp)))
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; C/C++
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun fix-gnu-style-after-complete (s)
   "Fix the GNU style problem with `company' mode.  (No space after function name)"
   (save-excursion
@@ -284,7 +295,9 @@ paredit mode."
 	    (add-hook 'company-after-completion-hook
 		      #'fix-gnu-style-after-complete)))
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Erlang (Not installed from elpa, but from the OTP library)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; This function was used to find the erlang's "tools-xx" directory by pattern.
 ;;; e.g. (find-file-by-pattern (concat erlang-root-dir "/lib") "^tools*")
 (defun find-file-by-pattern (directory pattern)
@@ -295,7 +308,6 @@ path.  PATTERN is the regular expression to match filename."
 		(string-match-p pattern (file-name-nondirectory file)))
 	      files)))
 
-;;; Erlang (Not installed from elpa, but from the OTP library)
 ;;; Add Erlang package path to `load-path'.
 (defun erlang-package-path ()
   (file-name-concat (shell-command-to-string
@@ -306,16 +318,19 @@ path.  PATTERN is the regular expression to match filename."
   (add-to-list 'load-path (erlang-package-path))
   (require 'erlang-start))
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Company (auto complete)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-hook 'after-init-hook #'global-company-mode)
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Magit
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'magit)
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Org
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (keymap-global-set "C-c l" #'org-store-link)
 (keymap-global-set "C-c a" #'org-agenda)
 (keymap-global-set "C-c c" #'org-capture)
@@ -327,13 +342,25 @@ path.  PATTERN is the regular expression to match filename."
 
 (setq org-agenda-include-diary t)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; E-Mail
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Both IMAP and SMTP use ~/.authinfo for password management.
 
-;;; Gnus
+;;; Avoid the image display on startup.
+(setq gnus-inhibit-startup-message t)
+
 (setq gnus-select-method
-      '(nnimap "imqp.aliyun.com"
-               (nnimap-address "imap.aliyun.com")
-               (nnimap-server-port 993)
-               (nnimap-stream ssl)))
+      '(nnimap "mail.aliyun.com"
+	       (nnimap-address "imap.aliyun.com")
+	       (nnimap-server-port 993)
+	       (nnimap-stream ssl)))
+
+(setq gnus-secondary-select-methods
+      '((nnimap "mail.qq.com"
+		(nnimap-address "imap.qq.com")
+		(nnimap-server-port 993)
+		(nnimap-stream ssl))))
 
 ;;; Make sure read messages are visible.
 (setq gnus-summary-hide-read nil)
@@ -342,32 +369,81 @@ path.  PATTERN is the regular expression to match filename."
 (setq gnus-summary-ignore-threads nil)
 (setq gnus-summary-visible-threads t)
 
-(setq gnus-article-sort-functions
-      '(gnus-article-sort-by-date))
-
-;;; Refresh the group (folder) to include all messages.
-(setq user-mail-address "wallacegibbon@aliyun.com")
-(setq user-full-name "Wallace Gibbon")
+(setq gnus-article-sort-functions '(gnus-article-sort-by-date))
 
 (setq gnus-home-directory "~/.gnus/")
-(setq gnus-directory "~/.mail/")
-(setq gnus-article-date-format-alist
-      '((t . "%Y-%m-%d %H:%M")))
+(setq gnus-directory "~/Mail/")
+(setq gnus-article-date-format-alist '((t . "%Y-%m-%d %H:%M")))
 
 ;;; SMTP settings.
 (setq send-mail-function 'smtpmail-send-it)
+(setq user-mail-address "wallacegibbon@aliyun.com")
+(setq user-full-name "Wallace Gibbon")
+
+;;; These default settings will be overrided by *my-smtp-accounts*.
 (setq smtpmail-smtp-server "smtp.aliyun.com")
-(setq smtpmail-stream-type 'ssl)
 (setq smtpmail-smtp-service 465)
-
+(setq smtpmail-stream-type 'ssl)
 (setq smtpmail-smtp-user "wallacegibbon@aliyun.com")
-
-;;; Both IMAP and SMTP use ~/.authinfo for password management.
-(setq smtpmail-smtp-auth-credentials
+(setq smtpmail-smtp-pass
       (auth-source-user-and-password "smtp.aliyun.com"))
 
+(defvar *my-smtp-accounts*
+  ;; Format: Sender Mail address - SMTP Server - Port - type - Username
+  '(("wallacegibbon@aliyun.com" "smtp.aliyun.com" 465 ssl "Wallace Gibbon")
+    ("opf-programming@qq.com" "smtp.qq.com" 465 ssl "OPF Creator")))
 
+(defmacro dynamic-let (var-binds &rest body)
+  "This is not real dynamic scoping, but a dirty emulation.  Variables will be
+  restored after the finish of body."
+  (declare (indent 1))
+  (let ((tmpvars (mapcar (lambda (x) (gensym))
+			 var-binds)))
+    (cl-labels ((>> (name value set)
+		  (cons `(setq ,name ,value) set))
+		(prepare (tmpvars binds ops1 ops2 ops3)
+		  (pcase (list tmpvars binds)
+		    (`((,t1 . ,t-rest) ((,n1 ,v1) . ,b-rest))
+		     (prepare t-rest b-rest (>> t1 n1 ops1) (>> n1 v1 ops2) (>> n1 t1 ops3)))
+		    ('(() ())
+		     (mapcar #'reverse (list ops1 ops2 ops3)))
+		    (data
+		     (error "invalid data: %S" data)))))
+      (pcase-let ((`(,ops1 ,ops2 ,ops3)
+		   (prepare tmpvars var-binds '() '() '())))
+	`(let ,tmpvars
+	   (unwind-protect
+	       (progn ,@ops1 ,@ops2 ,@body)
+	     ,@ops3))))))
+
+(defun advanced-message-send-and-exit ()
+  "Choose the right SMTP configuration from `*my-smtp-accounts*' and then send
+the mail by calling `message-send-and-exit'."
+  (interactive)
+  (let* ((sender (message-fetch-field "From"))
+	 (account (seq-find (lambda (c)
+			      (string-match (regexp-quote (car c)) sender))
+			    *my-smtp-accounts*)))
+    (unless account
+      (error "Failed finding configuration for %s" sender))
+    (pcase-let ((`(,email ,smtp-server ,port ,type ,name) account))
+      (dynamic-let ((smtpmail-smtp-server smtp-server)
+		    (smtpmail-smtp-service port)
+		    (smtpmail-stream-type type)
+		    (smtpmail-smtp-user email)
+		    (smtpmail-smtp-pass
+		     (auth-source-user-and-password smtp-server)))
+	(message-replace-header "From"
+				(format "%s <%s>" name email))
+	(message-send-and-exit)))))
+
+(add-hook 'gnus-message-setup-hook
+	  (lambda ()
+	    (local-set-key (kbd "C-c C-c") #'advanced-message-send-and-exit)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Miscellaneous Emacs Lisp Utilities.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar *my-elisp-files* nil)
 
 (add-to-list '*my-elisp-files* "~/playground/emacs-lisp-playground/dired-util.el")
@@ -377,7 +453,8 @@ path.  PATTERN is the regular expression to match filename."
 	     (load filename)))
       *my-elisp-files*)
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
