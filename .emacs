@@ -362,15 +362,6 @@ path.  PATTERN is the regular expression to match filename."
 		(nnimap-server-port 993)
 		(nnimap-stream ssl))))
 
-;;; Make sure read messages are visible.
-(setq gnus-summary-hide-read nil)
-
-;;; Ensure that read messages are not collapsed or excluded in threads.
-(setq gnus-summary-ignore-threads nil)
-(setq gnus-summary-visible-threads t)
-
-(setq gnus-article-sort-functions '(gnus-article-sort-by-date))
-
 (setq gnus-home-directory "~/.gnus/")
 (setq gnus-directory "~/Mail/")
 (setq gnus-article-date-format-alist '((t . "%Y-%m-%d %H:%M")))
