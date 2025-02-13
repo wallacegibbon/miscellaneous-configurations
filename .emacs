@@ -403,8 +403,8 @@ path.  PATTERN is the regular expression to match filename."
 		  (cons `(setq ,name ,value) set))
 		(prepare (tmpvars binds ops1 ops2 ops3)
 		  (pcase (list tmpvars binds)
-		    (`((,t . ,t-rest) ((,n ,v) . ,b-rest))
-		     (prepare t-rest b-rest (>> t n ops1) (>> n v ops2) (>> n t ops3)))
+		    (`((,tmp . ,t-rest) ((,n ,v) . ,b-rest))
+		     (prepare t-rest b-rest (>> tmp n ops1) (>> n v ops2) (>> n tmp ops3)))
 		    ('(() ())
 		     (mapcar #'reverse (list ops1 ops2 ops3)))
 		    (data
