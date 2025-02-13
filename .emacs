@@ -393,24 +393,24 @@ path.  PATTERN is the regular expression to match filename."
   '(("wallacegibbon@aliyun.com" "smtp.aliyun.com" 465 ssl "Wallace Gibbon")
     ("opf-programming@qq.com" "smtp.qq.com" 465 ssl "OPF Creator")))
 
-(defmacro dynamic-let (var-binds &rest body)
+(defmacro dynamic-let (binds &rest body)
   "This is not real dynamic scoping, but a dirty emulation.  Variables will be
   restored after the finish of body."
   (declare (indent 1))
   (let ((tmpvars (mapcar (lambda (x) (gensym))
-			 var-binds)))
+			 binds)))
     (cl-labels ((>> (name value set)
 		  (cons `(setq ,name ,value) set))
 		(prepare (tmpvars binds ops1 ops2 ops3)
 		  (pcase (list tmpvars binds)
-		    (`((,t1 . ,t-rest) ((,n1 ,v1) . ,b-rest))
-		     (prepare t-rest b-rest (>> t1 n1 ops1) (>> n1 v1 ops2) (>> n1 t1 ops3)))
+		    (`((,t . ,t-rest) ((,n ,v) . ,b-rest))
+		     (prepare t-rest b-rest (>> t n ops1) (>> n v ops2) (>> n t ops3)))
 		    ('(() ())
 		     (mapcar #'reverse (list ops1 ops2 ops3)))
 		    (data
 		     (error "invalid data: %S" data)))))
       (pcase-let ((`(,ops1 ,ops2 ,ops3)
-		   (prepare tmpvars var-binds '() '() '())))
+		   (prepare tmpvars binds '() '() '())))
 	`(let ,tmpvars
 	   (unwind-protect
 	       (progn ,@ops1 ,@ops2 ,@body)
