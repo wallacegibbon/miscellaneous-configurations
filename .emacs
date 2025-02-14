@@ -1,21 +1,18 @@
 ;;; -*- lexical-binding: t -*-
-;;; The most practical way to use Emacs ergonomically in a normal keyboard:
-;;;   Using SPACE as both SPACE and CTRL (when hold). Using CAPSLOCK as ESCAPE.
-;;;
-;;; Background: https://www.emacswiki.org/emacs/MovingTheCtrlKey
-;;;
-;;; Projects that make this possible:
-;;; - Linux: https://github.com/pietroiusti/janus-key
-;;; - MSWin: https://github.com/lydell/dual
-;;;
-;;; Forks (modified) I am using:
-;;; - Linux: https://github.com/wallacegibbon/janus-key
-;;; - MSWin: https://github.com/wallacegibbon/dual
-;;;
-;;; This could cause some delay during content input, which is annoying for
-;;; writting documents but okay for writting code.
+;;; Features like Toolbar, Menubar and Scrollbar is not necessary for Emacs.
+(mapc (lambda (fn-symbol)
+	(and (fboundp fn-symbol) (funcall fn-symbol -1)))
+      '(menu-bar-mode tool-bar-mode scroll-bar-mode))
 
-;;; Since the SPACE key is used for CTRL, we can't press Ctrl-Space anymore.
+;;; Many places in this script need to know the OS type, cache it to a variable.
+(defconst wg-system-is-not-unix (cl-case system-type
+				  ((windows-nt ms-dos cygwin) t)
+				  (t nil)))
+
+;;; A wider `fill-column' (whose default value `70') is better for documents.
+(setq-default fill-column 80)
+
+;;; SPACE key is used for CTRL when held, we can't press Ctrl-Space anymore.
 (keymap-global-set "C-2" #'set-mark-command)
 
 ;;; The "C-z" (suspend-frame) is not useful in GUI environment.
@@ -26,25 +23,11 @@
 (setq ring-bell-function 'ignore)
 (setq inhibit-startup-screen t)
 
-;;; A wider `fill-column' (whose default value `70') is better for documents.
-(setq-default fill-column 80)
-
-;;; The Toolbar, Menubar and Scrollbar is not necessary for Emacs.
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-
-;;; Displaying system time is sometimes useful in terminal, we prepare the
-;;; format and enable it when necessary.
 (setq display-time-format "%H:%M")
 ;; (setq display-time-interval 1)
 (display-time-mode 1)
 
-(defconst system-is-not-unix (cl-case system-type
-			       ((windows-nt ms-dos cygwin) t)
-			       (t nil)))
-
-(defmacro path-segment-match (pathname path-string)
+(defmacro wg-path-segment-match (pathname path-string)
   "The path segment PATHNAME could be at the start, at the end, or in the middle
 of PATH-STRING.  Any one of the situations make the match success."
   (let ((p (gensym)) (ps (gensym)))
@@ -55,12 +38,12 @@ of PATH-STRING.  Any one of the situations make the match success."
 		       (regexp-quote (concat ,path-separator ,p ,path-separator))
 		       (concat (regexp-quote (concat ,path-separator ,p)) "$")))))))
 
-;; (path-segment-match "/" "/bin:/usr/bin:/")
-;; (path-segment-match "/" "/:/bin:/usr/bin")
-;; (path-segment-match "/" "/bin:/:/usr/bin")
-;; (path-segment-match "/" "/bin:/usr/bin")
+;; (wg-path-segment-match "/" "/bin:/usr/bin:/")
+;; (wg-path-segment-match "/" "/:/bin:/usr/bin")
+;; (wg-path-segment-match "/" "/bin:/:/usr/bin")
+;; (wg-path-segment-match "/" "/bin:/usr/bin")
 
-(defun add-to-exec-and-env (raw-pathname)
+(defun wg-add-to-exec-and-env (raw-pathname)
   "Add PATHNAME to both environment variable PATH and `exec-path'. Adding to
   `exec-path' won't make shell see the commands in PATHNAME.  That's why we need
   to add it to `PATH', too."
@@ -69,46 +52,47 @@ of PATH-STRING.  Any one of the situations make the match success."
 		(if (equal string trailing-str)
 		    string
 		  (if (string-suffix-p trailing-str string)
-		      (substring string 0 (- (length string) (length trailing-str)))
+		      (substring string 0 (- (length string)
+					     (length trailing-str)))
 		    string))))
     (let ((pathname (drop-tailing raw-pathname
-				  (if system-is-not-unix "\\" "/"))))
+				  (if wg-system-is-not-unix "\\" "/"))))
       (add-to-list 'exec-path pathname)
       (let ((env-path (getenv "PATH")))
-	(unless (path-segment-match pathname env-path)
+	(unless (wg-path-segment-match pathname env-path)
 	  (setenv "PATH" (concat pathname path-separator env-path))
 	  (message "Environment preparing: \"%s\" was added to PATH"
 		   pathname))))))
 
 ;;; My Utilities
-(add-to-exec-and-env (file-name-concat (getenv "HOME") ".local/bin"))
+(wg-add-to-exec-and-env (file-name-concat (getenv "HOME") ".local/bin"))
 
 ;;; Windows specific configurations for basic shell functions.
-(when system-is-not-unix
+(when wg-system-is-not-unix
   (setq explicit-shell-file-name "C:/Program Files/Git/bin/bash.exe")
   (setq shell-file-name "bash")
   (setq explicit-bash-args '("--login" "-i"))
   (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)
-  (add-to-exec-and-env "C:/Program Files/Git/usr/bin"))
+  (wg-add-to-exec-and-env "C:/Program Files/Git/usr/bin"))
 
 ;;; Use dynamic-bindings variables to re-configure it in more situations.
-(defvar *my-prefered-fonts* '("cascadia code" "menlo" "consolas" "monospace"))
-(defvar *my-font-size* 20)
+(defvar wg-prefered-fonts '("cascadia code" "menlo" "consolas" "monospace"))
+(defvar wg-font-size 20)
 
-(defun config-non-console-font (&optional font-string)
+(defun wg-gui-font-config (&optional font-string)
   "Setting a font when possible (Running GUI version Emacs, and font exists)."
-  (let* ((prefered-font (seq-find #'x-list-fonts *my-prefered-fonts*))
+  (let* ((prefered-font (seq-find #'x-list-fonts wg-prefered-fonts))
 	 (font (let ((font-name (or font-string prefered-font)))
 		 (if font-name
-		     (format "%s-%d" font-name *my-font-size*)))))
+		     (format "%s-%d" font-name wg-font-size)))))
     (when font
       (message "Setting font to %s" font)
       (set-frame-font font))))
 
-;; (let ((*my-font-size* 16)) (config-non-console-font))
-;; (let ((*my-font-size* 20)) (config-non-console-font))
+;; (let ((wg-font-size 16)) (wg-gui-font-config))
+;; (let ((wg-font-size 20)) (wg-gui-font-config))
 
-(defun load-theme-single (theme)
+(defun wg-load-theme-single (theme)
   "Themes are NOT exclusive, they may affect each other.  This function disables
 other themes and left only one."
   (interactive (list (intern (completing-read "Load custom theme: "
@@ -127,8 +111,8 @@ other themes and left only one."
 	    (when window-system
 	      (add-to-list 'default-frame-alist '(fullscreen . maximized))
 	      (add-to-list 'default-frame-alist '(undecorated . t))
-	      (config-non-console-font)
-	      (load-theme-single 'modus-vivendi))))
+	      (wg-gui-font-config)
+	      (wg-load-theme-single 'modus-vivendi))))
 
 (add-hook 'prog-mode-hook
 	  (lambda ()
@@ -157,18 +141,14 @@ other themes and left only one."
 
 ;;; Use `M-x' `dictionary-lookup-definition' on words directly.
 
-(when system-is-not-unix
+(when wg-system-is-not-unix
   (setq dictionary-server "dict.org"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Lisp Miscellaneous
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun indent-emacs-lisp-in-cl-style (indent-point state)
-  "Indent the `if' form in Common Lisp style.  (Align both condition branch)
-
-In Emacs 29, `lisp-indent-function' was changed to improve the way indentation
-is handled, and `common-lisp-indent-function' no longer works the same way for
-Emacs Lisp."
+(defun wg-indent-elisp-like-cl (indent-point state)
+  "Indent the `if' form in Common Lisp style.  (Align 2 condition branchs)."
   (let ((normal-indent (current-column)))
     (goto-char (1+ (car state)))
     (parse-partial-sexp (point) indent-point 0 t)
@@ -176,7 +156,7 @@ Emacs Lisp."
 
 ;; (add-hook 'emacs-lisp-mode-hook
 ;; 	  (lambda ()
-;; 	    (put 'if 'lisp-indent-function #'indent-emacs-lisp-in-cl-style)))
+;; 	    (put 'if 'lisp-indent-function #'wg-indent-elisp-like-cl)))
 
 (add-hook 'emacs-lisp-mode-hook
 	  (lambda ()
@@ -225,7 +205,7 @@ Emacs Lisp."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'paredit)
 
-(defun customize-paredit-mode ()
+(defun wg-paredit-customize ()
   "This function should be put into hooks of modes where you want to enable
 paredit mode."
   ;; "M-(" and "M-)" are already bound by paredit, rebind it with define-key
@@ -244,9 +224,9 @@ paredit mode."
   (paredit-mode 1)
   (auto-fill-mode 1))
 
-(add-hook 'emacs-lisp-mode-hook #'customize-paredit-mode)
-(add-hook 'lisp-mode-hook #'customize-paredit-mode)
-(add-hook 'scheme-mode-hook #'customize-paredit-mode)
+(add-hook 'emacs-lisp-mode-hook #'wg-paredit-customize)
+(add-hook 'lisp-mode-hook #'wg-paredit-customize)
+(add-hook 'scheme-mode-hook #'wg-paredit-customize)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Common Lisp
@@ -281,7 +261,7 @@ paredit mode."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; C/C++
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun fix-gnu-style-after-complete (s)
+(defun wg-fix-gnu-style-after-complete (s)
   "Fix the GNU style problem with `company' mode.  (No space after function name)"
   (save-excursion
     (when (and (search-backward s nil t)
@@ -293,14 +273,14 @@ paredit mode."
 (add-hook 'c-mode-common-hook
 	  (lambda ()
 	    (add-hook 'company-after-completion-hook
-		      #'fix-gnu-style-after-complete)))
+		      #'wg-fix-gnu-style-after-complete)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Erlang (Not installed from elpa, but from the OTP library)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; This function was used to find the erlang's "tools-xx" directory by pattern.
-;;; e.g. (find-file-by-pattern (concat erlang-root-dir "/lib") "^tools*")
-(defun find-file-by-pattern (directory pattern)
+;;; e.g. (wg-find-file-by-pattern (concat erlang-root-dir "/lib") "^tools*")
+(defun wg-find-file-by-pattern (directory pattern)
   "Find the first file in DIRECTORY that matching PATTERN and return its full
 path.  PATTERN is the regular expression to match filename."
   (let ((files (directory-files directory t)))
@@ -309,24 +289,14 @@ path.  PATTERN is the regular expression to match filename."
 	      files)))
 
 ;;; Add Erlang package path to `load-path'.
-(defun erlang-package-path ()
+(defun wg-erlang-package-path ()
   (file-name-concat (shell-command-to-string
 		     "erl -noinput -eval 'io:put_chars(code:lib_dir(tools)), halt()'")
 		    "emacs"))
 
 (when (executable-find "erl")
-  (add-to-list 'load-path (erlang-package-path))
+  (add-to-list 'load-path (wg-erlang-package-path))
   (require 'erlang-start))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Company (auto complete)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-hook 'after-init-hook #'global-company-mode)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Magit
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'magit)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Org
@@ -343,21 +313,26 @@ path.  PATTERN is the regular expression to match filename."
 (setq org-agenda-include-diary t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; E-Mail
+;;; E-Mail & USENET
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Both IMAP and SMTP use ~/.authinfo for password management.
+(setq user-mail-address "wallacegibbon@aliyun.com")
+(setq user-full-name "Wallace Gibbon")
 
 ;;; Avoid the image display on startup.
 (setq gnus-inhibit-startup-message t)
 
-(setq gnus-select-method
-      '(nnimap "mail.aliyun.com"
-	       (nnimap-address "imap.aliyun.com")
-	       (nnimap-server-port 993)
-	       (nnimap-stream ssl)))
+(setq gnus-select-method '(nntp "news.eternal-september.org"))
+
+(setq gnus-posting-styles '(("*.*"
+			     (name "Wallace Gibbon")
+			     (address "wallacegibbon@aliyun.com"))))
 
 (setq gnus-secondary-select-methods
-      '((nnimap "mail.qq.com"
+      '((nnimap "mail.aliyun.com"
+		(nnimap-address "imap.aliyun.com")
+		(nnimap-server-port 993)
+		(nnimap-stream ssl))
+	(nnimap "mail.qq.com"
 		(nnimap-address "imap.qq.com")
 		(nnimap-server-port 993)
 		(nnimap-stream ssl))))
@@ -368,10 +343,8 @@ path.  PATTERN is the regular expression to match filename."
 
 ;;; SMTP settings.
 (setq send-mail-function 'smtpmail-send-it)
-(setq user-mail-address "wallacegibbon@aliyun.com")
-(setq user-full-name "Wallace Gibbon")
 
-;;; These default settings will be overrided by *my-smtp-accounts*.
+;;; These default settings will be overrided by wg-smtp-accounts.
 (setq smtpmail-smtp-server "smtp.aliyun.com")
 (setq smtpmail-smtp-service 465)
 (setq smtpmail-stream-type 'ssl)
@@ -379,12 +352,19 @@ path.  PATTERN is the regular expression to match filename."
 (setq smtpmail-smtp-pass
       (auth-source-user-and-password "smtp.aliyun.com"))
 
-(defvar *my-smtp-accounts*
-  ;; Format: Sender Mail address - SMTP Server - Port - type - Username
-  '(("wallacegibbon@aliyun.com" "smtp.aliyun.com" 465 ssl "Wallace Gibbon")
-    ("opf-programming@qq.com" "smtp.qq.com" 465 ssl "OPF Creator")))
+(defun wg-p-to (buffer-to-print &rest args)
+  "In some modes (like gnus) you can not print to *Messages* buffer.  This
+function write data to a temporary buffer for debugging."
+  (declare (indent 1))
+  (let ((running-buffer (buffer-name (current-buffer))))
+    (with-current-buffer (or (get-buffer buffer-to-print)
+			     (generate-new-buffer buffer-to-print))
+      (goto-char (point-max))
+      (insert (format "<in buffer %s>\n" running-buffer))
+      (insert (apply #'format args))
+      (insert "\n"))))
 
-(defmacro dynamic-let (binds &rest body)
+(defmacro wg-dyn-let (binds &rest body)
   "Works just like `let'.  This is not real dynamic scoping, but a dirty
 emulation.  Variables in BINDS will be restored after the finish of BODY."
   (declare (indent 1))
@@ -407,42 +387,81 @@ emulation.  Variables in BINDS will be restored after the finish of BODY."
 	       (progn ,@ops1 ,@ops2 ,@body)
 	     ,@ops3))))))
 
-(defun advanced-message-send-and-exit ()
-  "Choose the right SMTP configuration from `*my-smtp-accounts*' and then send
+(defvar wg-smtp-accounts
+  ;; Format: Sender Mail address - SMTP Server - Port - type - Username
+  '(("wallacegibbon@aliyun.com" "smtp.aliyun.com" 465 ssl "Wallace Gibbon")
+    ("opf-programming@qq.com" "smtp.qq.com" 465 ssl "OPF Creator")))
+
+(defun wg-message-send-and-exit ()
+  "Choose the right SMTP configuration from `wg-smtp-accounts' and then send
 the mail by calling `message-send-and-exit'."
   (interactive)
   (let* ((sender (message-fetch-field "From"))
 	 (account (seq-find (lambda (c)
 			      (string-match (regexp-quote (car c)) sender))
-			    *my-smtp-accounts*)))
+			    wg-smtp-accounts)))
     (unless account
       (error "Failed finding configuration for %s" sender))
     (pcase-let ((`(,email ,smtp-server ,port ,type ,name) account))
-      (dynamic-let ((smtpmail-smtp-server smtp-server)
-		    (smtpmail-smtp-service port)
-		    (smtpmail-stream-type type)
-		    (smtpmail-smtp-user email)
-		    (smtpmail-smtp-pass
-		     (auth-source-user-and-password smtp-server)))
+      (wg-dyn-let ((smtpmail-smtp-server smtp-server)
+		   (smtpmail-smtp-service port)
+		   (smtpmail-stream-type type)
+		   (smtpmail-smtp-user email)
+		   (smtpmail-smtp-pass
+		    (auth-source-user-and-password smtp-server)))
 	(message-replace-header "From"
 				(format "%s <%s>" name email))
 	(message-send-and-exit)))))
 
-(add-hook 'gnus-message-setup-hook
-	  (lambda ()
-	    (local-set-key (kbd "C-c C-c") #'advanced-message-send-and-exit)))
+;;; Global variables for holding current active mail.
+(defvar wg-current-mail-from nil)
+(defvar wg-current-mail-to nil)
+
+(defun wg-gnus-fix-mail-on-replying ()
+  "Fix the From and To headers for an E-mail response.  Ignore other cases."
+  (interactive)
+  (unless (and wg-current-mail-from wg-current-mail-to)
+    (error "This is not an E-mail replying, nothing to fix."))
+  (message-replace-header "To" wg-current-mail-from)
+  (message-replace-header "From" wg-current-mail-to)
+  (setq wg-current-mail-to nil)
+  (setq wg-current-mail-from nil))
+
+(defun wg-improve-gnus-email-experience ()
+  (add-hook 'gnus-message-setup-hook
+	    (lambda ()
+	      ;;(wg-p-to "gnus-debug" "gnus-message-setup-hook called...")
+	      (local-set-key (kbd "C-c C-c") #'wg-message-send-and-exit)
+	      (local-set-key (kbd "C-c f") #'wg-gnus-fix-mail-on-replying)))
+  (add-hook 'gnus-article-decode-hook
+	    (lambda ()
+	      ;;(wg-p-to "gnus-debug" "article-decode-hook called...")
+	      (setq wg-current-mail-from (message-fetch-field "From"))
+	      (setq wg-current-mail-to (message-fetch-field "To")))))
+
+(add-hook 'gnus-mode-hook #'wg-improve-gnus-email-experience)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Company (auto complete)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-hook 'after-init-hook #'global-company-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Magit
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'magit)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Miscellaneous Emacs Lisp Utilities.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defvar *my-elisp-files* nil)
+(defvar wg-elisp-files nil)
 
-(add-to-list '*my-elisp-files* "~/playground/emacs-lisp-playground/dired-util.el")
+(add-to-list 'wg-elisp-files "~/playground/emacs-lisp-playground/dired-util.el")
 
 (mapc (lambda (filename)
 	(and (file-exists-p filename)
 	     (load filename)))
-      *my-elisp-files*)
+      wg-elisp-files)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
