@@ -398,7 +398,7 @@ the mail by calling `message-send-and-exit'."
   (interactive)
   (let* ((sender (message-fetch-field "From"))
 	 (account (seq-find (lambda (c)
-			      (string-match (regexp-quote (car c)) sender))
+			      (string-match-p (regexp-quote (car c)) sender))
 			    wg-smtp-accounts)))
     (unless account
       (error "Failed finding configuration for %s" sender))
