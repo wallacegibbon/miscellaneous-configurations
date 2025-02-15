@@ -28,8 +28,9 @@
 (display-time-mode 1)
 
 (defmacro wg-path-segment-match (pathname path-string)
-  "The path segment PATHNAME could be at the start, at the end, or in the middle
-of PATH-STRING.  Any one of the situations make the match success."
+  "The path segment PATHNAME could be at the start, at the end, or
+in the middle of PATH-STRING.  Any one of the situations make the
+match success."
   (let ((p (gensym)) (ps (gensym)))
     `(let ((,p ,pathname) (,ps ,path-string))
        (or ,@(mapcar (lambda (segment)
@@ -44,9 +45,10 @@ of PATH-STRING.  Any one of the situations make the match success."
 ;; (wg-path-segment-match "/" "/bin:/usr/bin")
 
 (defun wg-add-to-exec-and-env (raw-pathname)
-  "Add PATHNAME to both environment variable PATH and `exec-path'. Adding to
-  `exec-path' won't make shell see the commands in PATHNAME.  That's why we need
-  to add it to `PATH', too."
+  "Add PATHNAME to both environment variable PATH and
+`exec-path'. Adding to `exec-path' won't make shell see the
+  commands in PATHNAME.  That's why we need to add it to `PATH',
+  too."
   (interactive "DPath to add: ")
   (cl-labels ((drop-tailing (string trailing-str)
 		(if (equal string trailing-str)
@@ -60,8 +62,9 @@ of PATH-STRING.  Any one of the situations make the match success."
       (add-to-list 'exec-path pathname)
       (let ((env-path (getenv "PATH")))
 	(unless (wg-path-segment-match pathname env-path)
-	  (setenv "PATH" (concat pathname path-separator env-path))
-	  (message "Environment preparing: \"%s\" was added to PATH"
+	  (setenv "PATH"
+		  (concat pathname path-separator env-path))
+	  (message "\"%s\" was added to PATH"
 		   pathname))))))
 
 ;;; My Utilities
@@ -80,7 +83,7 @@ of PATH-STRING.  Any one of the situations make the match success."
 (defvar wg-font-size 20)
 
 (defun wg-gui-font-config (&optional font-string)
-  "Setting a font when possible (Running GUI version Emacs, and font exists)."
+  "Setting a font when running in GUI mode, and the font exists."
   (let* ((prefered-font (seq-find #'x-list-fonts wg-prefered-fonts))
 	 (font (let ((font-name (or font-string prefered-font)))
 		 (if font-name
@@ -93,8 +96,8 @@ of PATH-STRING.  Any one of the situations make the match success."
 ;; (let ((wg-font-size 20)) (wg-gui-font-config))
 
 (defun wg-load-theme-single (theme)
-  "Themes are NOT exclusive, they may affect each other.  This function disables
-other themes and left only one."
+  "Themes are NOT exclusive, they may affect each other.  This
+function disables other themes and left only one."
   (interactive (list (intern (completing-read "Load custom theme: "
 					      (mapcar #'symbol-name
 						      (custom-available-themes))))))
@@ -147,8 +150,8 @@ other themes and left only one."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Lisp Miscellaneous
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun wg-indent-elisp-like-cl (indent-point state)
-  "Indent the `if' form in Common Lisp style.  (Align 2 condition branchs)."
+(defun wg-indent-elisp-if-like-cl (indent-point state)
+  "For the `if' form of Emacs Lisp.  Align the 2 branches like CL."
   (let ((normal-indent (current-column)))
     (goto-char (1+ (car state)))
     (parse-partial-sexp (point) indent-point 0 t)
@@ -156,7 +159,7 @@ other themes and left only one."
 
 ;; (add-hook 'emacs-lisp-mode-hook
 ;; 	  (lambda ()
-;; 	    (put 'if 'lisp-indent-function #'wg-indent-elisp-like-cl)))
+;; 	    (put 'if 'lisp-indent-function #'wg-indent-elisp-if-like-cl)))
 
 (add-hook 'emacs-lisp-mode-hook
 	  (lambda ()
@@ -206,8 +209,8 @@ other themes and left only one."
 (require 'paredit)
 
 (defun wg-paredit-customize ()
-  "This function should be put into hooks of modes where you want to enable
-paredit mode."
+  "This function should be put into hooks of modes where you want to
+enable paredit mode."
   ;; "M-(" and "M-)" are already bound by paredit, rebind it with define-key
   (define-key paredit-mode-map (kbd "M-(") #'paredit-backward-slurp-sexp)
   (define-key paredit-mode-map (kbd "M-)") #'paredit-forward-slurp-sexp)
@@ -221,8 +224,7 @@ paredit mode."
   ;; Do not insert spaces automatically.
   (add-to-list 'paredit-space-for-delimiter-predicates (lambda (endp delimiter) nil))
 
-  (paredit-mode 1)
-  (auto-fill-mode 1))
+  (paredit-mode 1))
 
 (add-hook 'emacs-lisp-mode-hook #'wg-paredit-customize)
 (add-hook 'lisp-mode-hook #'wg-paredit-customize)
@@ -262,7 +264,8 @@ paredit mode."
 ;;; C/C++
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun wg-fix-gnu-style-after-complete (s)
-  "Fix the GNU style problem with `company' mode.  (No space after function name)"
+  "Fix the GNU coding style problem with `company' mode. GNU style
+need a space after function names."
   (save-excursion
     (when (and (search-backward s nil t)
 	       (looking-at (concat s "(")))
@@ -281,8 +284,9 @@ paredit mode."
 ;;; This function was used to find the erlang's "tools-xx" directory by pattern.
 ;;; e.g. (wg-find-file-by-pattern (concat erlang-root-dir "/lib") "^tools*")
 (defun wg-find-file-by-pattern (directory pattern)
-  "Find the first file in DIRECTORY that matching PATTERN and return its full
-path.  PATTERN is the regular expression to match filename."
+  "Find the first file in DIRECTORY that matching PATTERN and return
+its full path.  PATTERN is the regular expression to match
+filename."
   (let ((files (directory-files directory t)))
     (seq-find (lambda (file)
 		(string-match-p pattern (file-name-nondirectory file)))
@@ -321,21 +325,31 @@ path.  PATTERN is the regular expression to match filename."
 ;;; Avoid the image display on startup.
 (setq gnus-inhibit-startup-message t)
 
-(setq gnus-select-method '(nntp "news.eternal-september.org"))
+;;; Passwords for USENET, IMAP and SMTP servers are all configured in `~/.authinfo'.
+;;; e.g.
+;;; machine imap.aliyun.com login wallacegibbon@aliyun.com password xxx
+;;; machine smtp.aliyun.com login wallacegibbon@aliyun.com password xxx
+;;; machine news.eternal-september.org login wallacegibbon force yes password xxx
 
+;;; For USENET
 (setq gnus-posting-styles '(("*.*"
 			     (name "Wallace Gibbon")
 			     (address "wallacegibbon@aliyun.com"))))
 
+;;; The main E-mail.
+(setq gnus-select-method
+      '(nnimap "mail.aliyun.com"
+	       (nnimap-address "imap.aliyun.com")
+	       (nnimap-server-port 993)
+	       (nnimap-stream ssl)))
+
 (setq gnus-secondary-select-methods
-      '((nnimap "mail.aliyun.com"
-		(nnimap-address "imap.aliyun.com")
-		(nnimap-server-port 993)
-		(nnimap-stream ssl))
-	(nnimap "mail.qq.com"
+      '((nnimap "mail.qq.com"
 		(nnimap-address "imap.qq.com")
 		(nnimap-server-port 993)
-		(nnimap-stream ssl))))
+		(nnimap-stream ssl))
+	;;(nntp "news.eternal-september.org")
+	))
 
 (setq gnus-home-directory "~/.gnus/")
 (setq gnus-directory "~/Mail/")
@@ -344,7 +358,6 @@ path.  PATTERN is the regular expression to match filename."
 ;;; SMTP settings.
 (setq send-mail-function 'smtpmail-send-it)
 
-;;; These default settings will be overrided by wg-smtp-accounts.
 (setq smtpmail-smtp-server "smtp.aliyun.com")
 (setq smtpmail-smtp-service 465)
 (setq smtpmail-stream-type 'ssl)
@@ -353,8 +366,8 @@ path.  PATTERN is the regular expression to match filename."
       (auth-source-user-and-password "smtp.aliyun.com"))
 
 (defun wg-p-to (buffer-to-print &rest args)
-  "In some modes (like gnus) you can not print to *Messages* buffer.  This
-function write data to a temporary buffer for debugging."
+  "In some modes (like gnus) you can not print to *Messages* buffer.
+This function write data to a temporary buffer for debugging."
   (declare (indent 1))
   (let ((running-buffer (buffer-name (current-buffer))))
     (with-current-buffer (or (get-buffer buffer-to-print)
@@ -365,8 +378,9 @@ function write data to a temporary buffer for debugging."
       (insert "\n"))))
 
 (defmacro wg-dyn-let (binds &rest body)
-  "Works just like `let'.  This is not real dynamic scoping, but a dirty
-emulation.  Variables in BINDS will be restored after the finish of BODY."
+  "Works just like `let'.  This is not real dynamic scoping, but a
+dirty emulation.  Variables in BINDS will be restored after the
+finish of BODY."
   (declare (indent 1))
   (let ((tmpvars (mapcar (lambda (x) (gensym))
 			 binds)))
@@ -393,8 +407,8 @@ emulation.  Variables in BINDS will be restored after the finish of BODY."
     ("opf-programming@qq.com" "smtp.qq.com" 465 ssl "OPF Creator")))
 
 (defun wg-message-send-and-exit ()
-  "Choose the right SMTP configuration from `wg-smtp-accounts' and then send
-the mail by calling `message-send-and-exit'."
+  "Choose the right SMTP configuration from `wg-smtp-accounts' and
+then send the mail by calling `message-send-and-exit'."
   (interactive)
   (let* ((sender (message-fetch-field "From"))
 	 (account (seq-find (lambda (c)
@@ -418,7 +432,8 @@ the mail by calling `message-send-and-exit'."
 (defvar wg-current-mail-to nil)
 
 (defun wg-gnus-fix-mail-on-replying ()
-  "Fix the From and To headers for an E-mail response.  Ignore other cases."
+  "Fix the From and To headers of E-mail response.  The right values
+are stored in `wg-current-mail-from' and `wg-current-mail-to'."
   (interactive)
   (unless (and wg-current-mail-from wg-current-mail-to)
     (error "This is not an E-mail replying, nothing to fix."))
