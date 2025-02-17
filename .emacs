@@ -282,7 +282,7 @@ need a space after function names."
 ;;; Erlang (Not installed from elpa, but from the OTP library)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; This function was used to find the erlang's "tools-xx" directory by pattern.
-;;; e.g. (wg-find-file-by-pattern (concat erlang-root-dir "/lib") "^tools*")
+;;; e.g. (wg-find-file-by-pattern "/usr/local/lib/erlang/lib/" "^tools")
 (defun wg-find-file-by-pattern (directory pattern)
   "Find the first file in DIRECTORY that matching PATTERN and return
 its full path.  PATTERN is the regular expression to match
