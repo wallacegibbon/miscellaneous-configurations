@@ -327,29 +327,25 @@ filename."
 
 ;;; Passwords for USENET, IMAP and SMTP servers are all configured in `~/.authinfo'.
 ;;; e.g.
+;;; machine news.eternal-september.org login wallacegibbon force yes password xxx
 ;;; machine imap.aliyun.com login wallacegibbon@aliyun.com password xxx
 ;;; machine smtp.aliyun.com login wallacegibbon@aliyun.com password xxx
-;;; machine news.eternal-september.org login wallacegibbon force yes password xxx
 
-;;; For USENET
+(setq gnus-select-method '(nntp "news.eternal-september.org"))
+
 (setq gnus-posting-styles '(("*.*"
 			     (name "Wallace Gibbon")
 			     (address "wallacegibbon@aliyun.com"))))
 
-;;; The main E-mail.
-(setq gnus-select-method
-      '(nnimap "mail.aliyun.com"
-	       (nnimap-address "imap.aliyun.com")
-	       (nnimap-server-port 993)
-	       (nnimap-stream ssl)))
-
 (setq gnus-secondary-select-methods
-      '((nnimap "mail.qq.com"
-		(nnimap-address "imap.qq.com")
+      '((nnimap "mail.aliyun.com"
+		(nnimap-address "imap.aliyun.com")
 		(nnimap-server-port 993)
 		(nnimap-stream ssl))
-	;;(nntp "news.eternal-september.org")
-	))
+	(nnimap "mail.qq.com"
+		(nnimap-address "imap.qq.com")
+		(nnimap-server-port 993)
+		(nnimap-stream ssl))))
 
 (setq gnus-home-directory "~/.gnus/")
 (setq gnus-directory "~/Mail/")
