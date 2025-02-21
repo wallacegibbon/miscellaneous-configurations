@@ -148,32 +148,6 @@ function disables other themes and left only one."
   (setq dictionary-server "dict.org"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Lisp Miscellaneous
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun wg-indent-elisp-if-like-cl (indent-point state)
-  "For the `if' form of Emacs Lisp.  Align the 2 branches like CL."
-  (let ((normal-indent (current-column)))
-    (goto-char (1+ (car state)))
-    (parse-partial-sexp (point) indent-point 0 t)
-    (+ normal-indent 1)))
-
-;; (add-hook 'emacs-lisp-mode-hook
-;; 	  (lambda ()
-;; 	    (put 'if 'lisp-indent-function #'wg-indent-elisp-if-like-cl)))
-
-(add-hook 'emacs-lisp-mode-hook
-	  (lambda ()
-	    (keymap-local-set "C-c C-m" #'macrostep-expand)))
-
-(add-hook 'scheme-mode-hook
-	  (lambda ()
-	    (put 'with-ellipsis 'scheme-indent-function 1)))
-
-(add-hook 'lisp-interaction-mode-hook
-	  (lambda ()
-	    (keymap-local-set "C-<return>" #'eval-print-last-sexp)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Pixel scrolling mode.  (Supported since Emacs 29)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (pixel-scroll-precision-mode 1)
@@ -206,11 +180,14 @@ function disables other themes and left only one."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Paredit
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'paredit)
+(autoload 'enable-paredit-mode "paredit"
+  "Turn on pseudo-structural editing of Lisp code."
+  t)
 
 (defun wg-paredit-customize ()
   "This function should be put into hooks of modes where you want to
 enable paredit mode."
+  (paredit-mode 1)
   ;; "M-(" and "M-)" are already bound by paredit, rebind it with define-key
   (define-key paredit-mode-map (kbd "M-(") #'paredit-backward-slurp-sexp)
   (define-key paredit-mode-map (kbd "M-)") #'paredit-forward-slurp-sexp)
@@ -222,9 +199,8 @@ enable paredit mode."
   (define-key paredit-mode-map (kbd "M-?") nil)
 
   ;; Do not insert spaces automatically.
-  (add-to-list 'paredit-space-for-delimiter-predicates (lambda (endp delimiter) nil))
-
-  (paredit-mode 1))
+  (add-to-list 'paredit-space-for-delimiter-predicates
+	       (lambda (endp delimiter) nil)))
 
 (add-hook 'emacs-lisp-mode-hook #'wg-paredit-customize)
 (add-hook 'lisp-mode-hook #'wg-paredit-customize)
@@ -233,18 +209,14 @@ enable paredit mode."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Common Lisp
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq inferior-lisp-program "sbcl")
-;; ;; (setq inferior-lisp-program "clisp")
-;; (setq slime-contribs '(slime-fancy slime-cl-indent))
-;; (require 'slime)
+(require 'slime-autoloads)
+(setq inferior-lisp-program "sbcl")
+;; (setq inferior-lisp-program "clisp")
+(setq slime-contribs '(slime-fancy slime-cl-indent))
+(slime-setup)
 
 ;;; Make HyperSpec installed by `(ql:quickload "clhs")' available to emacs.
-;; (load "/home/wallace/.quicklisp/clhs-use-local.el" t)
-;; (setq browse-url-browser-function 'eww-browse-url)
-
-;; (add-hook 'slime-mode-hook
-;; 	  (lambda ()
-;; 	    (keymap-local-set "C-<return>" #'slime-eval-print-last-expression)))
+(load "/home/wallace/.quicklisp/clhs-use-local.el" t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Scheme (Install geiser (geiser-guile, geiser-racket, etc.)
@@ -256,9 +228,38 @@ enable paredit mode."
 ;; (setq geiser-mode-eval-last-sexp-to-buffer t)
 ;; (setq geiser-mode-eval-to-buffer-prefix "\n")
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Lisp Miscellaneous
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun wg-indent-elisp-if-like-cl (indent-point state)
+  "For the `if' form of Emacs Lisp.  Align the 2 branches like CL."
+  (let ((normal-indent (current-column)))
+    (goto-char (1+ (car state)))
+    (parse-partial-sexp (point) indent-point 0 t)
+    (+ normal-indent 1)))
+
+(add-hook 'emacs-lisp-mode-hook
+	  (lambda ()
+	    ;;(put 'if 'lisp-indent-function #'wg-indent-elisp-if-like-cl)
+	    (keymap-local-set "C-c e" #'macrostep-expand)))
+
+(add-hook 'slime-mode-hook
+	  (lambda ()
+	    (setq browse-url-browser-function #'eww-browse-url)
+	    (keymap-local-set "C-<return>" #'slime-eval-print-last-expression)
+	    (keymap-local-set "C-c e" #'macrostep-expand)))
+
 ;; (add-hook 'geiser-mode-hook
 ;; 	  (lambda ()
 ;; 	    (keymap-local-set "C-<return>" #'geiser-eval-last-sexp)))
+
+(add-hook 'scheme-mode-hook
+	  (lambda ()
+	    (put 'with-ellipsis 'scheme-indent-function 1)))
+
+(add-hook 'lisp-interaction-mode-hook
+	  (lambda ()
+	    (keymap-local-set "C-<return>" #'eval-print-last-sexp)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; C/C++
@@ -458,11 +459,6 @@ are stored in `wg-current-mail-from' and `wg-current-mail-to'."
 (add-hook 'after-init-hook #'global-company-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Magit
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'magit)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Miscellaneous Emacs Lisp Utilities.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar wg-elisp-files nil)
@@ -482,7 +478,7 @@ are stored in `wg-current-mail-from' and `wg-current-mail-to'."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-agenda-files '("~/org/work.org" "~/org/home.org" "~/org/misc.org"))
- '(package-selected-packages '(company magit paredit)))
+ '(package-selected-packages '(company magit paredit slime)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
