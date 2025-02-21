@@ -216,7 +216,7 @@ enable paredit mode."
 (slime-setup)
 
 ;;; Make HyperSpec installed by `(ql:quickload "clhs")' available to emacs.
-(load "/home/wallace/.quicklisp/clhs-use-local.el" t)
+(load "~/.quicklisp/clhs-use-local.el" t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Scheme (Install geiser (geiser-guile, geiser-racket, etc.)
