@@ -379,30 +379,6 @@ This function write data to a temporary buffer for debugging."
       (insert (apply #'format args))
       (insert "\n"))))
 
-(defmacro wg-dyn-let (binds &rest body)
-  "Works just like `let'.  This is not real dynamic scoping, but a
-dirty emulation.  Variables in BINDS will be restored after the
-finish of BODY."
-  (declare (indent 1))
-  (let ((tmpvars (mapcar (lambda (x) (gensym))
-			 binds)))
-    (cl-labels ((>> (name value set)
-		  (cons `(setq ,name ,value) set))
-		(prepare (tmpvars binds ops1 ops2 ops3)
-		  (pcase (list tmpvars binds)
-		    (`((,tmp . ,t-rest) ((,n ,v) . ,b-rest))
-		     (prepare t-rest b-rest (>> tmp n ops1) (>> n v ops2) (>> n tmp ops3)))
-		    ('(() ())
-		     (mapcar #'reverse (list ops1 ops2 ops3)))
-		    (data
-		     (error "invalid data: %S" data)))))
-      (pcase-let ((`(,ops1 ,ops2 ,ops3)
-		   (prepare tmpvars binds '() '() '())))
-	`(let ,tmpvars
-	   (unwind-protect
-	       (progn ,@ops1 ,@ops2 ,@body)
-	     ,@ops3))))))
-
 (defvar wg-smtp-accounts
   ;; Format: Sender Mail address - SMTP Server - Port - type - Username
   '(("wallacegibbon@aliyun.com" "smtp.aliyun.com" 465 ssl "Wallace Gibbon")
@@ -419,12 +395,12 @@ then send the mail by calling `message-send-and-exit'."
     (unless account
       (error "Failed finding configuration for %s" sender))
     (pcase-let ((`(,email ,smtp-server ,port ,type ,name) account))
-      (wg-dyn-let ((smtpmail-smtp-server smtp-server)
-		   (smtpmail-smtp-service port)
-		   (smtpmail-stream-type type)
-		   (smtpmail-smtp-user email)
-		   (smtpmail-smtp-pass
-		    (auth-source-user-and-password smtp-server)))
+      (cl-progv
+	  (list 'smtpmail-smtp-server 'smtpmail-smtp-service 'smtpmail-stream-type
+		'smtpmail-smtp-user 'smtpmail-smtp-pass)
+	  (list smtp-server port type
+		email (auth-source-user-and-password smtp-server))
+	(message "Fixing the `From' field to %s <%s>" name email)
 	(message-replace-header "From"
 				(format "%s <%s>" name email))
 	(message-send-and-exit)))))
