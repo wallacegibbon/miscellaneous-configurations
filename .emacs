@@ -67,6 +67,16 @@ match success."
 	  (message "\"%s\" was added to PATH"
 		   pathname))))))
 
+(defun wg-find-file-by-pattern (directory pattern)
+  "Find the first file in DIRECTORY that matching PATTERN and return
+its full path.  PATTERN is the regular expression to match
+filename.
+e.g. (wg-find-file-by-pattern \"/usr/local/lib/erlang/lib/\" \"^tools\")"
+  (let ((files (directory-files directory t)))
+    (seq-find (lambda (file)
+		(string-match-p pattern (file-name-nondirectory file)))
+	      files)))
+
 ;;; My Utilities
 (wg-add-to-exec-and-env (file-name-concat (getenv "HOME") ".local/bin"))
 
@@ -209,14 +219,20 @@ enable paredit mode."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Common Lisp
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defvar quicklisp-software-dir "~/quicklisp/dists/quicklisp/software/")
+
+;;; Use the Slime installed by quicklisp to avoid conflicts.
+(add-to-list 'load-path
+	     (wg-find-file-by-pattern quicklisp-software-dir "^slime"))
+
 (require 'slime-autoloads)
 (setq inferior-lisp-program "sbcl")
 ;; (setq inferior-lisp-program "clisp")
 (setq slime-contribs '(slime-fancy slime-cl-indent))
 (slime-setup)
 
-;;; Make HyperSpec installed by `(ql:quickload "clhs")' available to emacs.
-(load "~/.quicklisp/clhs-use-local.el" t)
+;;; Install CL HyperSpec: (ql:quickload "clhs")
+(load "~/quicklisp/clhs-use-local.el" t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Scheme (Install geiser (geiser-guile, geiser-racket, etc.)
@@ -282,17 +298,6 @@ need a space after function names."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Erlang (Not installed from elpa, but from the OTP library)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; This function was used to find the erlang's "tools-xx" directory by pattern.
-;;; e.g. (wg-find-file-by-pattern "/usr/local/lib/erlang/lib/" "^tools")
-(defun wg-find-file-by-pattern (directory pattern)
-  "Find the first file in DIRECTORY that matching PATTERN and return
-its full path.  PATTERN is the regular expression to match
-filename."
-  (let ((files (directory-files directory t)))
-    (seq-find (lambda (file)
-		(string-match-p pattern (file-name-nondirectory file)))
-	      files)))
-
 ;;; Add Erlang package path to `load-path'.
 (defun wg-erlang-package-path ()
   (file-name-concat (shell-command-to-string
@@ -478,7 +483,7 @@ are stored in `wg-current-mail-from' and `wg-current-mail-to'."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-agenda-files '("~/org/work.org" "~/org/home.org" "~/org/misc.org"))
- '(package-selected-packages '(company magit paredit slime)))
+ '(package-selected-packages '(company magit paredit)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
