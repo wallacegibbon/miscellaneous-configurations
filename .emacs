@@ -105,7 +105,8 @@ e.g. (wg-find-file-by-pattern \"/usr/local/lib/erlang/lib/\" \"^tools\")"
 ;; (let ((wg-font-size 16)) (wg-gui-font-config))
 ;; (let ((wg-font-size 20)) (wg-gui-font-config))
 
-(defun wg-load-theme-single (theme)
+;;; This function is not prefixed on purpose.
+(defun load-theme-single (theme)
   "Themes are NOT exclusive, they may affect each other.  This
 function disables other themes and left only one."
   (interactive (list (intern (completing-read "Load custom theme: "
@@ -125,7 +126,7 @@ function disables other themes and left only one."
 	      (add-to-list 'default-frame-alist '(fullscreen . maximized))
 	      (add-to-list 'default-frame-alist '(undecorated . t))
 	      (wg-gui-font-config)
-	      (wg-load-theme-single 'modus-vivendi))))
+	      (load-theme-single 'modus-vivendi))))
 
 (add-hook 'prog-mode-hook
 	  (lambda ()
