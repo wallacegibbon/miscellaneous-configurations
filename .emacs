@@ -233,7 +233,10 @@ enable paredit mode."
 (slime-setup)
 
 ;;; Install CL HyperSpec: (ql:quickload "clhs")
-(load "~/quicklisp/clhs-use-local.el" t)
+;;; Create `clhs-use-local.el': (clhs:install-clhs-use-local)
+;;; There are some URL related problem with EWW on Windows.
+(unless wg-system-is-not-unix
+  (load (expand-file-name "~/quicklisp/clhs-use-local.el") t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Scheme (Install geiser (geiser-guile, geiser-racket, etc.)
