@@ -15,10 +15,6 @@
 ;;; SPACE key is used for CTRL when held, we can't press Ctrl-Space anymore.
 (keymap-global-set "C-2" #'set-mark-command)
 
-;;; The "C-z" (suspend-frame) is not useful in GUI environment.
-(when window-system
-  (keymap-global-unset "C-z"))
-
 ;;; Miscellaneous configurations to make Emacs more comfortable.
 (setq ring-bell-function 'ignore)
 (setq inhibit-startup-screen t)
@@ -118,15 +114,24 @@ function disables other themes and left only one."
     (disable-theme old-theme))
   (load-theme theme t))
 
+(defun wg-prepare-face ()
+  "Set font and theme.  This is called on startup and connection of new client."
+  (when window-system
+    (wg-gui-font-config)
+    (load-theme-single 'modus-vivendi)))
+
 ;;; Functions hooked on `emacs-startup-hook' will only run once.  We can safely
 ;;; reload this file without calling these functions again.
 (add-hook 'emacs-startup-hook
 	  (lambda ()
-	    (when window-system
-	      (add-to-list 'default-frame-alist '(fullscreen . maximized))
-	      (add-to-list 'default-frame-alist '(undecorated . t))
-	      (wg-gui-font-config)
-	      (load-theme-single 'modus-vivendi))))
+	    (add-to-list 'default-frame-alist '(fullscreen . maximized))
+	    (add-to-list 'default-frame-alist '(undecorated . t))
+	    (wg-prepare-face)))
+
+(add-hook 'server-after-make-frame-hook
+	  (lambda ()
+	    (message "New client is visiting the server...")
+	    (wg-prepare-face)))
 
 (add-hook 'prog-mode-hook
 	  (lambda ()
