@@ -120,12 +120,17 @@ function disables other themes and left only one."
     (wg-gui-font-config)
     (load-theme-single 'modus-vivendi)))
 
+;;; Enabling fullscreen with default-frame-alist cause some problems on Windows.
+;;; Use `M-x' `toggle-frame-fullscreen' to toggle fullscreen
+(defvar wg-default-frame-alist '(;;(fullscreen . maximized) (undecorated . t)
+				 (width . 100) (height . 20)))
+
 ;;; Functions hooked on `emacs-startup-hook' will only run once.  We can safely
 ;;; reload this file without calling these functions again.
 (add-hook 'emacs-startup-hook
 	  (lambda ()
-	    (add-to-list 'default-frame-alist '(fullscreen . maximized))
-	    (add-to-list 'default-frame-alist '(undecorated . t))
+	    (dolist (a wg-default-frame-alist)
+	      (add-to-list 'default-frame-alist a))
 	    (wg-prepare-face)))
 
 (add-hook 'server-after-make-frame-hook
