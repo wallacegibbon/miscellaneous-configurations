@@ -346,6 +346,30 @@ need a space after function names."
 
 (setq org-agenda-include-diary t)
 
+(defun wg-org-add-links-to-bottom (backend)
+  "Automatically add a list of all links at the bottom of the Org
+document during HTML export."
+  (when (and (re-search-forward "#\\+OPTIONS:.*html-links:footnotes" nil t)
+	     (eq backend 'html))
+    (message "!! yes")
+    (save-excursion
+      (goto-char (point-max))
+      (insert "\n\n#+BEGIN_EXPORT html\n")
+      (insert "<br/>\n<br/>\n<ul>\n")
+      (org-element-map (org-element-parse-buffer) 'link
+        (lambda (link)
+          (let ((url (org-element-property :raw-link link))
+                (s (org-element-property :contents-begin link))
+		(e (org-element-property :contents-end link)))
+            (when url
+              (insert (format "<li>%s: %s</li>\n"
+			      (buffer-substring-no-properties s e) url))))))
+      (insert "</ul>")
+      (insert "\n\n#+END_EXPORT\n"))))
+
+(add-hook 'org-export-before-processing-hook
+	  #'wg-org-add-links-to-bottom)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; E-Mail & USENET
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
