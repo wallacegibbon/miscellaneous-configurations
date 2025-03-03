@@ -236,15 +236,21 @@ enable paredit mode."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar quicklisp-software-dir "~/quicklisp/dists/quicklisp/software/")
 
-;;; Use the Slime installed by quicklisp to avoid conflicts.
-(add-to-list 'load-path
-	     (wg-find-file-by-pattern quicklisp-software-dir "^slime"))
+(defun wg-slime-init ()
+  "Initialize `slime'.  `slime-fancy' has already contained many
+contribs like `macrostep'."
+  (require 'slime-autoloads)
+  ;; (setq inferior-lisp-program "clisp")
+  (setq inferior-lisp-program "sbcl")
+  (setq slime-contribs '(slime-fancy slime-cl-indent))
+  ;; Call slime-setup to make macrostep work for common lisp.
+  (slime-setup))
 
-(require 'slime-autoloads)
-(setq inferior-lisp-program "sbcl")
-;; (setq inferior-lisp-program "clisp")
-(setq slime-contribs '(slime-fancy slime-cl-indent))
-(slime-setup)
+;;; Use the Slime installed by quicklisp to avoid conflicts.
+(let ((p (wg-find-file-by-pattern quicklisp-software-dir "^slime")))
+  (when p
+    (add-to-list 'load-path p)
+    (wg-slime-init)))
 
 ;;; Install CL HyperSpec: (ql:quickload "clhs")
 ;;; Create `clhs-use-local.el': (clhs:install-clhs-use-local)
@@ -277,6 +283,10 @@ enable paredit mode."
 	    ;;(put 'if 'lisp-indent-function #'wg-indent-elisp-if-like-cl)
 	    (keymap-local-set "C-c e" #'macrostep-expand)))
 
+(add-hook 'lisp-interaction-mode-hook
+	  (lambda ()
+	    (keymap-local-set "C-<return>" #'eval-print-last-sexp)))
+
 (add-hook 'slime-mode-hook
 	  (lambda ()
 	    (setq browse-url-browser-function #'eww-browse-url)
@@ -287,13 +297,9 @@ enable paredit mode."
 ;; 	  (lambda ()
 ;; 	    (keymap-local-set "C-<return>" #'geiser-eval-last-sexp)))
 
-(add-hook 'scheme-mode-hook
-	  (lambda ()
-	    (put 'with-ellipsis 'scheme-indent-function 1)))
-
-(add-hook 'lisp-interaction-mode-hook
-	  (lambda ()
-	    (keymap-local-set "C-<return>" #'eval-print-last-sexp)))
+;; (add-hook 'scheme-mode-hook
+;; 	  (lambda ()
+;; 	    (put 'with-ellipsis 'scheme-indent-function 1)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; C/C++
@@ -460,14 +466,10 @@ are stored in `wg-current-mail-from' and `wg-current-mail-to'."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Miscellaneous Emacs Lisp Utilities.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defvar wg-elisp-files nil)
+(defvar wg-elisp-files
+  '("~/playground/emacs-lisp-playground/dired-util.el"))
 
-(add-to-list 'wg-elisp-files "~/playground/emacs-lisp-playground/dired-util.el")
-
-(mapc (lambda (filename)
-	(and (file-exists-p filename)
-	     (load filename)))
-      wg-elisp-files)
+(mapc #'load wg-elisp-files)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -477,7 +479,7 @@ are stored in `wg-current-mail-from' and `wg-current-mail-to'."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-agenda-files '("~/org/work.org" "~/org/home.org" "~/org/misc.org"))
- '(package-selected-packages '(company magit paredit)))
+ '(package-selected-packages '(macrostep company magit paredit)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
