@@ -349,8 +349,10 @@ need a space after function names."
 (defun wg-org-add-links-to-bottom (backend)
   "Automatically add a list of all links at the bottom of the Org
 document during HTML export."
-  (when (and (re-search-forward "#\\+OPTIONS:.*html-links:footnotes" nil t)
-	     (eq backend 'html))
+  (when (and (eq backend 'html)
+	     (re-search-forward "#\\+OPTIONS:.*html-links:footnotes"
+				(save-excursion (search-forward "\n\n"))
+				t))
     (save-excursion
       (goto-char (point-max))
       (insert "\n#+BEGIN_EXPORT html\n<br/><ul>\n")
