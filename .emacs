@@ -316,8 +316,8 @@ need a space after function names."
 
 (add-hook 'c-mode-common-hook
 	  (lambda ()
-	    (add-hook 'company-after-completion-hook
-		      #'wg-fix-gnu-style-after-complete)))
+	    (add-hook 'company-after-completion-hook #'wg-fix-gnu-style-after-complete)
+	    (keymap-local-set "C-c e" #'macrostep-expand)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Erlang (Not installed from elpa, but from the OTP library)
