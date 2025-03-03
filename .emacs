@@ -351,7 +351,7 @@ need a space after function names."
 document during HTML export."
   (when (and (eq backend 'html)
 	     (re-search-forward "#\\+OPTIONS:.*html-links:footnotes"
-				(save-excursion (search-forward "\n\n"))
+				(save-excursion (search-forward "\n\n" nil t))
 				t))
     (save-excursion
       (goto-char (point-max))
