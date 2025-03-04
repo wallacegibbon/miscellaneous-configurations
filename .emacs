@@ -347,10 +347,11 @@ need a space after function names."
 (setq org-agenda-include-diary t)
 
 (defun wg-org-add-links-to-bottom (backend)
-  "Automatically add a list of all links at the bottom of the Org
-document during HTML export."
+  "When `#+OPTIONS: html-links:footnote' is found in the head of the
+Org file, automatically add a list of all links at the bottom of
+the Org document before HTML exporting."
   (when (and (eq backend 'html)
-	     (search-forward-regexp "#\\+OPTIONS:.*html-links:footnotes"
+	     (search-forward-regexp "#\\+OPTIONS:.*html-links:footnote"
 				    (save-excursion (search-forward "\n\n" nil t))
 				    t))
     (save-excursion
