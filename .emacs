@@ -350,19 +350,19 @@ need a space after function names."
   "Automatically add a list of all links at the bottom of the Org
 document during HTML export."
   (when (and (eq backend 'html)
-	     (re-search-forward "#\\+OPTIONS:.*html-links:footnotes"
-				(save-excursion (search-forward "\n\n" nil t))
-				t))
+	     (search-forward-regexp "#\\+OPTIONS:.*html-links:footnotes"
+				    (save-excursion (search-forward "\n\n" nil t))
+				    t))
     (save-excursion
       (goto-char (point-max))
       (insert "\n#+BEGIN_EXPORT html\n<br/><ul>\n")
       (org-element-map (org-element-parse-buffer) 'link
-        (lambda (link)
-          (let ((url (org-element-property :raw-link link))
-                (s (org-element-property :contents-begin link))
+	(lambda (link)
+	  (let ((url (org-element-property :raw-link link))
+		(s (org-element-property :contents-begin link))
 		(e (org-element-property :contents-end link)))
-            (when url
-              (insert (format "<li>%s: %s</li>\n"
+	    (when url
+	      (insert (format "<li>%s: %s</li>\n"
 			      (buffer-substring-no-properties s e) url))))))
       (insert "</ul>\n#+END_EXPORT\n"))))
 
