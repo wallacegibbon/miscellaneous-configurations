@@ -367,12 +367,12 @@ the Org document before HTML exporting."
       (insert "\n#+BEGIN_EXPORT html\n<br/><ul>\n")
       (org-element-map (org-element-parse-buffer) 'link
 	(lambda (link)
-	  (let ((url (org-element-property :raw-link link))
-		(s (org-element-property :contents-begin link))
-		(e (org-element-property :contents-end link)))
+	  (let ((url (org-element-property :raw-link link)))
 	    (when url
-	      (insert (format "<li>%s: %s</li>\n"
-			      (buffer-substring-no-properties s e) url))))))
+	      (let ((s (org-element-property :contents-begin link))
+		    (e (org-element-property :contents-end link)))
+		(insert (format "<li>%s: %s</li>\n"
+				(buffer-substring-no-properties s e) url)))))))
       (insert "</ul>\n#+END_EXPORT\n"))))
 
 (add-hook 'org-export-before-processing-functions
