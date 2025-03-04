@@ -346,14 +346,22 @@ need a space after function names."
 
 (setq org-agenda-include-diary t)
 
+(defun wg-org-add-links-to-bottom-p ()
+  "Run this function with current buffer bound to the org contents.
+Point should be at the beginning of the buffer."
+  (search-forward-regexp "#\\+OPTIONS:.*html-links:footnotes"
+			 (save-excursion (search-forward "\n\n" nil t))
+			 t))
+
+;;; Just for making the indentation of `org-element-map' right.
+(require 'org-element)
+
 (defun wg-org-add-links-to-bottom (backend)
   "When `#+OPTIONS: html-links:footnote' is found in the head of the
 Org file, automatically add a list of all links at the bottom of
 the Org document before HTML exporting."
   (when (and (eq backend 'html)
-	     (search-forward-regexp "#\\+OPTIONS:.*html-links:footnote"
-				    (save-excursion (search-forward "\n\n" nil t))
-				    t))
+	     (wg-org-add-links-to-bottom-p))
     (save-excursion
       (goto-char (point-max))
       (insert "\n#+BEGIN_EXPORT html\n<br/><ul>\n")
@@ -367,7 +375,7 @@ the Org document before HTML exporting."
 			      (buffer-substring-no-properties s e) url))))))
       (insert "</ul>\n#+END_EXPORT\n"))))
 
-(add-hook 'org-export-before-processing-hook
+(add-hook 'org-export-before-processing-functions
 	  #'wg-org-add-links-to-bottom)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
