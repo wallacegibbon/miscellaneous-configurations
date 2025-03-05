@@ -44,28 +44,33 @@ match success."
 ;; (wg-path-segment-match "/" "/bin:/:/usr/bin")
 ;; (wg-path-segment-match "/" "/bin:/usr/bin")
 
+(defun wg-try-drop-trailing (str trailing-str)
+  "Drop TRAILING-STR from STR if it is the end of STR.  Do nothing
+and return STR otherwise.  There is one exception when STR is
+equal to TRAILING-STR, in which case we return STR directly."
+  (if (equal str trailing-str)
+      str
+    (if (string-suffix-p trailing-str str)
+	(substring str 0 (- (length str)
+			    (length trailing-str)))
+      str)))
+
+;; (wg-try-drop-trailing "a/" "/")
+;; (wg-try-drop-trailing "a" "/")
+
 (defun wg-add-to-exec-and-env (raw-pathname)
   "Add PATHNAME to both environment variable PATH and
 `exec-path'. Adding to `exec-path' won't make shell see the
   commands in PATHNAME.  That's why we need to add it to `PATH',
   too."
   (interactive "DPath to add: ")
-  (cl-labels ((drop-tailing (string trailing-str)
-		(if (equal string trailing-str)
-		    string
-		  (if (string-suffix-p trailing-str string)
-		      (substring string 0 (- (length string)
-					     (length trailing-str)))
-		    string))))
-    (let ((pathname (drop-tailing raw-pathname
-				  (if wg-system-is-not-unix "\\" "/"))))
-      (add-to-list 'exec-path pathname)
-      (let ((env-path (getenv "PATH")))
-	(unless (wg-path-segment-match pathname env-path)
-	  (setenv "PATH"
-		  (concat pathname path-separator env-path))
-	  (message "\"%s\" was added to PATH"
-		   pathname))))))
+  (let ((pathname (wg-try-drop-trailing raw-pathname
+					(if wg-system-is-not-unix "\\" "/"))))
+    (add-to-list 'exec-path pathname)
+    (let ((env-path (getenv "PATH")))
+      (unless (wg-path-segment-match pathname env-path)
+	(setenv "PATH" (concat pathname path-separator env-path))
+	(message "\"%s\" was added to PATH" pathname)))))
 
 (defun wg-find-file-by-pattern (directory pattern)
   "Find the first file in DIRECTORY that matching PATTERN and return
