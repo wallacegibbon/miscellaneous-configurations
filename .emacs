@@ -57,6 +57,7 @@ equal to TRAILING-STR, in which case we return STR directly."
 
 ;; (wg-try-drop-trailing "a/" "/")
 ;; (wg-try-drop-trailing "a" "/")
+;; (wg-try-drop-trailing "/" "/")
 
 (defun wg-add-to-exec-and-env (raw-pathname)
   "Add PATHNAME to both environment variable PATH and
