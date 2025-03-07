@@ -125,11 +125,10 @@ function disables other themes and left only one."
   (load-theme theme t))
 
 (defun wg-prepare-face ()
-  "Set font and theme.  This function is called on startup and on
-new connection from clients."
+  "Set font for GUI only.  This function is called on startup, on
+new frame creation, and on new connection from clients."
   (when window-system
-    (wg-gui-font-config)
-    (load-theme-single 'modus-vivendi)))
+    (wg-gui-font-config)))
 
 ;;; Enabling fullscreen in default-frame-alist will cause some problems on Windows.
 ;;; Use `M-x' `toggle-frame-fullscreen' to toggle fullscreen.
@@ -141,12 +140,18 @@ new connection from clients."
 	  (lambda ()
 	    (dolist (a wg-default-frame-alist)
 	      (add-to-list 'default-frame-alist a))
-	    (wg-prepare-face)))
+	    (wg-prepare-face)
+	    (load-theme-single 'modus-vivendi)))
 
 (add-hook 'server-after-make-frame-hook
 	  (lambda ()
 	    (message "New client is connected to emacs daemon...")
 	    (wg-prepare-face)))
+
+(add-hook 'after-make-frame-functions
+	  (lambda (frame)
+	    (with-selected-frame frame
+	      (wg-prepare-face))))
 
 (add-hook 'prog-mode-hook
 	  (lambda ()
