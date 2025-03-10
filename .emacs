@@ -507,6 +507,11 @@ are stored in `wg-current-mail-from' and `wg-current-mail-to'."
 (add-hook 'after-init-hook #'global-company-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Quickly switch windows.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(keymap-global-set "M-o" 'ace-window)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Miscellaneous Emacs Lisp Utilities.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar wg-elisp-files
@@ -522,7 +527,7 @@ are stored in `wg-current-mail-from' and `wg-current-mail-to'."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-agenda-files '("~/org/work.org" "~/org/home.org" "~/org/misc.org"))
- '(package-selected-packages '(macrostep company magit paredit)))
+ '(package-selected-packages '(ace-window macrostep company magit paredit)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
