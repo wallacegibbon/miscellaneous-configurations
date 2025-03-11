@@ -510,6 +510,9 @@ are stored in `wg-current-mail-from' and `wg-current-mail-to'."
 ;;; Quickly switch windows.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (keymap-global-set "M-o" 'ace-window)
+(setq aw-keys '(?a ?s ?d ?f ?g ?h ?k ?l))
+(setq aw-dispatch-always t)
+;;(setq aw-background t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Miscellaneous Emacs Lisp Utilities.
