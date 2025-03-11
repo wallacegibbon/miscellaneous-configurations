@@ -205,13 +205,17 @@ new frame creation, and on new connection from clients."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Update package indexes: `M-x' `package-refresh-contents'.
 ;;; Install new package: `M-x' `package-install'.
-;;; Install selected packages: `M-x' `package-install-selected-packages'.
+;;; Delete installed package: `M-x' `package-delete'.
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
 (setq url-proxy-services '(("http" . "localhost:7890")
 			   ("https" . "localhost:7890")))
+
+;;; Install selected packages: `M-x' `package-install-selected-packages'.
+(setq package-selected-packages
+      '(macrostep company magit paredit))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Paredit
@@ -349,6 +353,8 @@ need a space after function names."
 (keymap-global-set "C-c l" #'org-store-link)
 (keymap-global-set "C-c a" #'org-agenda)
 (keymap-global-set "C-c c" #'org-capture)
+
+(setq org-agenda-files '("~/org/work.org" "~/org/home.org" "~/org/misc.org"))
 
 (setq org-todo-keywords
       '((sequence "TODO(t)" "|" "DONE(d)")
@@ -507,34 +513,9 @@ are stored in `wg-current-mail-from' and `wg-current-mail-to'."
 (add-hook 'after-init-hook #'global-company-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Quickly switch windows.
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(keymap-global-set "M-o" 'ace-window)
-(setq aw-keys '(?a ?s ?d ?f ?g ?h ?k ?l))
-(setq aw-dispatch-always t)
-;;(setq aw-background t)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Miscellaneous Emacs Lisp Utilities.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar wg-elisp-files
   '("~/playground/emacs-lisp-playground/dired-util.el"))
 
 (mapc #'load wg-elisp-files)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-agenda-files '("~/org/work.org" "~/org/home.org" "~/org/misc.org"))
- '(package-selected-packages '(ace-window macrostep company magit paredit)))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
