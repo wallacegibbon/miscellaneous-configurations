@@ -354,7 +354,8 @@ need a space after function names."
 (setq treesit-language-source-alist
       '((tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
 	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-	(go "https://github.com/tree-sitter/tree-sitter-go")))
+	(go "https://github.com/tree-sitter/tree-sitter-go")
+	(gomod "https://github.com/camdencheek/tree-sitter-go-mod")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; TypeScript
