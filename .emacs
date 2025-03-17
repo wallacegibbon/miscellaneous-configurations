@@ -245,6 +245,7 @@ enable paredit mode."
 (add-hook 'emacs-lisp-mode-hook #'wg-paredit-customize)
 (add-hook 'lisp-mode-hook #'wg-paredit-customize)
 (add-hook 'scheme-mode-hook #'wg-paredit-customize)
+(add-hook 'lfe-mode-hook #'wg-paredit-customize)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Common Lisp
@@ -284,6 +285,14 @@ contribs like `macrostep'."
 ;; (setq geiser-mode-eval-to-buffer-prefix "\n")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; LFE
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; To run an inferior LFE process, use `M-x' `run-lfe' (or `inferior-lfe').
+(when (executable-find "lfe")
+  (add-to-list 'load-path "~/playground/lfe/emacs")
+  (require 'lfe-start))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Lisp Miscellaneous
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun wg-indent-elisp-if-like-cl (indent-point state)
@@ -317,6 +326,46 @@ contribs like `macrostep'."
 ;; 	    (put 'with-ellipsis 'scheme-indent-function 1)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Paredit
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(autoload 'enable-paredit-mode "paredit"
+  "Turn on pseudo-structural editing of Lisp code."
+  t)
+
+(defun wg-paredit-customize ()
+  "This function should be put into hooks of modes where you want to
+enable paredit mode."
+  (paredit-mode 1)
+  ;; "M-(" and "M-)" are already bound by paredit, rebind it with define-key
+  (define-key paredit-mode-map (kbd "M-(") #'paredit-backward-slurp-sexp)
+  (define-key paredit-mode-map (kbd "M-)") #'paredit-forward-slurp-sexp)
+
+  (keymap-local-set "M-{" #'paredit-backward-barf-sexp)
+  (keymap-local-set "M-}" #'paredit-forward-barf-sexp)
+
+  ;; Let's keep `M-?' for `xref'.
+  (define-key paredit-mode-map (kbd "M-?") nil)
+
+  ;; Do not insert spaces automatically.
+  (add-to-list 'paredit-space-for-delimiter-predicates
+	       (lambda (endp delimiter) nil)))
+
+(add-hook 'emacs-lisp-mode-hook #'wg-paredit-customize)
+(add-hook 'lisp-mode-hook #'wg-paredit-customize)
+(add-hook 'scheme-mode-hook #'wg-paredit-customize)
+(add-hook 'lfe-mode-hook #'wg-paredit-customize)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Erlang (Not installed from elpa, but from the OTP library)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(when (executable-find "erl")
+  (add-to-list 'load-path (file-name-concat
+			   (shell-command-to-string
+			    "erl -noinput -eval 'io:put_chars(code:lib_dir(tools)), halt()'")
+			   "emacs"))
+  (require 'erlang-start))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; C/C++
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun wg-fix-gnu-style-after-complete (s)
@@ -333,24 +382,6 @@ need a space after function names."
 	  (lambda ()
 	    (add-hook 'company-after-completion-hook #'wg-fix-gnu-style-after-complete)
 	    (keymap-local-set "C-c e" #'macrostep-expand)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Erlang (Not installed from elpa, but from the OTP library)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when (executable-find "erl")
-  (add-to-list 'load-path (file-name-concat
-			   (shell-command-to-string
-			    "erl -noinput -eval 'io:put_chars(code:lib_dir(tools)), halt()'")
-			   "emacs"))
-  (require 'erlang-start))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; LFE
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; To run an inferior LFE process, use `M-x' `run-lfe' (or `inferior-lfe').
-(when (executable-find "lfe")
-  (add-to-list 'load-path "~/playground/lfe/emacs")
-  (require 'lfe-start))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Tree-sitter
