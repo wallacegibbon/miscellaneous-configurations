@@ -337,15 +337,21 @@ need a space after function names."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Erlang (Not installed from elpa, but from the OTP library)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Add Erlang package path to `load-path'.
-(defun wg-erlang-package-path ()
-  (file-name-concat (shell-command-to-string
-		     "erl -noinput -eval 'io:put_chars(code:lib_dir(tools)), halt()'")
-		    "emacs"))
-
 (when (executable-find "erl")
-  (add-to-list 'load-path (wg-erlang-package-path))
+  (add-to-list 'load-path
+	       (file-name-concat
+		(shell-command-to-string
+		 "erl -noinput -eval 'io:put_chars(code:lib_dir(tools)), halt()'")
+		"emacs"))
   (require 'erlang-start))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; LFE
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; To start a inferior LFE, run `M-x' `run-lfe'. (or `M-x' `inferior-lfe')
+(when (executable-find "lfe")
+  (add-to-list 'load-path "~/playground/lfe/emacs")
+  (require 'lfe-start))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Tree-sitter
