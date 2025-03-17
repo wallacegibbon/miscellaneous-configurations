@@ -218,52 +218,7 @@ new frame creation, and on new connection from clients."
       '(macrostep company magit paredit))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Common Lisp
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defvar quicklisp-software-dir "~/quicklisp/dists/quicklisp/software/")
-
-(defun wg-slime-init ()
-  "Initialize `slime'.  `slime-fancy' has already contained many
-contribs like `macrostep'."
-  (require 'slime-autoloads)
-  ;; (setq inferior-lisp-program "clisp")
-  (setq inferior-lisp-program "sbcl")
-  (setq slime-contribs '(slime-fancy slime-cl-indent))
-  ;; Call slime-setup to make macrostep work for common lisp.
-  (slime-setup))
-
-;;; Use the Slime installed by quicklisp to avoid conflicts.
-(let ((p (wg-find-file-by-pattern quicklisp-software-dir "^slime")))
-  (when p
-    (add-to-list 'load-path p)
-    (wg-slime-init)))
-
-;;; Install CL HyperSpec: (ql:quickload "clhs")
-;;; Create `clhs-use-local.el': (clhs:install-clhs-use-local)
-;;; There are some URL related problem with EWW on Windows.
-(unless wg-system-is-not-unix
-  (load (expand-file-name "~/quicklisp/clhs-use-local.el") t))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Scheme (Install geiser (geiser-guile, geiser-racket, etc.)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq scheme-program-name "guile")
-;; (setq scheme-program-name "scheme")
-;; (setq scheme-program-name "racket")
-
-;; (setq geiser-mode-eval-last-sexp-to-buffer t)
-;; (setq geiser-mode-eval-to-buffer-prefix "\n")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; LFE
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; To run an inferior LFE process, use `M-x' `run-lfe' (or `inferior-lfe').
-(when (executable-find "lfe")
-  (add-to-list 'load-path "~/playground/lfe/emacs")
-  (require 'lfe-start))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Lisp Miscellaneous
+;;; Emacs Lisp
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun wg-indent-elisp-if-like-cl (indent-point state)
   "For the `if' form of Emacs Lisp.  Align the 2 branches like CL."
@@ -281,19 +236,69 @@ contribs like `macrostep'."
 	  (lambda ()
 	    (keymap-local-set "C-<return>" #'eval-print-last-sexp)))
 
-(add-hook 'slime-mode-hook
-	  (lambda ()
-	    (setq browse-url-browser-function #'eww-browse-url)
-	    (keymap-local-set "C-<return>" #'slime-eval-print-last-expression)
-	    (keymap-local-set "C-c e" #'macrostep-expand)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Common Lisp
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defvar quicklisp-software-dir "~/quicklisp/dists/quicklisp/software/")
+
+(defun wg-slime-init ()
+  "Initialize `slime'.  Make sure that slime is installed and can be
+found by Emacs before invoking this function."
+  (require 'slime-autoloads)
+  ;; (setq inferior-lisp-program "clisp")
+  (setq inferior-lisp-program "sbcl")
+  (setq slime-contribs '(slime-fancy slime-cl-indent))
+
+  ;; Call slime-setup to make macrostep work for common lisp.
+  (slime-setup)
+
+  (add-hook 'slime-mode-hook
+	    (lambda ()
+	      (setq browse-url-browser-function #'eww-browse-url)
+	      (keymap-local-set "C-<return>" #'slime-eval-print-last-expression)
+	      (keymap-local-set "C-c e" #'macrostep-expand)))
+
+  )
+
+;;; Use the Slime installed by quicklisp to avoid conflicts.
+;;;
+;;; Install CL HyperSpec: (ql:quickload "clhs")
+;;; Create `clhs-use-local.el': (clhs:install-clhs-use-local)
+;;; There are some URL related problem with EWW on Windows.
+
+(let ((p (wg-find-file-by-pattern quicklisp-software-dir "^slime")))
+  (when p
+    (add-to-list 'load-path p)
+    (wg-slime-init)
+    (unless wg-system-is-not-unix
+      (load (expand-file-name "~/quicklisp/clhs-use-local.el") t))
+    ))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Scheme (Install geiser (geiser-guile, geiser-racket, etc.)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (setq scheme-program-name "guile")
+;; (setq scheme-program-name "scheme")
+;; (setq scheme-program-name "racket")
+
+;; (setq geiser-mode-eval-last-sexp-to-buffer t)
+;; (setq geiser-mode-eval-to-buffer-prefix "\n")
+
+;; (add-hook 'scheme-mode-hook
+;; 	  (lambda ()
+;; 	    (put 'with-ellipsis 'scheme-indent-function 1)))
 
 ;; (add-hook 'geiser-mode-hook
 ;; 	  (lambda ()
 ;; 	    (keymap-local-set "C-<return>" #'geiser-eval-last-sexp)))
 
-;; (add-hook 'scheme-mode-hook
-;; 	  (lambda ()
-;; 	    (put 'with-ellipsis 'scheme-indent-function 1)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; LFE
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; To run an inferior LFE process, use `M-x' `run-lfe' (or `inferior-lfe').
+(when (executable-find "lfe")
+  (add-to-list 'load-path "~/playground/lfe/emacs")
+  (require 'lfe-start))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Paredit
