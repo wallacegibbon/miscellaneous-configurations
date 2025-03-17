@@ -9,9 +9,6 @@
 				  ((windows-nt ms-dos cygwin) t)
 				  (t nil)))
 
-;;; A wider `fill-column' (whose default value `70') is better for documents.
-(setq-default fill-column 80)
-
 ;;; SPACE key is used for CTRL when held, we can't press Ctrl-Space anymore.
 (keymap-global-set "C-2" #'set-mark-command)
 
