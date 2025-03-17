@@ -218,36 +218,6 @@ new frame creation, and on new connection from clients."
       '(macrostep company magit paredit))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Paredit
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(autoload 'enable-paredit-mode "paredit"
-  "Turn on pseudo-structural editing of Lisp code."
-  t)
-
-(defun wg-paredit-customize ()
-  "This function should be put into hooks of modes where you want to
-enable paredit mode."
-  (paredit-mode 1)
-  ;; "M-(" and "M-)" are already bound by paredit, rebind it with define-key
-  (define-key paredit-mode-map (kbd "M-(") #'paredit-backward-slurp-sexp)
-  (define-key paredit-mode-map (kbd "M-)") #'paredit-forward-slurp-sexp)
-
-  (keymap-local-set "M-{" #'paredit-backward-barf-sexp)
-  (keymap-local-set "M-}" #'paredit-forward-barf-sexp)
-
-  ;; Let's keep `M-?' for `xref'.
-  (define-key paredit-mode-map (kbd "M-?") nil)
-
-  ;; Do not insert spaces automatically.
-  (add-to-list 'paredit-space-for-delimiter-predicates
-	       (lambda (endp delimiter) nil)))
-
-(add-hook 'emacs-lisp-mode-hook #'wg-paredit-customize)
-(add-hook 'lisp-mode-hook #'wg-paredit-customize)
-(add-hook 'scheme-mode-hook #'wg-paredit-customize)
-(add-hook 'lfe-mode-hook #'wg-paredit-customize)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Common Lisp
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar quicklisp-software-dir "~/quicklisp/dists/quicklisp/software/")
