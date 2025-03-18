@@ -212,7 +212,7 @@ new frame creation, and on new connection from clients."
 
 ;;; Install selected packages: `M-x' `package-install-selected-packages'.
 (setq package-selected-packages
-      '(macrostep company magit paredit clojure-mode))
+      '(macrostep company magit paredit))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Emacs Lisp
@@ -290,19 +290,6 @@ found by Emacs before invoking this function."
 ;; 	    (keymap-local-set "C-<return>" #'geiser-eval-last-sexp)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; LFE
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; To run an inferior LFE process, use `M-x' `run-lfe' (or `inferior-lfe').
-(when (executable-find "lfe")
-  (add-to-list 'load-path "~/playground/lfe/emacs")
-  (require 'lfe-start))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Clojure
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; TODO: use `clojure-ts-mode' when Emacs 30 is ready.
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Paredit
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (autoload 'enable-paredit-mode "paredit"
@@ -330,8 +317,6 @@ enable paredit mode."
 (add-hook 'emacs-lisp-mode-hook #'wg-paredit-customize)
 (add-hook 'lisp-mode-hook #'wg-paredit-customize)
 (add-hook 'scheme-mode-hook #'wg-paredit-customize)
-(add-hook 'lfe-mode-hook #'wg-paredit-customize)
-(add-hook 'clojure-mode-hook #'wg-paredit-customize)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Erlang (Not installed from elpa, but from the OTP library)
