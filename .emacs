@@ -9,10 +9,8 @@
 				  ((windows-nt ms-dos cygwin) t)
 				  (t nil)))
 
-;;; SPACE key is used for CTRL when held, we can't press Ctrl-Space anymore.
-(keymap-global-set "C-2" #'set-mark-command)
-
 ;;; Introduce the keybinding for scroll down from uemacs.
+(keymap-global-set "M-SPC" #'set-mark-command)
 (keymap-global-set "C-z" #'scroll-down-command)
 (keymap-global-set "C-M-z" #'scroll-other-window-down)
 
