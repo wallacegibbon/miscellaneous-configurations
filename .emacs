@@ -339,10 +339,18 @@ need a space after function names."
       (backward-char 1)
       (insert " "))))
 
+(defun wg-use-linux-kernel-style ()
+  (setq indent-tabs-mode t)
+  (setq tab-width 8)
+  (c-set-style "linux"))
+
 (add-hook 'c-mode-common-hook
 	  (lambda ()
 	    (add-hook 'company-after-completion-hook #'wg-fix-gnu-style-after-complete)
 	    (keymap-local-set "C-c e" #'macrostep-expand)))
+
+(add-hook 'c-mode-common-hook
+	  #'wg-use-linux-kernel-style)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Tree-sitter
