@@ -1,0 +1,12 @@
+# To validate the file:
+# $ desktop-file-validate ~/.local/share/applications/st.desktop
+# To make it work immediately:
+# $ update-desktop-database ~/.local/share/applications/
+[Desktop Entry]
+Name=ST Terminal
+GenericName=Terminal Emulator
+Comment=Terminal
+Exec=st -g 80x34+400
+Type=Application
+Categories=Development
+StartupNotify=true
