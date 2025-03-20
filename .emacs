@@ -91,7 +91,7 @@ e.g. (wg-find-file-by-pattern \"/usr/local/lib/erlang/lib/\" \"^tools\")"
 
 ;;; Use dynamic-bindings variables to re-configure it in more situations.
 (defvar wg-prefered-fonts '("cascadia code" "menlo" "consolas" "monospace"))
-(defvar wg-font-size 20)
+(defvar wg-font-size 18)
 
 (defun wg-gui-font-config (&optional font-string)
   "Setting a font when running in GUI mode, and the font exists."
@@ -103,7 +103,7 @@ e.g. (wg-find-file-by-pattern \"/usr/local/lib/erlang/lib/\" \"^tools\")"
       (message "Setting font to %s" font)
       (set-frame-font font))))
 
-;; (let ((wg-font-size 16)) (wg-gui-font-config))
+;; (let ((wg-font-size 18)) (wg-gui-font-config))
 ;; (let ((wg-font-size 20)) (wg-gui-font-config))
 
 ;;; This function is not prefixed on purpose.
@@ -127,7 +127,7 @@ new frame creation, and on new connection from clients."
 
 ;;; Enabling fullscreen in default-frame-alist will cause some problems on Windows.
 ;;; Use `M-x' `toggle-frame-fullscreen' to toggle fullscreen.
-(defvar wg-default-frame-alist '((width . 100) (height . 20)))
+(defvar wg-default-frame-alist '((width . 80) (height . 33)))
 
 ;;; Functions hooked on `emacs-startup-hook' will only run once.  We can safely
 ;;; reload this file without calling these functions again.
