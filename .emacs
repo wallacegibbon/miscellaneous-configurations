@@ -127,7 +127,7 @@ new frame creation, and on new connection from clients."
 
 ;;; Enabling fullscreen in default-frame-alist will cause some problems on Windows.
 ;;; Use `M-x' `toggle-frame-fullscreen' to toggle fullscreen.
-(defvar wg-default-frame-alist '((width . 80) (height . 33)))
+(defvar wg-default-frame-alist '((width . 80) (height . 32)))
 
 ;;; Functions hooked on `emacs-startup-hook' will only run once.  We can safely
 ;;; reload this file without calling these functions again.
@@ -136,7 +136,8 @@ new frame creation, and on new connection from clients."
 	    (dolist (a wg-default-frame-alist)
 	      (add-to-list 'default-frame-alist a))
 	    (wg-prepare-face)
-	    (load-theme-single 'modus-vivendi)))
+	    ;;(load-theme-single 'modus-vivendi)
+	    ))
 
 (add-hook 'server-after-make-frame-hook
 	  (lambda ()
