@@ -91,7 +91,7 @@ e.g. (wg-find-file-by-pattern \"/usr/local/lib/erlang/lib/\" \"^tools\")"
 
 ;;; Use dynamic-bindings variables to re-configure it in more situations.
 (defvar wg-prefered-fonts '("cascadia code" "menlo" "consolas" "monospace"))
-(defvar wg-font-size 18)
+(defvar wg-font-size 20)
 
 (defun wg-gui-font-config (&optional font-string)
   "Setting a font when running in GUI mode, and the font exists."
@@ -127,7 +127,7 @@ new frame creation, and on new connection from clients."
 
 ;;; Enabling fullscreen in default-frame-alist will cause some problems on Windows.
 ;;; Use `M-x' `toggle-frame-fullscreen' to toggle fullscreen.
-(defvar wg-default-frame-alist '((width . 80) (height . 32)))
+(defvar wg-default-frame-alist '((width . 96) (height . 24)))
 
 ;;; Functions hooked on `emacs-startup-hook' will only run once.  We can safely
 ;;; reload this file without calling these functions again.
@@ -136,7 +136,7 @@ new frame creation, and on new connection from clients."
 	    (dolist (a wg-default-frame-alist)
 	      (add-to-list 'default-frame-alist a))
 	    (wg-prepare-face)
-	    ;;(load-theme-single 'modus-vivendi)
+	    (load-theme-single 'modus-vivendi)
 	    ))
 
 (add-hook 'server-after-make-frame-hook
@@ -154,8 +154,8 @@ new frame creation, and on new connection from clients."
 	    (show-paren-mode 1)))
 
 ;;; Line number is useful, enable it globally.
-;;(setq-default display-line-numbers-width 8)
-;;(setq-default display-line-numbers t)
+(setq-default display-line-numbers-width 8)
+(setq-default display-line-numbers t)
 
 (setq-default column-number-mode 1)
 
