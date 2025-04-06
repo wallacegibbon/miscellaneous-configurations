@@ -136,7 +136,7 @@ new frame creation, and on new connection from clients."
 	    (dolist (a wg-default-frame-alist)
 	      (add-to-list 'default-frame-alist a))
 	    (wg-prepare-face)
-	    (load-theme-single 'modus-vivendi)
+	    ;;(load-theme-single 'modus-vivendi)
 	    ))
 
 (add-hook 'server-after-make-frame-hook
@@ -154,8 +154,8 @@ new frame creation, and on new connection from clients."
 	    (show-paren-mode 1)))
 
 ;;; Line number is useful, enable it globally.
-(setq-default display-line-numbers-width 8)
-(setq-default display-line-numbers t)
+;;(setq-default display-line-numbers-width 8)
+;;(setq-default display-line-numbers t)
 
 (setq-default column-number-mode 1)
 
