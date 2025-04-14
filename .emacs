@@ -9,7 +9,7 @@
 				  ((windows-nt ms-dos cygwin) t)
 				  (t nil)))
 
-;;; Introduce the keybinding for scroll down from uemacs.
+;;; Nice keybindings from uEmacs/PK (Micro Emacs 3.9e variant).
 (keymap-global-set "M-SPC" #'set-mark-command)
 (keymap-global-set "C-z" #'scroll-down-command)
 (keymap-global-set "C-M-z" #'scroll-other-window-down)
@@ -136,7 +136,7 @@ new frame creation, and on new connection from clients."
 	    (dolist (a wg-default-frame-alist)
 	      (add-to-list 'default-frame-alist a))
 	    (wg-prepare-face)
-	    ;;(load-theme-single 'modus-vivendi)
+	    (load-theme-single 'modus-vivendi)
 	    ))
 
 (add-hook 'server-after-make-frame-hook
@@ -154,8 +154,8 @@ new frame creation, and on new connection from clients."
 	    (show-paren-mode 1)))
 
 ;;; Line number is useful, enable it globally.
-;;(setq-default display-line-numbers-width 8)
-;;(setq-default display-line-numbers t)
+(setq-default display-line-numbers-width 8)
+(setq-default display-line-numbers t)
 
 (setq-default column-number-mode 1)
 
@@ -340,18 +340,13 @@ need a space after function names."
       (backward-char 1)
       (insert " "))))
 
-(defun wg-use-linux-kernel-style ()
-  (setq indent-tabs-mode t)
-  (setq tab-width 8)
-  (c-set-style "linux"))
-
 (add-hook 'c-mode-common-hook
 	  (lambda ()
 	    ;;(add-hook 'company-after-completion-hook #'wg-fix-gnu-style-after-complete)
 	    (keymap-local-set "C-c e" #'macrostep-expand)))
 
 (add-hook 'c-mode-common-hook
-	  #'wg-use-linux-kernel-style)
+	  (lambda () (c-set-style "linux")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Tree-sitter
