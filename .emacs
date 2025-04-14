@@ -346,8 +346,20 @@ need a space after function names."
 	    ;;(add-hook 'company-after-completion-hook #'wg-fix-gnu-style-after-complete)
 	    (keymap-local-set "C-c e" #'macrostep-expand)))
 
+(defun wg-tab-key-action ()
+  (interactive)
+  (insert ?\t))
+
+(defun wg-del-key-action ()
+  (interactive)
+  (backward-delete-char 1))
+
 (add-hook 'c-mode-common-hook
-	  (lambda () (c-set-style "linux")))
+	  (lambda ()
+	    (c-set-style "linux")
+	    (keymap-local-set "TAB" #'wg-tab-key-action)
+	    (keymap-local-set "DEL" #'wg-del-key-action)
+	    (electric-indent-mode -1)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Tree-sitter
