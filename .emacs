@@ -14,6 +14,12 @@
 (keymap-global-set "C-z" #'scroll-down-command)
 (keymap-global-set "C-M-z" #'scroll-other-window-down)
 
+(defun switch-to-last-buffer ()
+  (interactive)
+  (switch-to-buffer (cadr (buffer-list))))
+
+(keymap-global-set "M-p" #'switch-to-last-buffer)
+
 ;;; Miscellaneous configurations to make Emacs more comfortable.
 (setq ring-bell-function 'ignore)
 (setq inhibit-startup-screen t)
@@ -386,7 +392,7 @@ need a space after function names."
 ;;; Flymake
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key (kbd "M-n") 'flymake-goto-next-error)
-(global-set-key (kbd "M-p") 'flymake-goto-prev-error)
+;;(global-set-key (kbd "M-p") 'flymake-goto-prev-error)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Org
