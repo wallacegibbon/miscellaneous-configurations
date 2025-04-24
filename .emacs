@@ -14,11 +14,21 @@
 (keymap-global-set "C-z" #'scroll-down-command)
 (keymap-global-set "C-M-z" #'scroll-other-window-down)
 
+;;; Be compatible with my modified Micro Emacs.
 (defun switch-to-last-buffer ()
   (interactive)
   (switch-to-buffer (cadr (buffer-list))))
 
 (keymap-global-set "M-p" #'switch-to-last-buffer)
+
+(defun my-isearch-del-and-exit ()
+  "Exit isearch and delete character before point."
+  (interactive)
+  (isearch-exit)
+  (delete-backward-char 1))
+
+(define-key isearch-mode-map (kbd "DEL") #'my-isearch-del-and-exit)
+(define-key isearch-mode-map (kbd "C--") #'isearch-delete-char)
 
 ;;; Miscellaneous configurations to make Emacs more comfortable.
 (setq ring-bell-function 'ignore)
