@@ -21,14 +21,14 @@
 
 (keymap-global-set "M-p" #'switch-to-last-buffer)
 
-(defun my-isearch-del-and-exit ()
-  "Exit isearch and delete character before point."
-  (interactive)
-  (isearch-exit)
-  (delete-backward-char 1))
+;; (defun my-isearch-del-and-exit ()
+;;   "Exit isearch and delete character before point."
+;;   (interactive)
+;;   (isearch-exit)
+;;   (delete-backward-char 1))
 
-(define-key isearch-mode-map (kbd "DEL") #'my-isearch-del-and-exit)
-(define-key isearch-mode-map (kbd "C--") #'isearch-delete-char)
+;; (define-key isearch-mode-map (kbd "DEL") #'my-isearch-del-and-exit)
+;; (define-key isearch-mode-map (kbd "C--") #'isearch-delete-char)
 
 ;;; Miscellaneous configurations to make Emacs more comfortable.
 (setq ring-bell-function 'ignore)
