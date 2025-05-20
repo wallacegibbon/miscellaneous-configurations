@@ -1,0 +1,11 @@
+# Put these content into "~/.config/openbox/autostart"
+# If this script is not called by openbox, you can call it in shell.
+
+# The Touchpad name can be found by this command:
+# xinput list | grep -i touchpad
+touchpad=$(xinput list --name-only | grep -i touchpad)
+
+xinput set-prop "$touchpad" "libinput Tapping Enabled" 1
+xinput set-prop "$touchpad" "libinput Natural Scrolling Enabled" 1
+xinput set-prop "$touchpad" "libinput Disable While Typing Enabled" 1
+xinput set-prop "$touchpad" "libinput Accel Speed" 0.5 # -1 < speed < 1
