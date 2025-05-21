@@ -1,0 +1,20 @@
+UXTerm*font: -adobe-courier-medium-r-*-*-14-*-*-*-*-*-*-*
+!UXTerm*font: 7x14
+UXTerm*eightBitInput: false
+UXTerm*eightBitOutput: true
+UXTerm*background: #222222
+UXTerm*foreground: white
+!UXTerm*faceName: mono:pixelsize=14:bold:italic:charwidth=9:antialias=true
+!UXTerm*faceNameDoublesize: WenQuanYi Micro Hei:pixelsize=14:charwidth=9
+!UXTerm*scaleHeight:1.1
+!UXTerm*geometry: 80x24+100+0
+!UXTerm*termName: UXTerm-256color
+!UXTerm*inputMethod: ibus
+
+!URxvt*font: xft:mono:pixelsize=14:charwidth=8:antialias=true
+!URxvt*scrollBar: false
+!URxvt*lineSpace: 2
+
+! For high dpi screen (e.g. surface pro)
+!Xft.dpi: 180.0
+
