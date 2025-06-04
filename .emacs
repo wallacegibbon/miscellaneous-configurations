@@ -1,8 +1,7 @@
 ;;; -*- lexical-binding: t -*-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Micro Emacs compatible keybindings
-;;; 	(uEmacs/PK, Micro Emacs 3.9e variant).
+;;; Compatible keybindings with Modified Micro Emacs (`me`).
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (keymap-global-set "M-SPC" #'set-mark-command)
 (keymap-global-set "C-z" #'scroll-down-command)
@@ -23,16 +22,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Miscellaneous configurations to make Emacs more comfortable.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'cl-lib)
-
 ;;; Features like Toolbar, Menubar and Scrollbar is not necessary for Emacs.
-(mapc (lambda (fn-symbol)
-	(and (fboundp fn-symbol) (funcall fn-symbol -1)))
+(mapc (lambda (fn-symbol) (and (fboundp fn-symbol) (funcall fn-symbol -1)))
       '(menu-bar-mode tool-bar-mode scroll-bar-mode))
-
-(defconst wg-system-is-not-unix (cl-case system-type
-				  ((windows-nt ms-dos cygwin) t)
-				  (t nil)))
 
 (setq ring-bell-function #'ignore)
 (setq inhibit-startup-screen t)
@@ -40,72 +32,6 @@
 (add-hook 'prog-mode-hook (lambda () (show-paren-mode 1)))
 (setq-default column-number-mode 1)
 
-(defmacro wg-path-segment-match (pathname path-string)
-  "The path segment PATHNAME could be at the start, at the end, or
-in the middle of PATH-STRING.  Any one of the situations make the
-match success."
-  (let ((p (gensym)) (ps (gensym)))
-    `(let ((,p ,pathname) (,ps ,path-string))
-       (or ,@(mapcar (lambda (segment)
-		       `(string-match-p ,segment ,ps))
-		     `((concat "^" (regexp-quote (concat ,p ,path-separator)))
-		       (regexp-quote (concat ,path-separator ,p ,path-separator))
-		       (concat (regexp-quote (concat ,path-separator ,p)) "$")))))))
-
-;; (wg-path-segment-match "/" "/bin:/usr/bin:/")
-;; (wg-path-segment-match "/" "/:/bin:/usr/bin")
-;; (wg-path-segment-match "/" "/bin:/:/usr/bin")
-;; (wg-path-segment-match "/" "/bin:/usr/bin")
-
-(defun wg-try-drop-trailing (str trailing-str)
-  "Drop TRAILING-STR from STR if it is the end of STR.  Do nothing
-and return STR otherwise.  There is one exception when STR is
-equal to TRAILING-STR, in which case we return STR directly."
-  (if (equal str trailing-str)
-      str
-    (if (string-suffix-p trailing-str str)
-	(substring str 0 (- (length str)
-			    (length trailing-str)))
-      str)))
-
-;; (wg-try-drop-trailing "a/" "/")
-;; (wg-try-drop-trailing "a" "/")
-;; (wg-try-drop-trailing "/" "/")
-
-(defun wg-add-to-exec-and-env (raw-pathname)
-  "Add PATHNAME to both environment variable PATH and
-`exec-path'. Adding to `exec-path' won't make shell see the
-  commands in PATHNAME.  That's why we need to add it to `PATH',
-  too."
-  (interactive "DPath to add: ")
-  (let ((pathname (wg-try-drop-trailing raw-pathname
-					(if wg-system-is-not-unix "\\" "/"))))
-    (add-to-list 'exec-path pathname)
-    (let ((env-path (getenv "PATH")))
-      (unless (wg-path-segment-match pathname env-path)
-	(setenv "PATH" (concat pathname path-separator env-path))
-	(message "\"%s\" was added to PATH" pathname)))))
-
-;;; Windows specific configurations for basic shell functions.
-(when wg-system-is-not-unix
-  (setq explicit-shell-file-name "C:/Program Files/Git/bin/bash.exe")
-  (setq shell-file-name "bash")
-  (setq explicit-bash-args '("--login" "-i"))
-  (add-hook 'comint-output-filter-functions #'comint-strip-ctrl-m)
-  (wg-add-to-exec-and-env "C:/Program Files/Git/usr/bin"))
-
-;;; This function is not prefixed on purpose.
-(defun load-theme-single (theme)
-  "Themes are NOT exclusive, they may affect each other.  This
-function disables other themes and left only one."
-  (interactive (list (intern (completing-read "Load custom theme: "
-					      (mapcar #'symbol-name
-						      (custom-available-themes))))))
-  (unless (custom-theme-name-valid-p theme)
-    (error "Invalid theme name `%s'" theme))
-  (dolist (old-theme custom-enabled-themes)
-    (disable-theme old-theme))
-  (load-theme theme t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Package management
@@ -152,8 +78,8 @@ function disables other themes and left only one."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Use `M-x' `treesit-install-language-grammar' to install grammars.
 (setq treesit-language-source-alist
-      '((tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")))
+      '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+	(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Programming configurations
@@ -181,6 +107,3 @@ function disables other themes and left only one."
 
 (add-hook 'typescript-ts-mode-hook #'eglot-ensure)
 (add-hook 'js-mode-hook #'eglot-ensure)
-
-(add-hook 'typescript-ts-mode-hook #'wg-use-normal-tab)
-(add-hook 'js-mode-hook #'wg-use-normal-tab)
