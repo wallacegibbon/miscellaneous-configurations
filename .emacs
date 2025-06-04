@@ -161,6 +161,7 @@ function disables other themes and left only one."
 ;;; If I don't need `eglot`, I will use `me` (Modified Micro Emacs) instead.
 (require 'eglot)
 (define-key eglot-mode-map (kbd "C-c f") #'eglot-format)
+(define-key eglot-mode-map (kbd "C-c h") #'eglot-inlay-hints-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; C/C++
