@@ -162,29 +162,33 @@ function disables other themes and left only one."
       '(company magit))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Erlang (Not installed from elpa, but from the OTP library)
+;;; Flymake
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when (executable-find "erl")
-  (add-to-list 'load-path (file-name-concat
-			   (shell-command-to-string
-			    "erl -noinput -eval 'io:put_chars(code:lib_dir(tools)), halt()'")
-			   "emacs"))
-  (require 'erlang-start))
+(global-set-key (kbd "M-n") 'flymake-goto-next-error)
+;;(global-set-key (kbd "M-p") 'flymake-goto-prev-error)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Company (auto complete)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-hook 'after-init-hook #'global-company-mode)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Programming configurations
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; If I don't need eglot, I will me `me` instead.
+(require 'eglot)
+(define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; C/C++
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; If I don't need eglot, I will me `me` instead.
-(require 'eglot)
-
-(add-hook 'c-mode-hook 'eglot-ensure)
-(add-hook 'c++-mode-hook 'eglot-ensure)
-
-(define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
-
 (add-hook 'c-mode-common-hook
 	  (lambda ()
 	    (c-set-style "linux")))
+
+(add-hook 'c-mode-hook 'eglot-ensure)
+(add-hook 'c++-mode-hook 'eglot-ensure)
 
 (add-hook 'c-mode-common-hook #'use-normal-tab)
 
@@ -204,21 +208,25 @@ function disables other themes and left only one."
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 
+(add-hook 'typescript-ts-mode-hook 'eglot-ensure)
+(add-hook 'js-mode-hook 'eglot-ensure)
+
 (add-hook 'typescript-ts-mode-hook #'use-normal-tab)
 (add-hook 'js-mode-hook #'use-normal-tab)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Erlang (Not installed from elpa, but from the OTP library)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(when (executable-find "erl")
+  (add-to-list 'load-path (file-name-concat
+			   (shell-command-to-string
+			    "erl -noinput -eval 'io:put_chars(code:lib_dir(tools)), halt()'")
+			   "emacs"))
+  (require 'erlang-start))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Go
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Flymake
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(global-set-key (kbd "M-n") 'flymake-goto-next-error)
-;;(global-set-key (kbd "M-p") 'flymake-goto-prev-error)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Company (auto complete)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-hook 'after-init-hook #'global-company-mode)
+(add-hook 'go-ts-mode-hook 'eglot-ensure)
