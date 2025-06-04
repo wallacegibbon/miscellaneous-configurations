@@ -34,7 +34,7 @@
 				  ((windows-nt ms-dos cygwin) t)
 				  (t nil)))
 
-(setq ring-bell-function 'ignore)
+(setq ring-bell-function #'ignore)
 (setq inhibit-startup-screen t)
 
 (add-hook 'prog-mode-hook (lambda () (show-paren-mode 1)))
@@ -139,8 +139,8 @@ function disables other themes and left only one."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Flymake
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(global-set-key (kbd "M-n") 'flymake-goto-next-error)
-;;(global-set-key (kbd "M-p") 'flymake-goto-prev-error)
+(global-set-key (kbd "M-n") #'flymake-goto-next-error)
+;;(global-set-key (kbd "M-p") #'flymake-goto-prev-error)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Company (auto complete)
@@ -160,7 +160,7 @@ function disables other themes and left only one."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; If I don't need `eglot`, I will use `me` (Modified Micro Emacs) instead.
 (require 'eglot)
-(define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
+(define-key eglot-mode-map (kbd "C-c f") #'eglot-format)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; C/C++
