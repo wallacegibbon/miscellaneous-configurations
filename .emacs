@@ -14,6 +14,12 @@
 
 (keymap-global-set "M-p" #'switch-to-last-buffer)
 
+;;; `me` (Modified Micro Emacs) use TABs only, we make it default here, too.
+(defun wg-use-normal-tab ()
+  (keymap-local-set "TAB" (lambda () (interactive) (insert ?\t)))
+  (keymap-local-set "DEL" (lambda () (interactive) (backward-delete-char 1)))
+  (electric-indent-mode -1))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Miscellaneous configurations to make Emacs more comfortable.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -30,6 +36,9 @@
 
 (setq ring-bell-function 'ignore)
 (setq inhibit-startup-screen t)
+
+(add-hook 'prog-mode-hook (lambda () (show-paren-mode 1)))
+(setq-default column-number-mode 1)
 
 (defmacro wg-path-segment-match (pathname path-string)
   "The path segment PATHNAME could be at the start, at the end, or
@@ -77,19 +86,6 @@ equal to TRAILING-STR, in which case we return STR directly."
 	(setenv "PATH" (concat pathname path-separator env-path))
 	(message "\"%s\" was added to PATH" pathname)))))
 
-(defun wg-find-file-by-pattern (directory pattern)
-  "Find the first file in DIRECTORY that matching PATTERN and return
-its full path.  PATTERN is the regular expression to match
-filename.
-e.g. (wg-find-file-by-pattern \"/usr/local/lib/erlang/lib/\" \"^tools\")"
-  (let ((files (directory-files directory t)))
-    (seq-find (lambda (file)
-		(string-match-p pattern (file-name-nondirectory file)))
-	      files)))
-
-;;; My Utilities
-(wg-add-to-exec-and-env (file-name-concat (getenv "HOME") ".local/bin"))
-
 ;;; Windows specific configurations for basic shell functions.
 (when wg-system-is-not-unix
   (setq explicit-shell-file-name "C:/Program Files/Git/bin/bash.exe")
@@ -110,34 +106,6 @@ function disables other themes and left only one."
   (dolist (old-theme custom-enabled-themes)
     (disable-theme old-theme))
   (load-theme theme t))
-
-(add-hook 'server-after-make-frame-hook
-	  (lambda ()
-	    (message "New client is connected to emacs daemon...")
-	    (wg-prepare-face)))
-
-(add-hook 'after-make-frame-functions
-	  (lambda (frame)
-	    (with-selected-frame frame
-	      (wg-prepare-face))))
-
-(add-hook 'prog-mode-hook
-	  (lambda ()
-	    (show-paren-mode 1)))
-
-(setq-default column-number-mode 1)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; IDO mode.  (Included in Emacs since 23.1 (2017))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(ido-mode 1)
-
-(defun use-normal-tab ()
-  (keymap-local-set "TAB" (lambda () (interactive) (insert ?\t)))
-  (keymap-local-set "DEL" (lambda () (interactive) (backward-delete-char 1)))
-  (electric-indent-mode -1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Package management
@@ -162,6 +130,13 @@ function disables other themes and left only one."
       '(company magit))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; IDO mode.  (Included in Emacs since 23.1 (2017))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Flymake
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key (kbd "M-n") 'flymake-goto-next-error)
@@ -172,35 +147,30 @@ function disables other themes and left only one."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-hook 'after-init-hook #'global-company-mode)
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Programming configurations
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; If I don't need eglot, I will me `me` instead.
-(require 'eglot)
-(define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; C/C++
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-hook 'c-mode-common-hook
-	  (lambda ()
-	    (c-set-style "linux")))
-
-(add-hook 'c-mode-hook 'eglot-ensure)
-(add-hook 'c++-mode-hook 'eglot-ensure)
-
-(add-hook 'c-mode-common-hook #'use-normal-tab)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Tree-sitter
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Use `M-x' `treesit-install-language-grammar' to install grammars.
 (setq treesit-language-source-alist
       '((tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-	(go "https://github.com/tree-sitter/tree-sitter-go")
-	(gomod "https://github.com/camdencheek/tree-sitter-go-mod")))
+	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Programming configurations
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; If I don't need `eglot`, I will use `me` (Modified Micro Emacs) instead.
+(require 'eglot)
+(define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; C/C++
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-hook 'c-mode-common-hook (lambda () (c-set-style "linux")))
+
+(add-hook 'c-mode-hook 'eglot-ensure)
+(add-hook 'c++-mode-hook 'eglot-ensure)
+
+(add-hook 'c-mode-common-hook #'wg-use-normal-tab)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; TypeScript
@@ -211,22 +181,5 @@ function disables other themes and left only one."
 (add-hook 'typescript-ts-mode-hook 'eglot-ensure)
 (add-hook 'js-mode-hook 'eglot-ensure)
 
-(add-hook 'typescript-ts-mode-hook #'use-normal-tab)
-(add-hook 'js-mode-hook #'use-normal-tab)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Erlang (Not installed from elpa, but from the OTP library)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when (executable-find "erl")
-  (add-to-list 'load-path (file-name-concat
-			   (shell-command-to-string
-			    "erl -noinput -eval 'io:put_chars(code:lib_dir(tools)), halt()'")
-			   "emacs"))
-  (require 'erlang-start))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Go
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
-
-(add-hook 'go-ts-mode-hook 'eglot-ensure)
+(add-hook 'typescript-ts-mode-hook #'wg-use-normal-tab)
+(add-hook 'js-mode-hook #'wg-use-normal-tab)
