@@ -91,7 +91,7 @@ equal to TRAILING-STR, in which case we return STR directly."
   (setq explicit-shell-file-name "C:/Program Files/Git/bin/bash.exe")
   (setq shell-file-name "bash")
   (setq explicit-bash-args '("--login" "-i"))
-  (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)
+  (add-hook 'comint-output-filter-functions #'comint-strip-ctrl-m)
   (wg-add-to-exec-and-env "C:/Program Files/Git/usr/bin"))
 
 ;;; This function is not prefixed on purpose.
@@ -167,8 +167,8 @@ function disables other themes and left only one."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-hook 'c-mode-common-hook (lambda () (c-set-style "linux")))
 
-(add-hook 'c-mode-hook 'eglot-ensure)
-(add-hook 'c++-mode-hook 'eglot-ensure)
+(add-hook 'c-mode-hook #'eglot-ensure)
+(add-hook 'c++-mode-hook #'eglot-ensure)
 
 (add-hook 'c-mode-common-hook #'wg-use-normal-tab)
 
@@ -178,8 +178,8 @@ function disables other themes and left only one."
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 
-(add-hook 'typescript-ts-mode-hook 'eglot-ensure)
-(add-hook 'js-mode-hook 'eglot-ensure)
+(add-hook 'typescript-ts-mode-hook #'eglot-ensure)
+(add-hook 'js-mode-hook #'eglot-ensure)
 
 (add-hook 'typescript-ts-mode-hook #'wg-use-normal-tab)
 (add-hook 'js-mode-hook #'wg-use-normal-tab)
