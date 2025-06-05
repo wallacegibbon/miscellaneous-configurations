@@ -3,3 +3,9 @@ xterm*faceSize: 18
 xterm*background: lightyellow
 xterm*foreground: black
 xterm*geometry: 80x16
+
+xterm*VT100.Translations: #override \
+	<Btn4Down>: string(0x1b) string("[A") \n\
+	<Btn5Down>: string(0x1b) string("[B")
+
+xterm*allowAlternateScroll: true
