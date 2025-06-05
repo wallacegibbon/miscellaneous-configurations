@@ -107,3 +107,19 @@
 
 (add-hook 'typescript-ts-mode-hook #'eglot-ensure)
 (add-hook 'js-mode-hook #'eglot-ensure)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; LLVM
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Copy the following 3 files from llvm project to `.emacs.d/llvm`:
+;;; - llvm-project/main/llvm/utils/emacs/llvm-mode.el
+;;; - llvm-project/main/llvm/utils/emacs/tablegen-mode.el
+;;; - llvm-project/main/mlir/utils/emacs/mlir-mode.el
+(add-to-list 'load-path "~/.emacs.d/llvm")
+(require 'llvm-mode)
+(require 'tablegen-mode)
+(require 'mlir-mode)
+
+(add-to-list 'auto-mode-alist '("\\.ll\\'" . llvm-mode))
+(add-to-list 'auto-mode-alist '("\\.td\\'" . tablegen-mode))
+(add-to-list 'auto-mode-alist '("\\.mlir\\'" . mlir-mode))
