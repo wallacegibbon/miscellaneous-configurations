@@ -1,8 +1,8 @@
 xterm*faceName: Cascadia Code
 xterm*faceSize: 18
-xterm*background: lightyellow
-xterm*foreground: black
 xterm*geometry: 80x16
+xterm*background: #FFFFDD
+xterm*foreground: #000000
 
 xterm*VT100.Translations: #override \
 	<Btn4Down>: string(0x1b) string("[A") \n\
