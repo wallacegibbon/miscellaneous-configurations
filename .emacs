@@ -88,6 +88,9 @@
 (require 'eglot)
 (define-key eglot-mode-map (kbd "C-c f") #'eglot-format)
 (define-key eglot-mode-map (kbd "C-c h") #'eglot-inlay-hints-mode)
+(add-hook 'eglot-managed-mode-hook
+	  (lambda ()
+	    (eglot-inlay-hints-mode -1)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; C/C++
