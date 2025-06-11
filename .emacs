@@ -14,10 +14,19 @@
 
 (keymap-global-set "M-p" #'switch-to-last-buffer)
 
+(defun newline-and-indent ()
+  (interactive)
+  (let* ((n-spaces (current-indentation))
+	 (n-tabs (/ (+ n-spaces 7) 8)))
+    (insert ?\n)
+    (dotimes (i n-tabs)
+      (insert ?\t))))
+
 ;;; `me` (Modified Micro Emacs) use TABs only, we make it default here, too.
 (defun wg-use-normal-tab ()
   (keymap-local-set "TAB" (lambda () (interactive) (insert ?\t)))
   (keymap-local-set "DEL" (lambda () (interactive) (backward-delete-char 1)))
+  (keymap-local-set "C-j" #'newline-and-indent)
   (electric-indent-mode -1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
