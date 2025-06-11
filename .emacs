@@ -6,6 +6,7 @@
 (keymap-global-set "M-SPC" #'set-mark-command)
 (keymap-global-set "C-z" #'scroll-down-command)
 (keymap-global-set "C-M-z" #'scroll-other-window-down)
+(keymap-global-set "C-x x" #'next-buffer)
 
 (defun switch-to-last-buffer ()
   (interactive)
