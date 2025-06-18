@@ -8,13 +8,13 @@
 (keymap-global-set "C-M-z" #'scroll-other-window-down)
 (keymap-global-set "C-x x" #'next-buffer)
 
-(defun switch-to-last-buffer ()
+(defun me-switch-to-last-buffer ()
   (interactive)
   (switch-to-buffer (cadr (buffer-list))))
 
-(keymap-global-set "M-p" #'switch-to-last-buffer)
+(keymap-global-set "M-p" #'me-switch-to-last-buffer)
 
-(defun newline-and-indent ()
+(defun me-newline-and-indent ()
   (interactive)
   (let* ((n-spaces (current-indentation))
 	 (n-tabs (/ (+ n-spaces 7) 8)))
@@ -22,11 +22,11 @@
     (dotimes (i n-tabs)
       (insert ?\t))))
 
-;;; `me` (Modified Micro Emacs) use TABs only, we make it default here, too.
-(defun wg-use-normal-tab ()
+;;; `me` use TABs only, we make it default here, too.
+(defun me-use-normal-tab ()
   (keymap-local-set "TAB" (lambda () (interactive) (insert ?\t)))
   (keymap-local-set "DEL" (lambda () (interactive) (backward-delete-char 1)))
-  (keymap-local-set "C-j" #'newline-and-indent)
+  (keymap-local-set "C-j" #'me-newline-and-indent)
   (electric-indent-mode -1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -110,7 +110,7 @@
 (add-hook 'c-mode-hook #'eglot-ensure)
 (add-hook 'c++-mode-hook #'eglot-ensure)
 
-(add-hook 'c-mode-common-hook #'wg-use-normal-tab)
+(add-hook 'c-mode-common-hook #'me-use-normal-tab)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; TypeScript
