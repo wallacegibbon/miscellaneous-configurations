@@ -1,5 +1,3 @@
-;;; -*- lexical-binding: t -*-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Compatible keybindings with Modified Micro Emacs (`me`).
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -15,6 +13,7 @@
 (keymap-global-set "M-p" #'me-switch-to-last-buffer)
 
 (defun me-newline-and-indent ()
+  "Indent use TABs only.  If there are spaces, fill the space with a TAB."
   (interactive)
   (let* ((n-spaces (current-indentation))
 	 (n-tabs (/ (+ n-spaces 7) 8)))
@@ -22,8 +21,8 @@
     (dotimes (i n-tabs)
       (insert ?\t))))
 
-;;; `me` use TABs only, we make it default here, too.
 (defun me-use-normal-tab ()
+  "Micro Emacs use TABs only, we make it default here, too."
   (keymap-local-set "TAB" (lambda () (interactive) (insert ?\t)))
   (keymap-local-set "DEL" (lambda () (interactive) (backward-delete-char 1)))
   (keymap-local-set "C-j" #'me-newline-and-indent)
@@ -84,14 +83,6 @@
 (add-hook 'after-init-hook #'global-company-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Tree-sitter
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Use `M-x' `treesit-install-language-grammar' to install grammars.
-(setq treesit-language-source-alist
-      '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-	(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Programming configurations
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; If I don't need `eglot`, I will use `me` (Modified Micro Emacs) instead.
@@ -113,21 +104,12 @@
 (add-hook 'c-mode-common-hook #'me-use-normal-tab)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; TypeScript
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
-
-(add-hook 'typescript-ts-mode-hook #'eglot-ensure)
-(add-hook 'js-mode-hook #'eglot-ensure)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; LLVM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Copy the following 3 files from llvm project to `.emacs.d/llvm`:
-;;; - llvm-project/main/llvm/utils/emacs/llvm-mode.el
-;;; - llvm-project/main/llvm/utils/emacs/tablegen-mode.el
-;;; - llvm-project/main/mlir/utils/emacs/mlir-mode.el
+;;; Copy the following 3 files from llvm project to `.emacs.d/llvm/`:
+;;; - llvm-project/llvm/utils/emacs/llvm-mode.el
+;;; - llvm-project/llvm/utils/emacs/tablegen-mode.el
+;;; - llvm-project/mlir/utils/emacs/mlir-mode.el
 (add-to-list 'load-path "~/.emacs.d/llvm")
 (require 'llvm-mode)
 (require 'tablegen-mode)
