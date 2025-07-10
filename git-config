@@ -1,5 +1,5 @@
 ## The Path for this file: ~/.ssh/config
 Host github.com
-     HostName github.com
-     User git
-     ProxyCommand nc -v -x 127.0.0.1:7891 %h %p
+HostName github.com
+User git
+ProxyCommand nc -v -x 127.0.0.1:7891 %h %p
