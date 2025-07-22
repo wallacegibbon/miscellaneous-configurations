@@ -1,5 +1,19 @@
 ## The Path for this file: ~/.ssh/config
+
 Host github.com
 HostName github.com
 User git
 ProxyCommand nc -v -x 127.0.0.1:7891 %h %p
+
+
+# We can use multiple key files for the same host.
+# (Which is useful when you have multiple accounts in Github)
+
+Host github.com-work
+HostName github.com
+User git
+IdentityFile ~/.ssh/another-private.key
+ProxyCommand nc -v -x 127.0.0.1:7891 %h %p
+
+# Now you can push to <git@github.com-work:workaccount/project> with
+# `~/.ssh/another-private.key`.
