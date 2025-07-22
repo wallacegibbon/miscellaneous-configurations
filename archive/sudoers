@@ -1,5 +1,3 @@
-# vim:ft=sudoers
-
 # root ALL = (ALL:ALL) ALL
 #
 # The 1st field indicates the username that the rule will apply to `root`
@@ -10,9 +8,10 @@
 
 # Example 1:
 #
-# wallace host1 = (operator) /bin/ls, (root) /bin/kill, /usr/bin/lprm
+# wallace host1 = (harry) /bin/ls, (root) /bin/kill, /usr/bin/lprm
 #
-# User `wallace` is allowed to run /bin/ls as `operator`, and /bin/kill, /usr/bin/lprm as `root`.
+# User `wallace` is allowed to run /bin/ls as `harry`,
+# and /bin/kill, /usr/bin/lprm as `root`.
 
 # Example 2:
 #
@@ -22,7 +21,10 @@
 
 wallace ALL = (ALL:ALL) NOPASSWD: ALL
 
+# When multiple entries match for a user, they are applied in order.
+# Where there are multiple matches, the last match is used (which is not
+# necessarily the most specific match).
+
 # References:
 # https://askubuntu.com/a/546228
 # https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file
-
