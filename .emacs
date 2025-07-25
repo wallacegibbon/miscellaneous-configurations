@@ -1,16 +1,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Compatible keybindings with Modified Micro Emacs (`me`).
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(keymap-global-set "M-SPC" #'set-mark-command)
+(keymap-global-set "C-x m" #'set-mark-command)
 (keymap-global-set "C-z" #'scroll-down-command)
-(keymap-global-set "C-M-z" #'scroll-other-window-down)
 (keymap-global-set "C-x x" #'next-buffer)
-
-(defun me-switch-to-last-buffer ()
-  (interactive)
-  (switch-to-buffer (cadr (buffer-list))))
-
-(keymap-global-set "M-p" #'me-switch-to-last-buffer)
+(keymap-global-set "C-x ," #'beginning-of-buffer)
+(keymap-global-set "C-x ." #'end-of-buffer)
+(keymap-global-set "C-x j" #'kill-ring-save)
+(keymap-global-set "C-x k" #'kill-region)
+(keymap-global-set "C-x C-k" #'ido-kill-buffer)
+(keymap-global-set "C-x r" #'query-replace)
+(keymap-global-set "C-x g" #'goto-line)
 
 (defun me-newline-and-indent ()
   "Indent use TABs only.  If there are spaces, fill the space with a TAB."
@@ -102,19 +102,3 @@
 (add-hook 'c++-mode-hook #'eglot-ensure)
 
 (add-hook 'c-mode-common-hook #'me-use-normal-tab)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; LLVM
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Copy the following 3 files from llvm project to `.emacs.d/llvm/`:
-;;; - llvm-project/llvm/utils/emacs/llvm-mode.el
-;;; - llvm-project/llvm/utils/emacs/tablegen-mode.el
-;;; - llvm-project/mlir/utils/emacs/mlir-mode.el
-(add-to-list 'load-path "~/.emacs.d/llvm")
-(require 'llvm-mode)
-(require 'tablegen-mode)
-(require 'mlir-mode)
-
-(add-to-list 'auto-mode-alist '("\\.ll\\'" . llvm-mode))
-(add-to-list 'auto-mode-alist '("\\.td\\'" . tablegen-mode))
-(add-to-list 'auto-mode-alist '("\\.mlir\\'" . mlir-mode))
