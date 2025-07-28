@@ -13,13 +13,14 @@
 (keymap-global-set "C-x g" #'goto-line)
 
 (defun me-newline-and-indent ()
-  "Indent use TABs only.  If there are spaces, fill the space with a TAB."
+  "Insert a newline, and keep its indentation same as current line."
   (interactive)
   (let* ((n-spaces (current-indentation))
-	 (n-tabs (/ (+ n-spaces 7) 8)))
+	 (n-tabs (/ n-spaces 8))
+	 (n-trailing (% n-spaces 8)))
     (insert ?\n)
-    (dotimes (i n-tabs)
-      (insert ?\t))))
+    (dotimes (i n-tabs) (insert ?\t))
+    (dotimes (i n-trailing) (insert ?\s))))
 
 (defun me-use-normal-tab ()
   "Micro Emacs use TABs only, we make it default here, too."
@@ -97,8 +98,6 @@
 ;;; C/C++
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-hook 'c-mode-common-hook (lambda () (c-set-style "linux")))
-
 (add-hook 'c-mode-hook #'eglot-ensure)
 (add-hook 'c++-mode-hook #'eglot-ensure)
-
 (add-hook 'c-mode-common-hook #'me-use-normal-tab)
