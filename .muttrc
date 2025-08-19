@@ -1,0 +1,30 @@
+# User info
+set realname = "Wallace Gibbon"
+set from = "wallacegibbon@aliyun.com"
+
+# IMAP settings
+set imap_user = "wallacegibbon@aliyun.com"
+set imap_pass = "********"
+set folder = "imaps://imap.aliyun.com:993"
+set spoolfile = "+INBOX"
+set imap_authenticators = "login"
+
+# SMTP settings
+set smtp_url = "smtps://wallacegibbon@aliyun.com@smtp.aliyun.com:465"
+set smtp_pass = "********"
+set smtp_authenticators = "login"
+
+# Mailboxes
+mailboxes = "+INBOX" "+Sent" "+Drafts" "+Trash"
+
+set header_cache = ~/.mutt/cache/headers
+set message_cachedir = ~/.mutt/cache/bodies
+
+set move = no
+set sort = 'threads'
+set sort_aux = 'last-date-received'
+set ssl_force_tls = yes
+
+color normal default default
+color indicator white black
+color status white black
