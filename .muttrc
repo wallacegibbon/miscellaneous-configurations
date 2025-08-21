@@ -29,5 +29,5 @@ color status white black
 
 set suspend = no
 
-bind pager  next-page
-bind pager  previous-page
+bind index,pager  next-page
+bind index,pager  previous-page
