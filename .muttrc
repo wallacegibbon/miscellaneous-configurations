@@ -1,29 +1,20 @@
 ## User info
-
 set realname = "Wallace Gibbon"
 set from = "wallacegibbon@aliyun.com"
 
-
 ## IMAP settings
-## To switch folders, type `c` and input one of these folders:
-## 	+INBOX, +SENT, +DRAFTS, +TRASH
-
 set imap_user = "wallacegibbon@aliyun.com"
 set imap_pass = "********"
 set folder = "imaps://imap.aliyun.com:993"
 set spoolfile = "+INBOX"
 set imap_authenticators = "login"
 
-
 # SMTP settings
-
 set smtp_url = "smtps://wallacegibbon@aliyun.com@smtp.aliyun.com:465"
 set smtp_pass = "********"
 set smtp_authenticators = "login"
 
-
 ## Miscellaneous settings
-
 set header_cache = ~/.mutt/cache/headers
 set message_cachedir = ~/.mutt/cache/bodies
 
@@ -35,3 +26,8 @@ set ssl_force_tls = yes
 color normal default default
 color indicator white black
 color status white black
+
+set suspend = no
+
+bind pager  next-page
+bind pager  previous-page
