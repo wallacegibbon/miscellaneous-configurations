@@ -19,8 +19,11 @@ set header_cache = ~/.mutt/cache/headers
 set message_cachedir = ~/.mutt/cache/bodies
 
 set move = no
-set sort = 'threads'
-set sort_aux = 'last-date-received'
+
+set sort = mailbox-order
+#set sort = threads
+#set sort_aux = last-date-received
+
 set ssl_force_tls = yes
 
 color normal default default
