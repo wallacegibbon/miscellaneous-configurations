@@ -1,3 +1,4 @@
+bindkey -v
 bindkey '^Q' quoted-insert
 stty -ixon
 
