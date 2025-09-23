@@ -12,12 +12,12 @@ autocmd FileType c,cpp setlocal cinoptions=(0,:0,g0,t0,N-s,E-s
 set jumpoptions=stack
 
 set nocompatible autoindent smartindent noincsearch nostartofline scrolloff=0
-set expandtab tabstop=4 softtabstop=4 shiftwidth=4
 set number numberwidth=9 relativenumber
-"set fileformat=unix fileformats=unix
-"set lispwords-=if lispwords+=match
 set title ruler modeline modelines=6 laststatus=0 belloff=all
 set fileencodings=utf-8,latin-1,chinese,gbk,gb2312,gb18030 encoding=utf-8 langmenu=none
+set expandtab tabstop=2 softtabstop=2 shiftwidth=2
+"set fileformat=unix fileformats=unix
+"set lispwords-=if lispwords+=match
 
 language C
 
