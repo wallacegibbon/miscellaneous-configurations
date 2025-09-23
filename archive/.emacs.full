@@ -340,7 +340,7 @@ enable paredit mode."
 (add-hook 'scheme-mode-hook #'wg-paredit-customize)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Erlang (Not installed from elpa, but from the OTP library)
+;;; Erlang
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when (executable-find "erl")
   (add-to-list 'load-path (file-name-concat
