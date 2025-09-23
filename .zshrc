@@ -10,8 +10,17 @@ setopt share_history
 
 case ":$PATH:" in
 *:"$HOME/.local/bin":*)
-	;;
+  ;;
 *)
-	export PATH="$HOME/.local/bin:$PATH"
-	;;
+  export PATH="$HOME/.local/bin:$PATH"
+  ;;
 esac
+
+# Create a custom widget
+function vi_escape() {
+  zle vi-cmd-mode  # Switch to normal mode
+}
+zle -N vi_escape
+
+# Bind 'jj' to vi_escape in insert mode
+bindkey -M viins 'jf' vi_escape
