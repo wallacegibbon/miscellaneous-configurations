@@ -59,12 +59,16 @@
 (defvar wg-prefered-fonts '("cascadia code" "menlo" "consolas" "monospace"))
 (defvar wg-font-size 20)
 
-(defun wg-gui-font-config (&optional font-string)
+(defun wg-gui-font-str (&optional font-string)
   "Setting a font when running in GUI mode, and the font exists."
   (let* ((prefered-font (seq-find #'x-list-fonts wg-prefered-fonts))
 	 (font (let ((font-name (or font-string prefered-font)))
 		 (if font-name
 		     (format "%s-%d" font-name wg-font-size)))))
+    font))
+
+(defun wg-gui-font-config (&optional font-string)
+  (let ((font (wg-gui-font-str font-string)))
     (when font
       (message "Setting font to %s" font)
       (set-frame-font font))))
@@ -93,7 +97,8 @@ new frame creation, and on new connection from clients."
 
 ;;; Enabling fullscreen in default-frame-alist will cause some problems on Windows.
 ;;; Use `M-x' `toggle-frame-fullscreen' to toggle fullscreen.
-(defvar wg-default-frame-alist '((width . 128) (height . 32)))
+(defvar wg-default-frame-alist
+  `((width . 128) (height . 32) (font . ,(wg-gui-font-str))))
 
 ;;; Functions hooked on `emacs-startup-hook' will only run once.  We can safely
 ;;; reload this file without calling these functions again.
