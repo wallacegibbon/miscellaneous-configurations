@@ -29,8 +29,3 @@ set ssl_force_tls = yes
 color normal default default
 color indicator white black
 color status white black
-
-set suspend = no
-
-bind index,pager  next-page
-bind index,pager  previous-page
