@@ -71,8 +71,6 @@ nnoremap <space>b :buffers<cr>:b<space>
 nnoremap <space>e :b#<cr>
 nnoremap <space>w :w<cr>
 nnoremap <space>q :qa<cr>
-inoremap jf <esc>
-cnoremap jf <c-c>
 
 "let g:rust_recommended_style = 0
 let g:markdown_recommended_style = 0
