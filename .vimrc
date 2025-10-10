@@ -42,12 +42,9 @@ Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
 call plug#end()
 
 "" Run ":CocInstall coc-clangd coc-tsserver" to install COC plugins.
-"" COC plugins are in "~/AppData/Local/coc/extensions" on Windows
-"" and "~/.config/coc/extensions/" on Unix.
-"" You can use npm to install the extensions, too.
-
-"" Use ":CocConfig" to open the config file of COC.
-"" Add `"inlayHint.enable": false` to that file.
+"" COC plugins (npm packages) are in
+"" - "~/AppData/Local/coc/extensions" on Windows.
+"" - "~/.config/coc/extensions/" on Unix.
 
 inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<cr>"
 nnoremap <silent> <space>? :call CocActionAsync("doHover")<cr>
