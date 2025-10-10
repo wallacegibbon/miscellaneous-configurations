@@ -1,5 +1,4 @@
 {
-  //...
   "vim.vimrc.enable": true,
   "vim.normalModeKeyBindingsNonRecursive": [
     {
@@ -29,8 +28,19 @@
     {
       "before": [" ", "2"],
       "commands": ["editor.action.rename"]
+    },
+    {
+      "before": [" ", "h"],
+      "commands": ["editor.action.marker.prev"]
+    },
+    {
+      "before": [" ", "l"],
+      "commands": ["editor.action.marker.next"]
+    },
+    {
+      "before": [" ", "p"],
+      "commands": ["editor.action.formatDocument"]
     }
   ]
-  //...
 }
 
