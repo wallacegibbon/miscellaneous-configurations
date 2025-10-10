@@ -1,9 +1,9 @@
 /// vim:ft=jsonc
 
 /// The position of this file:
-/// - `~/.config/nvim/` (NeoVim Unix)
-/// - `~/.vim/` (Vim Unix)
-/// - `~/vimfiles/` (Vim Windows)
+/// - `~/.vim/`           (Vim    on Unix)
+/// - `~/.config/nvim/`   (NeoVim on Unix)
+/// - `~/vimfiles/`       (Vim    on Windows)
 
 /// You can also call `:CocConfig` in Vim to open the configuration file.
 
