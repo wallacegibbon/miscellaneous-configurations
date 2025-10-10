@@ -1,13 +1,13 @@
 # vim:ft=conf
 
 # the download directory
-directory=/home/wx/tmp/btdownloads/
+directory=/home/wallace/tmp/btdownloads/
 
 # info, history, cache, etc.
-session=/home/wx/tmp/.btsession/
+session=/home/wallace/tmp/.btsession/
 
 # monitor .torrent file, download automatically
-schedule=watch_directory,5,5,load_start=/home/wx/tmp/torrents/*.torrent
+schedule=watch_directory,5,5,load_start=/home/wallace/tmp/torrents/*.torrent
 
 # stop download if the torrent file is removed
 schedule=untied_directory,5,5,stop_untied=

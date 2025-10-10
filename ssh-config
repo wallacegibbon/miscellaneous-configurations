@@ -15,5 +15,6 @@ User git
 IdentityFile ~/.ssh/another-private.key
 ProxyCommand nc -v -x 127.0.0.1:7891 %h %p
 
+
 # Now you can push to <git@github.com-work:workaccount/project> with
 # `~/.ssh/another-private.key`.

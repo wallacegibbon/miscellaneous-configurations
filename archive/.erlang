@@ -1,6 +1,6 @@
 % vim:ft=erlang
 
-MyErlDir = "/home/wx/erlangfiles/".
+MyErlDir = "/home/wallace/erlangfiles/".
 
 code:add_pathz(MyErlDir).
 
