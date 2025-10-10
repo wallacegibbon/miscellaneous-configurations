@@ -1,0 +1,36 @@
+{
+  //...
+  "vim.vimrc.enable": true,
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<c-o>"],
+      "commands": ["workbench.action.navigateBack"]
+    },
+    {
+      "before": ["<c-i>"],
+      "commands": ["workbench.action.navigateForward"]
+    },
+    {
+      "before": [" ", "d"],
+      "commands": ["editor.action.revealDefinition"]
+    },
+    {
+      "before": [" ", "r"],
+      "commands": ["editor.action.referenceSearch.trigger"]
+    },
+    {
+      "before": [" ", "t"],
+      "commands": ["editor.action.goToTypeDefinition"]
+    },
+    {
+      "before": [" ", "i"],
+      "commands": ["editor.action.goToImplementation"]
+    },
+    {
+      "before": [" ", "2"],
+      "commands": ["editor.action.rename"]
+    }
+  ]
+  //...
+}
+
