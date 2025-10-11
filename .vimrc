@@ -5,8 +5,10 @@ autocmd BufRead,BufNewFile *.yrl,*.escript,*.es setlocal filetype=erlang
 autocmd BufRead,BufNewFile *.S,*.s,*.asm setlocal filetype=asm
 autocmd BufRead,BufNewFile *.hex,*.ihx setlocal filetype=hex
 autocmd BufRead,BufNewFile *.e setlocal filetype=elang
+autocmd BufRead,BufNewFile *.inc setlocal filetype=cpp
+autocmd BufRead,BufNewFile *.fir,*.cir setlocal filetype=mlir
 "autocmd BufRead,BufNewFile * colorscheme default
-autocmd FileType c,cpp setlocal cinoptions=(0,:0,g0,t0,N-s,E-s
+autocmd FileType c,cpp setlocal cinoptions=:0,(0,l1,t0,Ws,N-s,E-s,g0
 
 "" "jumpoptions=stack" is not supported in old Vim. (older than Vim 9.0.1921)
 set jumpoptions=stack
