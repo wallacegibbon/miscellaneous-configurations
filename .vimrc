@@ -17,7 +17,8 @@ set nocompatible autoindent smartindent noincsearch nostartofline scrolloff=0
 set number numberwidth=9 relativenumber
 set title ruler modeline modelines=6 laststatus=0 belloff=all
 set fileencodings=utf-8,latin-1,chinese,gbk,gb2312,gb18030 encoding=utf-8 langmenu=none
-set expandtab tabstop=2 softtabstop=2 shiftwidth=2
+"set expandtab tabstop=2 softtabstop=2 shiftwidth=2
+set shiftwidth=4
 "set fileformat=unix fileformats=unix
 "set lispwords-=if lispwords+=match
 
