@@ -42,6 +42,7 @@ highlight Error NONE
 call plug#begin()
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
+Plug 'powerman/vim-plugin-AnsiEsc'
 call plug#end()
 
 "" Run ":CocInstall coc-clangd coc-tsserver" to install COC plugins.
