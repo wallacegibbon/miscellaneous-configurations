@@ -1,5 +1,5 @@
-bindkey -v
 bindkey '^Q' quoted-insert
+#bindkey -v
 stty -ixon
 
 HISTFILE=$HOME/.zsh_history
@@ -11,8 +11,8 @@ setopt share_history
 
 case ":$PATH:" in
 *:"$HOME/.local/bin":*)
-  ;;
+	;;
 *)
-  export PATH="$HOME/.local/bin:$PATH"
-  ;;
+	export PATH="$HOME/.local/bin:$PATH"
+	;;
 esac
