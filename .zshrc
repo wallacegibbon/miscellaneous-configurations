@@ -1,6 +1,12 @@
 bindkey '^Q' quoted-insert
-#bindkey -v
+bindkey -v
 stty -ixon
+
+function vi_escape() {
+	zle vi-cmd-mode  # Switch to normal mode
+}
+zle -N vi_escape
+bindkey -M viins 'jf' vi_escape
 
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=10000
