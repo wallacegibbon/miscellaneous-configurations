@@ -2,9 +2,7 @@ bindkey '^Q' quoted-insert
 bindkey -v
 stty -ixon
 
-function vi_escape() {
-	zle vi-cmd-mode  # Switch to normal mode
-}
+function vi_escape() { zle vi-cmd-mode }
 zle -N vi_escape
 bindkey -M viins 'jf' vi_escape
 
@@ -22,3 +20,5 @@ case ":$PATH:" in
 	export PATH="$HOME/.local/bin:$PATH"
 	;;
 esac
+
+alias ls="ls --color"
