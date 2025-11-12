@@ -42,6 +42,7 @@ highlight Error NONE
 call plug#begin()
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
+Plug 'junegunn/fzf.vim'
 Plug 'powerman/vim-plugin-AnsiEsc'
 call plug#end()
 
@@ -65,10 +66,10 @@ nmap <space>h <Plug>(coc-diagnostic-prev)
 nmap <space>l <Plug>(coc-diagnostic-next)
 nmap <space>p <Plug>(coc-format)
 
-nnoremap <space>f :FZF<cr>
+nnoremap <space>f :Files<cr>
+nnoremap <space>b :Buffers<cr>
 
 "" Custom keymap
-nnoremap <space>b :buffers<cr>:b<space>
 nnoremap <space>e :b#<cr>
 nnoremap <space>w :w<cr>
 nnoremap <space>q :qa<cr>
