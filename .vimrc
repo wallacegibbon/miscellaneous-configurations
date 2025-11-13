@@ -44,7 +44,6 @@ call plug#end()
 
 nnoremap <space>f :Files<cr>
 nnoremap <space>b :Buffers<cr>
-nnoremap <space><tab> <c-w>w
 
 inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
