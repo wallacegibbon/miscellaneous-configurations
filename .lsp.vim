@@ -34,6 +34,8 @@ function! s:on_lsp_buffer_enabled() abort
     inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<cr>"
     nmap <buffer> gd <plug>(lsp-definition)
     nmap <buffer> g2 <plug>(lsp-rename)
+    nmap <buffer> gk <plug>(lsp-previous-diagnostic)
+    nmap <buffer> gj <plug>(lsp-next-diagnostic)
 endfunction
 
 augroup lsp_keymaps
