@@ -10,14 +10,14 @@ autocmd FileType c,cpp setlocal cinoptions=:0,(0,l1,t0,W2s,N-s,E-s,g0
 
 "" "jumpoptions=stack" is not supported in old Vim. (older than Vim 9.0.1921)
 set jumpoptions=stack nocompatible smartindent noincsearch nostartofline scrolloff=0
-set number numberwidth=9 relativenumber
+set number numberwidth=9 relativenumber signcolumn=yes
 set title ruler modeline modelines=6 laststatus=0 belloff=all
 set fileencodings=utf-8,latin-1,chinese,gbk,gb2312,gb18030 encoding=utf-8 langmenu=none
 "set expandtab tabstop=2 softtabstop=2 shiftwidth=2
 set shiftwidth=4
 "set fileformat=unix fileformats=unix
 "set lispwords-=if lispwords+=match
-set completeopt=menuone,noinsert,noselect,preview signcolumn=yes
+set completeopt=menuone,noinsert,noselect,preview
 
 let g:asyncomplete_auto_completeopt = 0
 let g:lsp_diagnostics_enabled = 1
@@ -30,6 +30,7 @@ language C
 filetype plugin on
 "" "syntax on" have to be before "highlight ..." to make highlight command work.
 syntax on
+highlight SignColumn ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
 highlight Error NONE
 
 "" Install "https://github.com/junegunn/vim-plug", then run ":PlugInstall".
