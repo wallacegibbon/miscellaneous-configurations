@@ -49,7 +49,9 @@ nnoremap <space><tab> <c-w>w
 inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+
 nmap <space>d <plug>(lsp-definition)
+nmap <space>t <plug>(lsp-type-definition)
 nmap <space>r <plug>(lsp-references)
 nmap <space>j <plug>(lsp-next-diagnostic)
 nmap <space>k <plug>(lsp-previous-diagnostic)
