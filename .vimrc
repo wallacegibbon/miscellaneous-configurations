@@ -42,14 +42,24 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 call plug#end()
 
-source ~/.lsp.vim
-
 nnoremap <space>f :Files<cr>
 nnoremap <space>b :Buffers<cr>
+nnoremap <space><tab> <c-w>w
+
+inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+nmap <space>d <plug>(lsp-definition)
+nmap <space>r <plug>(lsp-references)
+nmap <space>j <plug>(lsp-next-diagnostic)
+nmap <space>k <plug>(lsp-previous-diagnostic)
+nmap <space>2 <plug>(lsp-rename)
+
+silent! source ~/.lsp.vim
 
 nnoremap <space>e :b#<cr>
 nnoremap <space>w :w<cr>
-nnoremap <space>q :qa<cr>
+nnoremap <space>q :q<cr>
 
 cnoremap jf <c-c>
 tnoremap jf <esc>
