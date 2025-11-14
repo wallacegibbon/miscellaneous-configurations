@@ -1,0 +1,40 @@
+/// Copy the following content to the `settings.json` of VSCode.
+"vim.vimrc.enable": true,
+"vim.normalModeKeyBindingsNonRecursive": [
+    {
+	"before": [" ", "d"],
+	"commands": ["editor.action.revealDefinition"]
+    },
+    {
+	"before": [" ", "t"],
+	"commands": ["editor.action.goToTypeDefinition"]
+    },
+    {
+	"before": [" ", "r"],
+	"commands": ["editor.action.referenceSearch.trigger"]
+    },
+    {
+	"before": [" ", "j"],
+	"commands": ["editor.action.marker.next"]
+    },
+    {
+	"before": [" ", "k"],
+	"commands": ["editor.action.marker.prev"]
+    },
+    {
+	"before": [" ", "2"],
+	"commands": ["editor.action.rename"]
+    },
+    {
+	"before": [" ", "p"],
+	"commands": ["editor.action.formatDocument"]
+    },
+    {
+	"before": ["<c-o>"],
+	"commands": ["workbench.action.navigateBack"]
+    },
+    {
+	"before": ["<c-i>"],
+	"commands": ["workbench.action.navigateForward"]
+    }
+]
