@@ -8,7 +8,7 @@ autocmd BufRead,BufNewFile *.fir,*.cir setlocal filetype=mlir
 "autocmd BufRead,BufNewFile * colorscheme default
 autocmd FileType c,cpp setlocal cinoptions=:0,(0,l1,t0,W2s,N-s,E-s,g0
 
-"" "jumpoptions=stack" is not supported in old Vim. (older than Vim 9.0.1921)
+"" `jumpoptions=stack` is not supported in old Vim. (older than Vim 9.0.1921)
 set jumpoptions=stack nocompatible smartindent noincsearch nostartofline scrolloff=0
 set number numberwidth=9 relativenumber signcolumn=yes
 set title ruler modeline modelines=6 laststatus=0 belloff=all
@@ -25,15 +25,14 @@ let g:lsp_diagnostics_enabled = 1
 let g:markdown_recommended_style = 0
 let g:c_no_curly_error = 1
 
-language C
-
 filetype plugin on
-"" "syntax on" have to be before "highlight ..." to make highlight command work.
+"" `syntax on` have to be before `highlight ...` to make highlight command work.
 syntax on
 highlight SignColumn ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
 highlight Error NONE
+language C
 
-"" Install "https://github.com/junegunn/vim-plug", then run ":PlugInstall".
+"" Install <https://github.com/junegunn/vim-plug>, then run `:PlugInstall`.
 call plug#begin()
 Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
 Plug 'junegunn/fzf.vim'
@@ -45,9 +44,9 @@ call plug#end()
 nnoremap <space>f :Files<cr>
 nnoremap <space>b :Buffers<cr>
 
-inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+inoremap <expr> <cr> pumvisible()
+	    \ ? (complete_info().selected == -1 ? "\<c-n>\<c-y>" : "\<c-y>")
+	    \ : "\<cr>"
 
 nnoremap <space>d <plug>(lsp-definition)
 nnoremap <space>t <plug>(lsp-type-definition)
