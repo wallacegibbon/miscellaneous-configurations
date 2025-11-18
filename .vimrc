@@ -49,12 +49,12 @@ inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
-nmap <space>d <plug>(lsp-definition)
-nmap <space>t <plug>(lsp-type-definition)
-nmap <space>r <plug>(lsp-references)
-nmap <space>j <plug>(lsp-next-diagnostic)
-nmap <space>k <plug>(lsp-previous-diagnostic)
-nmap <space>2 <plug>(lsp-rename)
+nnoremap <space>d <plug>(lsp-definition)
+nnoremap <space>t <plug>(lsp-type-definition)
+nnoremap <space>r <plug>(lsp-references)
+nnoremap <space>j <plug>(lsp-next-diagnostic)
+nnoremap <space>k <plug>(lsp-previous-diagnostic)
+nnoremap <space>2 <plug>(lsp-rename)
 
 silent! source ~/.lsp.vim
 
