@@ -17,7 +17,7 @@ set shiftwidth=4
 set completeopt=menuone,noinsert,preview
 
 let g:asyncomplete_auto_completeopt = 0
-let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_enabled = 0
 let g:markdown_recommended_style = 0
 let g:c_no_curly_error = 1
 
