@@ -1,6 +1,6 @@
 function! s:prjroot(flist) abort
-    let l:path = lsp#utils#get_buffer_path()
-    let l:root = lsp#utils#find_nearest_parent_file_directory(l:path , a:flist)
+    let l:path = fnamemodify(lsp#utils#get_buffer_path(), ":h")
+    let l:root = lsp#utils#find_nearest_parent_file_directory(l:path, a:flist)
     return lsp#utils#path_to_uri(empty(l:root) ? l:path : l:root)
 endfunction
 
@@ -19,7 +19,7 @@ endfunction
 call s:register(
 	    \ ["erlang"],
 	    \ ["elp", "server"],
-	    \ ["rebar.config", "rebar.lock", "Makefile"]
+	    \ ["rebar.config", "erlang.mk"]
 	    \ )
 
 call s:register(
@@ -31,5 +31,5 @@ call s:register(
 call s:register(
 	    \ ["python"],
 	    \ ["pylsp"],
-	    \ ["pyproject.toml", "setup.py"]
+	    \ ["pyproject.toml"]
 	    \ )
