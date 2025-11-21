@@ -11,13 +11,12 @@ set jumpoptions=stack nocompatible smartindent noincsearch nostartofline scrollo
 set number numberwidth=9 relativenumber signcolumn=yes
 set title ruler modeline modelines=6 laststatus=0 belloff=all
 set fileencodings=utf-8,latin-1,chinese,gbk,gb2312,gb18030 encoding=utf-8 langmenu=none
-"set expandtab tabstop=2 softtabstop=2 shiftwidth=2
-set shiftwidth=4
+set expandtab tabstop=2 softtabstop=2 shiftwidth=2
 "set fileformat=unix fileformats=unix,dos
 set completeopt=menuone,noinsert,preview
 
 let g:asyncomplete_auto_completeopt = 0
-let g:lsp_diagnostics_enabled = 0
+let g:lsp_diagnostics_enabled = 1
 let g:markdown_recommended_style = 0
 let g:c_no_curly_error = 1
 
@@ -48,6 +47,7 @@ nnoremap <space>r <plug>(lsp-references)
 nnoremap <space>j <plug>(lsp-next-diagnostic)
 nnoremap <space>k <plug>(lsp-previous-diagnostic)
 nnoremap <space>2 <plug>(lsp-rename)
+nnoremap <space>p <plug>(lsp-document-format)
 
 silent! source ~/.lsp.vim
 
