@@ -16,6 +16,16 @@ function! s:register(languages, lspargs, prjfiles) abort
   endif
 endfunction
 
+function! s:on_lsp_buffer_enabled() abort
+  nnoremap <buffer> K <plug>(lsp-hover)
+endfunction
+
+augroup lsp_install
+  au!
+  autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+
 call s:register(
       \ ["ocaml"],
       \ ["ocamllsp"],
