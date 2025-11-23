@@ -34,6 +34,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'rescript-lang/vim-rescript'
 call plug#end()
 
 inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<cr>"

@@ -33,6 +33,12 @@ call s:register(
       \ )
 
 call s:register(
+      \ ["rescript"],
+      \ ["rescript-language-server", "--stdio"],
+      \ ["rescript.json", "bsconfig.json"]
+      \ )
+
+call s:register(
       \ ["erlang"],
       \ ["elp", "server"],
       \ ["rebar.config", "erlang.mk", "_build"]
