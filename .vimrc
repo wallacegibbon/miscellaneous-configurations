@@ -1,10 +1,10 @@
 autocmd BufRead,BufNewFile *.yrl,*.escript,*.es setlocal filetype=erlang
 autocmd FileType c,cpp setlocal cinoptions=:0,(0,l1,t0,W2s,N-s,E-s,g0
 
-set jumpoptions=stack nocompatible smartindent noincsearch nostartofline scrolloff=0
-set title ruler modeline modelines=6 laststatus=0 belloff=all
-set number numberwidth=9 relativenumber signcolumn=yes shiftwidth=4
-set fileencodings=utf-8,latin-1,chinese,gbk,gb2312,gb18030 encoding=utf-8 langmenu=none
+set nocompatible smartindent noincsearch nostartofline scrolloff=0 jumpoptions=stack
+set fileencodings=utf-8,latin-1,gb18030,gbk,gb2312 encoding=utf-8 langmenu=none
+set title ruler modeline modelines=6 laststatus=0 belloff=all shiftwidth=4
+set number numberwidth=9 relativenumber signcolumn=yes
 set completeopt=menuone,noinsert,preview
 "set fileformat=unix fileformats=unix,dos
 
