@@ -9,7 +9,7 @@ set completeopt=menuone,noinsert,preview
 "set fileformat=unix fileformats=unix,dos
 
 let g:asyncomplete_auto_completeopt = 0
-let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_enabled = 0
 
 filetype plugin on
 "" `syntax on` have to be before `highlight ...` to make highlight command work.
@@ -28,7 +28,6 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 call plug#end()
 
 inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<cr>"
-inoremap <expr> <tab> pumvisible() ? "\<c-y>" : "\<tab>"
 
 nnoremap <space>f :Files<cr>
 nnoremap <space>b :Buffers<cr>
