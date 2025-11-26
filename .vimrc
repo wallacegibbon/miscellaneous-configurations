@@ -28,6 +28,7 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 call plug#end()
 
 inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<cr>"
+inoremap <expr> <tab> pumvisible() ? "\<c-y>" : "\<tab>"
 
 nnoremap <space>f :Files<cr>
 nnoremap <space>b :Buffers<cr>

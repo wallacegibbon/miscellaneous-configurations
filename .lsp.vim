@@ -25,11 +25,16 @@ augroup lsp_install
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
-
 call s:register(
 	    \ ["erlang"],
 	    \ ["elp", "server"],
 	    \ ["rebar.config", "erlang.mk", "_build"]
+	    \ )
+
+call s:register(
+	    \ ["gleam"],
+	    \ ["gleam", "lsp"],
+	    \ ["gleam.toml"]
 	    \ )
 
 call s:register(
