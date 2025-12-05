@@ -3,7 +3,7 @@ autocmd FileType c,cpp setlocal cinoptions=:0,(0,l1,t0,W2s,N-s,E-s,g0
 
 set nocompatible smartindent noincsearch nostartofline scrolloff=0 jumpoptions=stack
 set fileencodings=utf-8,latin-1,gb18030,gbk,gb2312 encoding=utf-8 langmenu=none
-set title ruler modeline modelines=6 laststatus=0 belloff=all shiftwidth=4
+set title ruler modeline modelines=6 laststatus=2 belloff=all shiftwidth=4
 set number numberwidth=9 relativenumber signcolumn=yes
 set completeopt=menuone,noinsert,preview
 "set fileformat=unix fileformats=unix,dos
@@ -44,7 +44,7 @@ silent! source ~/.lsp.vim
 
 nnoremap <space>e :b#<cr>
 nnoremap <space>w :w<cr>
-nnoremap <space>q :q<cr>
+nnoremap <space>q :qa<cr>
 
 cnoremap jf <c-c>
 tnoremap jf <esc>
