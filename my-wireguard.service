@@ -1,0 +1,13 @@
+[Unit]
+Description=My Wireguard Service
+After=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/home/wallace/init-wireguard.sh
+Restart=on-failure
+User=root
+
+[Install]
+WantedBy=multi-user.target
