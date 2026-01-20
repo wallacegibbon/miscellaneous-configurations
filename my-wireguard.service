@@ -5,7 +5,8 @@ After=network.target
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/home/wallace/init-wireguard.sh
+ExecStart=/home/wallace/init-wireguard.sh wg0
+ExecStop=ip link del wg0
 Restart=on-failure
 User=root
 
