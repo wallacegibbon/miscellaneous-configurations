@@ -18,4 +18,12 @@
 	</device>
 </libinput>
 
+<keyboard>
+	<repeatRate>25</repeatRate>
+	<repeatDelay>600</repeatDelay>
+	<keybind key="C-\">
+		<action name="NextWindow" />
+	</keybind>
+</keyboard>
+
 </labwc_config>
