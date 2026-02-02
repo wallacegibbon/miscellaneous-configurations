@@ -1,0 +1,11 @@
+[Unit]
+Description = Enlarge the font size of TTY
+
+[Service]
+Type = oneshot
+RemainAfterExit = yes
+ExecStart = setfont /usr/share/consolefonts/Lat15-Terminus28x14.psf.gz
+User = root
+
+[Install]
+WantedBy = multi-user.target
