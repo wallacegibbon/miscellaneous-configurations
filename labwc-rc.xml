@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<labwc_config>
+
+<windowRules>
+	<windowRule identifier="foot">
+		<serverDecoration>no</serverDecoration>
+		<action name="Maximize" />
+	</windowRule>
+</windowRules>
+
+<libinput>
+	<device category="default">
+		<naturalScroll>no</naturalScroll>
+		<leftHanded>yes</leftHanded>
+	</device>
+	<device category="touchpad">
+		<naturalScroll>yes</naturalScroll>
+	</device>
+</libinput>
+
+</labwc_config>
