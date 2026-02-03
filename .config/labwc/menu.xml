@@ -3,13 +3,8 @@
 
 <menu id="root-menu" label="">
 	<item label="Foot Terminal"><action name="Execute" command="foot" /></item>
-
 	<separator />
-
 	<item label="Reconfigure Labwc"><action name="Reconfigure" /></item>
-
-	<separator />
-
 	<item label="Logout"><action name="Exit" /></item>
 </menu>
 
