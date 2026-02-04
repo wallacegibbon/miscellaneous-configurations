@@ -32,6 +32,12 @@ call s:register(
 			\ )
 
 call s:register(
+			\ ["go"],
+			\ ["gopls"],
+			\ ["go.mod"]
+			\ )
+
+call s:register(
 			\ ["python"],
 			\ ["pylsp"],
 			\ ["pyproject.toml"]

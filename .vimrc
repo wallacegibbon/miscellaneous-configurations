@@ -1,4 +1,4 @@
-autocmd BufRead,BufNewFile *.yrl,*.escript,*.es setlocal filetype=erlang
+"autocmd BufRead,BufNewFile *.yrl,*.escript,*.es setlocal filetype=erlang
 autocmd FileType c,cpp setlocal cinoptions=:0,(0,l1,t0,W2s,N-s,E-s,g0
 
 set nocompatible smartindent noincsearch nostartofline scrolloff=0 jumpoptions=stack
@@ -9,7 +9,7 @@ set completeopt=menuone,noinsert,preview
 "set fileformat=unix fileformats=unix,dos
 
 let g:asyncomplete_auto_completeopt = 0
-let g:lsp_diagnostics_enabled = 0
+let g:lsp_diagnostics_enabled = 1
 
 filetype plugin on
 "" `syntax on` have to be before `highlight ...` to make highlight command work.

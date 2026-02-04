@@ -1,7 +1,7 @@
 BasedOnStyle: LLVM
-IndentWidth: 4
-ContinuationIndentWidth: 4
-#UseTab: Always
+IndentWidth: 8
+ContinuationIndentWidth: 8
+UseTab: Always
 #BreakBeforeBraces: Linux
 IndentCaseLabels: false
 IndentGotoLabels: false
