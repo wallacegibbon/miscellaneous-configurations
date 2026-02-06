@@ -3,7 +3,7 @@ autocmd FileType c,cpp setlocal cinoptions=:0,(0,l1,t0,W2s,N-s,E-s,g0
 
 set nocompatible smartindent noincsearch nostartofline scrolloff=0 jumpoptions=stack
 set fileencodings=utf-8,latin-1,gb18030,gbk,gb2312 encoding=utf-8 langmenu=none
-set title ruler modeline modelines=6 laststatus=1 belloff=all
+set notitle ruler modeline modelines=6 laststatus=1 belloff=all
 set number numberwidth=9 relativenumber signcolumn=yes
 set completeopt=menuone,noinsert,preview
 "set fileformat=unix fileformats=unix,dos
