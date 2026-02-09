@@ -8,6 +8,7 @@ set number numberwidth=9 relativenumber signcolumn=yes
 set completeopt=menuone,noinsert,preview
 "set fileformat=unix fileformats=unix,dos
 
+let g:markdown_recommended_style = 0
 let g:asyncomplete_auto_completeopt = 0
 let g:lsp_diagnostics_enabled = 1
 
