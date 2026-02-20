@@ -1,0 +1,56 @@
+{
+	"providers": {
+		"minimaxi": {
+			"name": "MiniMax (minimaxi.com)",
+			"type": "anthropic",
+			"base_url": "https://api.minimaxi.com/anthropic",
+			"api_key": "$MINIMAXI_API_KEY",
+			"models": [
+				{
+					"id": "MiniMax-M2.5",
+					"name": "MiniMax-M2.5",
+					"cost_per_1m_in": 0.3,
+					"cost_per_1m_out": 1.2,
+					"cost_per_1m_in_cached": 0.03,
+					"cost_per_1m_out_cached": 0.375,
+					"context_window": 200000,
+					"default_max_tokens": 128000
+				},
+				{
+					"id": "MiniMax-M2.1",
+					"name": "MiniMax-M2.1",
+					"cost_per_1m_in": 0.3,
+					"cost_per_1m_out": 1.2,
+					"cost_per_1m_in_cached": 0.03,
+					"cost_per_1m_out_cached": 0.375,
+					"context_window": 200000,
+					"default_max_tokens": 128000
+				},
+				{
+					"id": "MiniMax-M2",
+					"name": "MiniMax-M2",
+					"cost_per_1m_in": 0.3,
+					"cost_per_1m_out": 1.2,
+					"cost_per_1m_in_cached": 0.03,
+					"cost_per_1m_out_cached": 0.375,
+					"context_window": 200000,
+					"default_max_tokens": 20000
+				}
+			]
+		},
+		"ollama": {
+			"name": "Ollama",
+			"type": "openai-compat",
+			"base_url": "http://localhost:5555/v1/",
+			"api_key": "blahblah",
+			"models": [
+				{
+					"name": "GLM-4.7",
+					"id": "glm-4.7-flash:latest",
+					"context_window": 256000,
+					"default_max_tokens": 20000
+				}
+			]
+		}
+	}
+}
