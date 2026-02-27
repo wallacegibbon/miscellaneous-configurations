@@ -1,7 +1,7 @@
 {
 	"providers": {
 		"minimaxi": {
-			"name": "MiniMax (minimaxi.com)",
+			"name": "MiniMax (Outdate, crush v0.46.0 support MiniMax China)",
 			"type": "anthropic",
 			"base_url": "https://api.minimaxi.com/anthropic",
 			"api_key": "$MINIMAXI_API_KEY",
